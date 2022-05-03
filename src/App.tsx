@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import {
+  Logo,
+  BurgerIcon,
+  ListIcon,
+  ProfileIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="header">
+      <div className="header__header-group">
+        <div className="header__header-item">
+          <BurgerIcon type="primary" />
+          <p>Конструктор</p>
+        </div>
+        <div className="header__header-item">
+          <ListIcon type="primary" />
+          <p>Лента заказов</p>
+        </div>
+      </div>
+      <div className="header__header-item">
+        <Logo />
+      </div>
+      <div className="header__header-item">
+        <ProfileIcon type="primary" />
+        <p>Личный кабинет</p>
+      </div>
     </div>
   );
 }
