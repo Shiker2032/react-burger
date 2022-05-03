@@ -12,23 +12,28 @@ code {
     monospace;
 }
 
-.header {
-  margin: 0 auto;
-  width: 1618px;
-  padding-top: 40px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 90px;
+#root {
+  width: 1920px;
 }
 
-.header__header-group {
-  display: flex;
-  gap: 8px;
+/* ////////////////////////////////Header//////////////////////////////////////////////////////// */
+
+.header {
+  margin: 0 auto;
+  padding-top: 56px;
+  display: grid;
+  grid-template-columns: 0.5fr 0.7fr 3fr 1fr;
+  width: 1400px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .header__header-item {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
 }
+
+/* /////////////////////////////////Ingridients///////////////////////////////////////////////////////// */
