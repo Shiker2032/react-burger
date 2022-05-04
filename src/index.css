@@ -37,3 +37,25 @@ code {
 }
 
 /* /////////////////////////////////Ingridients///////////////////////////////////////////////////////// */
+
+.ingridients__ingridients-tab {
+  display: flex;
+  justify-content: center;
+  padding-top: 56px;
+}
+
+.burgerIngridients {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 792px;
+  column-gap: 10px;
+  height: 671px;
+  overflow-y: auto;
+}
+
+.burgerSelect {
+  display: flex;
+}
