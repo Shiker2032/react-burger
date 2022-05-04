@@ -27,27 +27,11 @@ code {
 
 #root {
   width: 1920px;
+  height: 1000px;
+  overflow: hidden;
 }
 
 /* ////////////////////////////////Header//////////////////////////////////////////////////////// */
-
-.header {
-  margin: 0 auto;
-  padding-top: 56px;
-  display: grid;
-  grid-template-columns: 0.5fr 0.7fr 3fr 1fr;
-  width: 1400px;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.header__header-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
 
 /* /////////////////////////////////Ingridients///////////////////////////////////////////////////////// */
 

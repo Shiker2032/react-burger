@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import BurgerIngridients from "./components/BurgerIngridients";
-import Header from "./components/Header";
+import Header from "./components/header/Header";
 import Tabs from "./components/Tabs";
 
 const data = [

@@ -1,0 +1,21 @@
+.header {
+  padding-top: 20px;
+  background-color: #1c1c21;
+}
+
+.navigation {
+  width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 3fr 1fr;
+  column-gap: 48px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.navigation__item {
+  display: flex;
+  column-gap: 10px;
+}
