@@ -1,3 +1,16 @@
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid #8585ad;
+  background: #8585ad;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -58,4 +71,25 @@ code {
 
 .burgerSelect {
   display: flex;
+}
+
+.constructor {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  height: 911px;
+  overflow-y: auto;
+}
+
+.burger-components {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  gap: 10p;
 }
