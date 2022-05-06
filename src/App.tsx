@@ -3,6 +3,7 @@ import "./App.css";
 import BurgerConstructor from "./components/burger-constructor/BurgerConstructor";
 import BurgerIngridients from "./components/burger-ingridients/BurgerIngridients";
 import Header from "./components/header/Header";
+import Tabs from "./components/Tabs";
 
 const data = [
   {
@@ -224,8 +225,10 @@ function App() {
     <>
       <Header />
       <div className="main">
-        <BurgerIngridients data={data} />
-        <BurgerConstructor data={data} />
+        <div className="content">
+          <BurgerIngridients data={data} />
+          <BurgerConstructor data={data} />
+        </div>
       </div>
     </>
   );

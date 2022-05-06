@@ -14,6 +14,7 @@ function BurgerConstructor({ data }) {
               {data.map((element, idx) => {
                 return (
                   <ConstructorElement
+                    key={element._id}
                     type="top"
                     isLocked={true}
                     text={element.name}
@@ -25,8 +26,10 @@ function BurgerConstructor({ data }) {
             </div>
           </div>
           <div className="order-info">
-            <p className="text text_type_digits-medium">1238</p>
-            <CurrencyIcon type="primary" />
+            <div className="order-info__price">
+              <p className="text text_type_digits-medium">1238</p>
+              <CurrencyIcon type="primary" />
+            </div>
             <Button type="primary" size="medium">
               Оформить заказ
             </Button>
