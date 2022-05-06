@@ -28,7 +28,6 @@ code {
 #root {
   width: 1920px;
   height: 1000px;
-  overflow: hidden;
 }
 
 .main {
@@ -56,9 +55,7 @@ code {
   align-items: center;
   margin: 0 auto;
   padding-top: 40px;
-  width: 600px;
   column-gap: 10px;
-  height: 671px;
   overflow-y: auto;
 }
 
@@ -87,5 +84,19 @@ code {
   gap: 10p;
 }
 
+.burgerIngridients {
+  height: 750px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .burgerIngridient {
+  width: 270px;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

@@ -9,7 +9,10 @@ export default function BurgerIngridient({ ingridient }) {
         src={ingridient.image}
         alt=""
       />
-      <p className="text text_type_digits-default">
+      <p
+        style={{ paddingBottom: "8px" }}
+        className="text text_type_digits-default"
+      >
         {ingridient.price} <CurrencyIcon type="secondary" />
       </p>
       <p className="text text_type_main-default">{ingridient.name}</p>
