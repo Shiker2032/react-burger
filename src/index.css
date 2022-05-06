@@ -31,6 +31,14 @@ code {
   overflow: hidden;
 }
 
+.main {
+  display: grid;
+  width: 1240px;
+  column-gap: 40px;
+  margin: 60px auto;
+  grid-template-columns: repeat(2, 1fr);
+}
+
 /* ////////////////////////////////Header//////////////////////////////////////////////////////// */
 
 /* /////////////////////////////////Ingridients///////////////////////////////////////////////////////// */
@@ -38,16 +46,17 @@ code {
 .ingridients__ingridients-tab {
   display: flex;
   justify-content: center;
-  padding-top: 56px;
+  padding-top: 20px;
 }
 
-.burgerIngridients {
+.ingridients {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  width: 792px;
+  padding-top: 40px;
+  width: 600px;
   column-gap: 10px;
   height: 671px;
   overflow-y: auto;
@@ -76,4 +85,7 @@ code {
   flex-direction: row;
   justify-content: right;
   gap: 10p;
+}
+
+.burgerIngridient {
 }

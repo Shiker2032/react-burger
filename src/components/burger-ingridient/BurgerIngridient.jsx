@@ -1,18 +1,18 @@
 import React from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export default function BurgerIngridient({ bun }) {
+export default function BurgerIngridient({ ingridient }) {
   return (
-    <div>
+    <div className="burgerIngridient">
       <img
         className="BurgerIngridient__BurgerIngridient-image"
-        src={bun.image}
+        src={ingridient.image}
         alt=""
       />
       <p className="text text_type_digits-default">
-        {bun.price} <CurrencyIcon type="secondary" />
+        {ingridient.price} <CurrencyIcon type="secondary" />
       </p>
-      <p className="text text_type_main-large">{bun.name}</p>
+      <p className="text text_type_main-default">{ingridient.name}</p>
     </div>
   );
 }

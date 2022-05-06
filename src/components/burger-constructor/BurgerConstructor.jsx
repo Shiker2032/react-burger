@@ -1,21 +1,13 @@
 import React from "react";
-import BurgerIngridient from "./BurgerIngridient";
 import {
-  Tab,
   ConstructorElement,
-  CurrencyIcon,
   Button,
+  CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-export default function BurgerIngridients({ data }) {
+function BurgerConstructor({ data }) {
   return (
     <>
       <div className="burgerSelect">
-        <div className="burgerIngridients">
-          {data.map((bun) => {
-            return <BurgerIngridient bun={bun} />;
-          })}
-        </div>
         <div className="constructor-wrapper">
           <div className="constructor">
             <div className="burger-components">
@@ -44,3 +36,5 @@ export default function BurgerIngridients({ data }) {
     </>
   );
 }
+
+export default BurgerConstructor;

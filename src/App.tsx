@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.css";
-import BurgerIngridients from "./components/BurgerIngridients";
+import BurgerConstructor from "./components/burger-constructor/BurgerConstructor";
+import BurgerIngridients from "./components/burger-ingridients/BurgerIngridients";
 import Header from "./components/header/Header";
-import Tabs from "./components/Tabs";
 
 const data = [
   {
@@ -223,8 +223,10 @@ function App() {
   return (
     <>
       <Header />
-      <Tabs />
-      <BurgerIngridients data={data} />
+      <div className="main">
+        <BurgerIngridients data={data} />
+        <BurgerConstructor data={data} />
+      </div>
     </>
   );
 }
