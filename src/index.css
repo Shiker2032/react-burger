@@ -67,7 +67,7 @@ code {
 
 .burger-components {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   row-gap: 16px;
 }
 
