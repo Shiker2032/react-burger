@@ -1,43 +1,38 @@
+import React from "react";
 import {
   Logo,
   BurgerIcon,
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./header.module.css";
 
-import styles from "./Header.module.css";
-
-export default function Header() {
+const AppHeader = () => {
   return (
-    <div className={styles.header}>
-      <nav>
-        <ul className={styles.navigation}>
-          <ul className={styles.navigation__menu}>
-            <li className={styles.navigation__item}>
-              <BurgerIcon type="primary" />
-              <p className="text text_type_main-default">Конструктор</p>
-            </li>
-            <li className={styles.navigation__item}>
-              <ListIcon type="secondary" />
-              <p className="text text_type_main-default text_color_inactive">
-                Лента заказов
-              </p>
-            </li>
-          </ul>
-          <li className={styles.navigation__item}>
-            <Logo />
-          </li>
-          <li
-            className={styles.navigation__item}
-            style={{ justifySelf: "end" }}
-          >
-            <ProfileIcon type="secondary" />
-            <p className="text text_type_main-default text_color_inactive">
-              Личный кабинет
-            </p>
-          </li>
-        </ul>
+    <header className={`${styles.header} pt-4 pb-4`}>
+      <nav className={styles.header__nav}>
+        <a className={`${styles.header__menuItemLink} p-5`} href="#">
+          <BurgerIcon type="primary" />
+          <p className="text text_type_main-default ml-2">Конструктор</p>
+        </a>
+        <a className={`${styles.header__menuItemLink} p-5`} href="#">
+          <ListIcon type="secondary" />
+          <p className="text text_type_main-default text_color_inactive ml-2">
+            Лента заказов
+          </p>
+        </a>
+        <a className={styles.header__logo}>
+          <Logo />
+        </a>
+        <a className={`${styles.header__menuItemLink} p-5`} href="#">
+          <ProfileIcon type="secondary" />
+          <p className="text text_type_main-default text_color_inactive ml-2">
+            Личный кабинет
+          </p>
+        </a>
       </nav>
-    </div>
+    </header>
   );
-}
+};
+
+export default AppHeader;
