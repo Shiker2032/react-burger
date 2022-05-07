@@ -3,12 +3,11 @@ import styles from "./app.module.css";
 import Header from "../header/Header";
 import BurgerIngredients from "../Burger-ingridients/BurgerIngridients";
 import BurgerConstructor from "../burger-constructor/BurgerConstructor";
-import { apiConfig, parseResponse } from "../API/api";
-import { useState, useEffect } from "react";
-
 import Modal from "../Modal/Modal";
 import OrderDetails from "../Order-details/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { apiConfig, parseResponse } from "../API/api";
+import { useState, useEffect } from "react";
 
 function App() {
   const [state, setState] = useState([]);

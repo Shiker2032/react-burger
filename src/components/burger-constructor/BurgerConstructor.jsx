@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import PropTypesIngredientsData from "../../utils/propTypes";
 import styles from "./burgerConstructor.module.css";
+import ConstructorItem from "./ConstructorItem";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -18,13 +18,7 @@ const BurgerConstructor = ({ ingredients, onClick }) => {
               key={ingredient._id}
               className={`${styles.burgerConstructor__cardBunElement} ml-8 mr-2 mt-25`}
             >
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text="Краторная булка N-200i (верх)"
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-              />
+              <ConstructorItem ingredient={ingredient} type={"top"} />
             </article>
           );
         })}
@@ -40,14 +34,7 @@ const BurgerConstructor = ({ ingredients, onClick }) => {
                     <p className={styles.burgerConstructor__dragIcon}>
                       <DragIcon type="primary" />
                     </p>
-
-                    <ConstructorElement
-                      key={ingredient._id}
-                      isLocked={false}
-                      text={ingredient.name}
-                      price={ingredient.price}
-                      thumbnail={ingredient.image}
-                    />
+                    <ConstructorItem ingredient={ingredient} type={""} />
                   </article>
                 </li>
               );
@@ -63,13 +50,7 @@ const BurgerConstructor = ({ ingredients, onClick }) => {
               key={ingredient._id}
               className={`${styles.burgerConstructor__cardBunElement} ml-8 mr-2 mb-6`}
             >
-              <ConstructorElement
-                type="bottom"
-                isLocked={true}
-                text="Краторная булка N-200i (низ)"
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-              />
+              <ConstructorItem ingredient={ingredient} type={"bottom"} />
             </article>
           );
         })}

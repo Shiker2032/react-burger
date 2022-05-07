@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./burgerIngredients.module.css";
 import PropTypes from "prop-types";
 import PropTypesIngredientsData from "../../utils/propTypes";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import Tabs from "./Tabs";
 import { useState } from "react";
 import {
   CurrencyIcon,
@@ -14,24 +14,7 @@ const BurgerIngredients = ({ ingredients, onClick }) => {
   return (
     <section className={`${styles.burgerIngredients} pt-10 mr-10`}>
       <h1 className="text text_type_main-large pb-5">Соберите бургер</h1>
-      <div className={styles.burgerIngredients__tabList}>
-        <a className={styles.burgerIngredients__tab} href="#bun">
-          <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
-            Булки
-          </Tab>
-        </a>
-        <a className={styles.burgerIngredients__tab} href="#sauce">
-          <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
-            Соусы
-          </Tab>
-        </a>
-        <a className={styles.burgerIngredients__tab} href="#main">
-          <Tab value="main" active={current === "main"} onClick={setCurrent}>
-            Начинки
-          </Tab>
-        </a>
-      </div>
-
+      <Tabs />
       <div className={`${styles.burgerIngredients__cardsWrapper} mt-10`}>
         <a name="bun"></a>
         <h3 className="text text_type_main-medium">Булки</h3>
