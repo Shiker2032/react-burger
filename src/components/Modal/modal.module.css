@@ -1,0 +1,27 @@
+.modal {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform:translate(-50%, -50%);
+   z-index: 7;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   max-width: 720px;
+   background-color: #1C1C21;
+   border-radius: 40px;
+   transition: visibility 0.1s linear, opacity 0.1s linear;
+ }
+ 
+ .modal__closeButton {
+   background-color: transparent;
+   border: none;
+   position: absolute;
+   top: 58px;
+   right: 33px;
+   cursor: pointer;
+ }
+ 
+ .modal__closeButton:hover {
+   opacity: 50%;
+ }

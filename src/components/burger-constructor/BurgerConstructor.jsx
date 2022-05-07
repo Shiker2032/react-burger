@@ -7,7 +7,7 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const BurgerConstructor = ({ ingredients, onOrderButtonClick }) => {
+const BurgerConstructor = ({ ingredients, onClick }) => {
   return (
     <section className={`${styles.burgerConstructor} pl-4`}>
       {ingredients
@@ -82,11 +82,7 @@ const BurgerConstructor = ({ ingredients, onOrderButtonClick }) => {
           <p className="text text_type_digits-medium">610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button
-          type="primary"
-          size="large"
-          onClick={() => onOrderButtonClick()}
-        >
+        <Button type="primary" size="large" onClick={() => onClick()}>
           Оформить заказ
         </Button>
       </div>
@@ -96,7 +92,7 @@ const BurgerConstructor = ({ ingredients, onOrderButtonClick }) => {
 
 BurgerConstructor.propTypes = {
   ingredients: PropTypes.arrayOf(PropTypesIngredientsData).isRequired,
-  onOrderButtonClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

@@ -33,8 +33,7 @@
 }
 
 .burgerConstructor__cardElement {
-  display: grid;
-  grid-template-columns: min-content max-content;
+  display: flex;
   align-items: center;
   gap: 8px;
 }
