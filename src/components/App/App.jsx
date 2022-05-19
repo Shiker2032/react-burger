@@ -9,17 +9,25 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { apiConfig, parseResponse } from "../API/api";
 import { useState, useEffect } from "react";
 
+export const OrderContext = React.createContext();
+
+
 function App() {
   const [state, setState] = useState([]);
   const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
     useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
   const [currentIngredient, setCurrentIngredient] = useState({});
+  const [order, setOrder] = React.useState([]);
 
   const handleIngredientClick = (ingredient) => {
     setIsIngredientsDetailsOpened(true);
-    setCurrentIngredient(ingredient);
+    setCurrentIngredient(ingredient);  
   };
+
+  useEffect(() => {
+    setOrder([...order, currentIngredient])      
+  }, [currentIngredient])
 
   const closeIngredientModal = () => {
     setIsIngredientsDetailsOpened(false);
@@ -57,13 +65,15 @@ function App() {
   return (
     <>
       <Header />
-      <main className={styles.app__flexComponents}>
-        <BurgerIngredients
-          ingredients={state}
-          onClick={handleIngredientClick}
-        />
-        <BurgerConstructor ingredients={state} onClick={handleOrderClick} />
-      </main>
+      <OrderContext.Provider value={order}>
+        <main className={styles.app__flexComponents}>
+          <BurgerIngredients
+            ingredients={state}
+            onClick={handleIngredientClick}
+          />
+          <BurgerConstructor ingredients={state} order={order} onClick={handleOrderClick} />
+        </main>
+      </OrderContext.Provider>
       {isIngredientsDetailsOpened && (
         <Modal
           onCloseClick={closeIngredientModal}
