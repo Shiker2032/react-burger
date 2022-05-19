@@ -14,8 +14,6 @@ import {
 
 const BurgerIngredients = ({ ingredients, onClick }) => {
 
-
-
   const [current, setCurrent] = useState("bun");
   return (
     <section className={`${styles.burgerIngredients} pt-10 mr-10`}>

@@ -30,8 +30,8 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
 
   return (
     <section className={`${styles.burgerConstructor} pl-4`}>
-      {ingredients
-        .filter((ingredient) => ingredient.name === "Краторная булка N-200i")
+      {order
+        .filter((ingredient) => ingredient.type === "bun")
         .map((ingredient) => {
           return (
             <article
@@ -48,7 +48,7 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
           {
             order.length > 1 && 
             order.map((ingredient) => {
-              if (Object.keys(ingredient).length !==0) {
+              if (Object.keys(ingredient).length !==0 && ingredient.type !== 'bun') {
                 return (
                   <li key={ingredient._id}>
                     <article className={styles.burgerConstructor__cardElement}>
@@ -68,27 +68,9 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
         </ul>
       </div>
 
-      {/* <div className={styles.burgerConstructor__wrapper}>
-        <ul className={`${styles.burgerConstructor__list} pr-4`}>
-          {ingredients
-            .filter((ingredient) => ingredient.type !== "bun")
-            .map((ingredient) => {
-              return (
-                <li key={ingredient._id}>
-                  <article className={styles.burgerConstructor__cardElement}>
-                    <p className={styles.burgerConstructor__dragIcon}>
-                      <DragIcon type="primary" />
-                    </p>
-                    <ConstructorItem ingredient={ingredient} type={""} />
-                  </article>
-                </li>
-              );
-            })}
-        </ul>
-      </div> */}
 
-      {ingredients
-        .filter((ingredient) => ingredient.name === "Краторная булка N-200i")
+      {order
+        .filter((ingredient) => ingredient.type === "bun")
         .map((ingredient) => {
           return (
             <article

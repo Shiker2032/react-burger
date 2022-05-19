@@ -22,7 +22,12 @@ function App() {
 
   const handleIngredientClick = (ingredient) => {
     setIsIngredientsDetailsOpened(true);
-    setCurrentIngredient(ingredient);  
+    if((order.find((el) => el.type === 'bun' )) && (ingredient.type === 'bun')) {
+      console.log('dupblicate')
+    }
+    else {
+      setCurrentIngredient(ingredient);
+    }
   };
 
   useEffect(() => {
@@ -58,11 +63,12 @@ function App() {
       .catch((er) => console.log(er));
   }
 
+
   useEffect(() => {
     getState();
   }, []);
 
-  return (
+  return (        
     <>
       <Header />
       <OrderContext.Provider value={order}>
