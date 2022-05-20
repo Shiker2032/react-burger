@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import PropTypesIngredientsData from "../../utils/propTypes";
 import styles from "./burgerConstructor.module.css";
@@ -10,16 +10,29 @@ import { OrderContext } from "../App/App";
 
 const BurgerConstructor = ({ ingredients, onClick}) => {
 
+  const [totalPrice, setTotalPrice] = React.useState(0);
+
   const order = React.useContext(OrderContext);
 
+  useEffect(() => {
+    order.map((orderEl) => {
+      setTotalPrice(totalPrice + orderEl.price)
+    })
+
+  }, [order])
+
   function updateOrder () {
+
+    
+    
+    const orderInfo = order.map((ingredients) => ingredients._id);
     fetch('https://norma.nomoreparties.space/api/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "ingredients": ["60d3b41abdacab0026a733c6", "60d3b41abdacab0026a733c9", "60d3b41abdacab0026a733c6"]
+        "ingredients": [...orderInfo]
       })
     })
     .then(res => res.json())
@@ -48,7 +61,7 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
           {
             order.length > 1 && 
             order.map((ingredient) => {
-              if (Object.keys(ingredient).length !==0 && ingredient.type !== 'bun') {
+              if (ingredient.price !==0 && ingredient.type !== 'bun') {
                 return (
                   <li key={ingredient._id}>
                     <article className={styles.burgerConstructor__cardElement}>
@@ -87,10 +100,10 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
           <p
             className={`${styles.burgerConstructor__price} $text text_type_digits-medium`}
           ></p>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">{totalPrice > 1 && totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={onClick}>
+        <Button type="primary" size="large" onClick={updateOrder}>
           Оформить заказ
         </Button>
       </div>

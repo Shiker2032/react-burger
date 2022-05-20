@@ -6,9 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+
+    <App />,
+
   document.getElementById("root")
 );
 reportWebVitals();

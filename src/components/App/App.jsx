@@ -12,13 +12,17 @@ import { useState, useEffect } from "react";
 export const OrderContext = React.createContext();
 
 
+
 function App() {
+
+
+  
   const [state, setState] = useState([]);
   const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
     useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
-  const [currentIngredient, setCurrentIngredient] = useState({});
-  const [order, setOrder] = React.useState([]);
+  const [currentIngredient, setCurrentIngredient] = useState({price: 0});
+  const [order, setOrder] = useState([{price:0}]);
 
   const handleIngredientClick = (ingredient) => {
     setIsIngredientsDetailsOpened(true);
@@ -27,11 +31,13 @@ function App() {
     }
     else {
       setCurrentIngredient(ingredient);
+    
     }
   };
 
   useEffect(() => {
-    setOrder([...order, currentIngredient])      
+    setOrder([...order, currentIngredient]);
+          
   }, [currentIngredient])
 
   const closeIngredientModal = () => {
