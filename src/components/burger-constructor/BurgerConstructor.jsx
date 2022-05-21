@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import PropTypes from "prop-types";
 import PropTypesIngredientsData from "../../utils/propTypes";
 import styles from "./burgerConstructor.module.css";
@@ -10,22 +10,25 @@ import { OrderContext } from "../App/App";
 
 const BurgerConstructor = ({ ingredients, onClick}) => {
 
-  const [totalPrice, setTotalPrice] = React.useState(0);
+  const initialState = {price: 0};
 
+  const reducer = (state, action) => {
+    switch(action.type) {
+      case "increment":
+        return { price: state.price + action.payload };
+    }
+  }
+
+  const [totalPrice, setTotalPrice] = React.useState(0);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const order = React.useContext(OrderContext);
 
   useEffect(() => {
     order.map((orderEl) => {
-      setTotalPrice(totalPrice + orderEl.price)
+      dispatch({ type: "increment", payload: orderEl.price });
     })
 
   }, [order])
-
-  function updateOrder () {    
-    
-  }
-
-
 
   return (
     <section className={`${styles.burgerConstructor} pl-4`}>
@@ -86,7 +89,7 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
           <p
             className={`${styles.burgerConstructor__price} $text text_type_digits-medium`}
           ></p>
-          <p className="text text_type_digits-medium">{totalPrice > 1 && totalPrice}</p>
+          <p className="text text_type_digits-medium">{state.price > 1 && state.price}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={onClick}>
