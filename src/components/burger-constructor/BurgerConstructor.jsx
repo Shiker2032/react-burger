@@ -21,22 +21,8 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
 
   }, [order])
 
-  function updateOrder () {
-
+  function updateOrder () {    
     
-    
-    const orderInfo = order.map((ingredients) => ingredients._id);
-    fetch('https://norma.nomoreparties.space/api/orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "ingredients": [...orderInfo]
-      })
-    })
-    .then(res => res.json())
-    .then(json => console.log(json));
   }
 
 
@@ -103,7 +89,7 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
           <p className="text text_type_digits-medium">{totalPrice > 1 && totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={updateOrder}>
+        <Button type="primary" size="large" onClick={onClick}>
           Оформить заказ
         </Button>
       </div>

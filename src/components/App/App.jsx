@@ -15,7 +15,7 @@ export const OrderContext = React.createContext();
 
 function App() {
 
-
+  const [orderNumber, setOrderNumber] = useState(0);
   
   const [state, setState] = useState([]);
   const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
@@ -49,7 +49,24 @@ function App() {
   };
 
   const handleOrderClick = () => {
-    setOrderDetailsOpened(true);
+    
+
+    const orderInfo = order.map((ingredients) => ingredients._id);
+    fetch('https://norma.nomoreparties.space/api/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "ingredients": [...orderInfo]
+      })
+    })
+    .then(res => res.json())
+    .then(json => {
+      setOrderNumber(json.order.number);      
+      setOrderDetailsOpened(true);
+    });
+    
   };
 
   const closeOrderModal = () => {
@@ -100,7 +117,7 @@ function App() {
           onCloseClick={closeOrderModal}
           onEsckeyDown={handleEscKeydownOrderModal}
         >
-          <OrderDetails />
+          <OrderDetails orderNumber={orderNumber}/>
         </Modal>
       )}
     </>
