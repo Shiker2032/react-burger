@@ -6,7 +6,7 @@ import ConstructorItem from "./ConstructorItem";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { OrderContext } from "../App/App";
+import OrderContext from "../../services/orderContext";
 
 const BurgerConstructor = ({ ingredients, onClick}) => {
 
@@ -14,18 +14,24 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
 
   const reducer = (state, action) => {
     switch(action.type) {
-      case "increment":
-        return { price: state.price + action.payload };
-    }
+      case "addIngridient":              
+        return { price: state.price + action.payload }; 
+      case 'addBun' : 
+      return {price: action.payload * 2}
+    };
   }
-
-  const [totalPrice, setTotalPrice] = React.useState(0);
+ 
   const [state, dispatch] = useReducer(reducer, initialState);
   const order = React.useContext(OrderContext);
 
   useEffect(() => {
-    order.map((orderEl) => {
-      dispatch({ type: "increment", payload: orderEl.price });
+    order.map((orderEl) => {      
+      console.log(orderEl.type);
+      if (orderEl.type !== 'bun') {
+        dispatch({ type: "addIngridient", payload: orderEl.price });
+      } else {
+        dispatch({ type: "addBun", payload: orderEl.price });
+      }
     })
 
   }, [order])
@@ -40,7 +46,7 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
               key={ingredient._id}
               className={`${styles.burgerConstructor__cardBunElement} ml-8 mr-2 mt-25`}
             >
-              <ConstructorItem ingredient={ingredient} type={"top"} />
+              <ConstructorItem ingredient={ingredient} type={"top"} >верх </ConstructorItem>
             </article>
           );
         })}
@@ -79,7 +85,7 @@ const BurgerConstructor = ({ ingredients, onClick}) => {
               key={ingredient._id}
               className={`${styles.burgerConstructor__cardBunElement} ml-8 mr-2 mb-6`}
             >
-              <ConstructorItem ingredient={ingredient} type={"bottom"} />
+              <ConstructorItem ingredient={ingredient} type={"bottom"} >низ </ConstructorItem>
             </article>
           );
         })}
