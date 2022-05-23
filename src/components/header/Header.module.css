@@ -1,0 +1,33 @@
+.header {
+  background-color: #1c1c21;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.header__nav {
+  display: grid;
+  grid-template-columns: max-content max-content max-content max-content;
+  align-items: center;
+  margin: 0;
+}
+
+.header__menuItemLink {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.header__menuItemLink:visited {
+  color: #fff;
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 112px;
+  padding-right: 288px;
+}
