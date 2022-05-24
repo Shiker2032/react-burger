@@ -33,17 +33,17 @@ function App() {
     event.key === "Escape" && closeIngredientModal();
   };
 
-  const closeOrderModal = () => {
-    setOrderDetailsOpened(false);
-  };
-
   const handleEscKeydownOrderModal = (event) => {
     event.key === "Escape" && closeOrderModal();
   };
 
+  const closeOrderModal = () => {
+    setOrderDetailsOpened(false);
+  };
+
   const handleOrderClick = () => {
     const orderInfo = order.map((ingredients) => ingredients._id);
-    fetch("https://norma.nomoreparties.space/api/orders", {
+    fetch(`${apiConfig.url}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,6 @@ function App() {
     })
       .then(parseResponse)
       .then((json) => {
-        console.log(json);
         setOrderNumber(json.order.number);
         setOrderDetailsOpened(true);
       })
@@ -62,7 +61,7 @@ function App() {
   };
 
   const getIngredients = () => {
-    fetch(`${apiConfig.url}`)
+    fetch(`${apiConfig.url}/ingredients`)
       .then(parseResponse)
       .then((json) => {
         setIngridients(json.data);

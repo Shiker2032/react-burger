@@ -3,20 +3,26 @@ import styles from "./burgerIngredients.module.css";
 import PropTypes from "prop-types";
 import PropTypesIngredientsData from "../../utils/propTypes";
 import Tabs from "./Tabs";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerIngredients = ({ ingredients, onClick }) => {
+  const tabRefs = {
+    bunRef: useRef(null),
+    ingredientsRef: useRef(null),
+    saucesRef: useRef(null),
+  };
   return (
     <section className={`${styles.burgerIngredients} pt-10 mr-10`}>
       <h1 className="text text_type_main-large pb-5">Соберите бургер</h1>
-      <Tabs />
+      <Tabs tabRefs={tabRefs} />
       <div className={`${styles.burgerIngredients__cardsWrapper} mt-10`}>
-        <a name="bun"></a>
-        <h3 className="text text_type_main-medium">Булки</h3>
+        <h3 className="text text_type_main-medium" ref={tabRefs.bunRef}>
+          Булки
+        </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
             .filter((ingredient) => ingredient.type === "bun")
@@ -49,7 +55,9 @@ const BurgerIngredients = ({ ingredients, onClick }) => {
         </ul>
 
         <a name="sauce"></a>
-        <h3 className="text text_type_main-medium">Соусы</h3>
+        <h3 className="text text_type_main-medium" ref={tabRefs.saucesRef}>
+          Соусы
+        </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
             .filter((ingredient) => ingredient.type === "sauce")
@@ -81,7 +89,9 @@ const BurgerIngredients = ({ ingredients, onClick }) => {
         </ul>
 
         <a name="main"></a>
-        <h3 className="text text_type_main-medium">Начинки</h3>
+        <h3 className="text text_type_main-medium" ref={tabRefs.ingredientsRef}>
+          Начинки
+        </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
             .filter((ingredient) => ingredient.type === "main")
@@ -118,6 +128,7 @@ const BurgerIngredients = ({ ingredients, onClick }) => {
 
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(PropTypesIngredientsData).isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;
