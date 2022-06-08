@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./orderDetails.module.css";
 
-const OrderDetails = () => {
+const OrderDetails = ({ orderNumber }) => {
   return (
     <div className={`${styles.orderDetails} pt-30 pb-30`}>
       <h3 className="styles.orderDetails__title text text_type_digits-large">
-        034536
+        {orderNumber !== 0 && orderNumber}
       </h3>
       <p className="text text_type_main-medium pt-8 pb-15">
         идентификатор заказа
@@ -22,6 +23,10 @@ const OrderDetails = () => {
       </p>
     </div>
   );
+};
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.number.isRequired,
 };
 
 export default OrderDetails;

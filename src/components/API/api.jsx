@@ -1,5 +1,5 @@
 const apiConfig = {
-  url: "https://norma.nomoreparties.space/api/ingredients", //ссылка
+  url: "https://norma.nomoreparties.space/api", //ссылка
   headers: {},
 };
 
