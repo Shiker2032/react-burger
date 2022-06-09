@@ -8,8 +8,10 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
 
-const BurgerIngredients = ({ ingredients, onClick }) => {
+const BurgerIngredients = ({ onClick }) => {
+  const ingredients = useSelector((store) => store.ingredients);
   const tabRefs = {
     bunRef: useRef(null),
     ingredientsRef: useRef(null),
@@ -31,7 +33,9 @@ const BurgerIngredients = ({ ingredients, onClick }) => {
                 <li className="pl-4 pr-2 pb-10" key={ingredient._id}>
                   <article
                     className={styles.burgerIngredients__cardElement}
-                    onClick={() => onClick(ingredient)}
+                    onClick={() => {
+                      onClick(ingredient);
+                    }}
                   >
                     <div className="pl-4 pb-1 pr-4">
                       <img src={ingredient.image} />
@@ -126,9 +130,9 @@ const BurgerIngredients = ({ ingredients, onClick }) => {
   );
 };
 
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypesIngredientsData).isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+// BurgerIngredients.propTypes = {
+//   ingredients: PropTypes.arrayOf(PropTypesIngredientsData).isRequired,
+//   onClick: PropTypes.func.isRequired,
+// };
 
 export default BurgerIngredients;

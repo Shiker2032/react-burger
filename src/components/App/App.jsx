@@ -8,10 +8,18 @@ import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import OrderDetails from "../Order-details/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderContext from "../../services/orderContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getIngredientsAPI,
+  setCurrentIngredient,
+} from "../../services/actions";
 
-function App() {
-  const [ingredients, setIngridients] = useState([]);
-  const [currentIngredient, setCurrentIngredient] = useState({ price: 0 });
+function App(props) {
+  const dispatch = useDispatch();
+  const ingredients = useSelector((store) => store.ingredients);
+
+  const currentIngredient = useSelector((store) => store.currentIngredient);
+
   const [order, setOrder] = useState([{ price: 0 }]);
   const [orderNumber, setOrderNumber] = useState(0);
   const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
@@ -22,7 +30,7 @@ function App() {
     setIsIngredientsDetailsOpened(true);
     order.find((el) => el.type === "bun") && ingredient.type === "bun"
       ? console.log("duplicate")
-      : setCurrentIngredient(ingredient);
+      : dispatch(setCurrentIngredient(ingredient));
   };
 
   const closeIngredientModal = () => {
@@ -60,17 +68,8 @@ function App() {
       .catch((er) => console.log(er));
   };
 
-  const getIngredients = () => {
-    fetch(`${apiConfig.url}/ingredients`)
-      .then(parseResponse)
-      .then((json) => {
-        setIngridients(json.data);
-      })
-      .catch((er) => console.log(er));
-  };
-
   useEffect(() => {
-    getIngredients();
+    dispatch(getIngredientsAPI());
   }, []);
 
   useEffect(() => {
