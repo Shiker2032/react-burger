@@ -1,7 +1,12 @@
-import { GET_INGREDIENTS, SET_CURRENT_INGREDIENT } from "./types";
+import {
+  GET_INGREDIENTS,
+  SET_CURRENT_INGREDIENT,
+  SET_ORDER,
+  SET_ORDER_NUMBER,
+} from "./types";
 import { apiConfig, parseResponse } from "../components/API/api";
 
-const getIngredientsAPI = () => (dispatch) => {
+const getIngredients = () => (dispatch) => {
   fetch(`${apiConfig.url}/ingredients`)
     .then((res) => res.json())
     .then((data) => {
@@ -20,4 +25,18 @@ const setCurrentIngredient = (currentIngredient) => {
   };
 };
 
-export { getIngredientsAPI, setCurrentIngredient };
+const setOrder = (ingredient) => {
+  return {
+    type: SET_ORDER,
+    ingredient: ingredient,
+  };
+};
+
+const setOrderNumber = (number) => {
+  return {
+    type: SET_ORDER_NUMBER,
+    orderNumber: number,
+  };
+};
+
+export { getIngredients, setCurrentIngredient, setOrder, setOrderNumber };

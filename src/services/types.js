@@ -3,3 +3,7 @@ export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const ADD_BUN = "ADD_BUN";
 
 export const SET_CURRENT_INGREDIENT = "SET_CURRENT_INGREDIENT";
+
+export const SET_ORDER = "SET_ORDER";
+
+export const SET_ORDER_NUMBER = "SET_ORDER_NUMBER";

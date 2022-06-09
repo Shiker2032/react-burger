@@ -5,7 +5,7 @@ import ConstructorItem from "./ConstructorItem";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import OrderContext from "../../services/orderContext";
+import { useSelector } from "react-redux";
 
 const BurgerConstructor = ({ onClick }) => {
   const initialState = { price: 0 };
@@ -20,7 +20,7 @@ const BurgerConstructor = ({ onClick }) => {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const order = React.useContext(OrderContext);
+  const order = useSelector((store) => store.order);
 
   useEffect(() => {
     order.map((orderEl) => {

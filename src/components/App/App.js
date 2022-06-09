@@ -7,21 +7,21 @@ import BurgerIngredients from "../Burger-ingredients/BurgerIngredients";
 import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import OrderDetails from "../Order-details/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import OrderContext from "../../services/orderContext";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getIngredientsAPI,
+  getIngredients,
   setCurrentIngredient,
+  setOrder,
+  setOrderNumber,
 } from "../../services/actions";
 
 function App(props) {
   const dispatch = useDispatch();
-  const ingredients = useSelector((store) => store.ingredients);
 
-  const currentIngredient = useSelector((store) => store.currentIngredient);
+  const { ingredients, currentIngredient, order, orderNumber } = useSelector(
+    (store) => store
+  );
 
-  const [order, setOrder] = useState([{ price: 0 }]);
-  const [orderNumber, setOrderNumber] = useState(0);
   const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
     useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
@@ -62,36 +62,36 @@ function App(props) {
     })
       .then(parseResponse)
       .then((json) => {
-        setOrderNumber(json.order.number);
+        console.log(json.order.number);
+        dispatch(setOrderNumber(json.order.number));
         setOrderDetailsOpened(true);
       })
       .catch((er) => console.log(er));
   };
 
   useEffect(() => {
-    dispatch(getIngredientsAPI());
+    dispatch(getIngredients());
   }, []);
 
   useEffect(() => {
-    setOrder([...order, currentIngredient]);
+    dispatch(setOrder(currentIngredient));
   }, [currentIngredient]);
 
   return (
     <>
       <Header />
-      <OrderContext.Provider value={order}>
-        <main className={styles.app__flexComponents}>
-          <BurgerIngredients
-            ingredients={ingredients}
-            onClick={handleIngredientClick}
-          />
-          <BurgerConstructor
-            ingredients={ingredients}
-            order={order}
-            onClick={handleOrderClick}
-          />
-        </main>
-      </OrderContext.Provider>
+      <main className={styles.app__flexComponents}>
+        <BurgerIngredients
+          ingredients={ingredients}
+          onClick={handleIngredientClick}
+        />
+        <BurgerConstructor
+          ingredients={ingredients}
+          order={order}
+          onClick={handleOrderClick}
+        />
+      </main>
+
       {isIngredientsDetailsOpened && (
         <Modal
           onCloseClick={closeIngredientModal}
