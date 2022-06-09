@@ -2,13 +2,38 @@ import React, { useEffect, useRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burgerIngredients.module.css";
 import PropTypes from "prop-types";
+import { useInView } from "react-intersection-observer";
 
 function Tabs({ tabRefs }) {
-  const bunTab = useRef(null);
   const [current, setCurrent] = React.useState("one");
 
   useEffect(() => {
     setCurrent("bun");
+    const saucesTab = tabRefs.saucesRef.current;
+    const bunsTab = tabRefs.bunRef.current;
+    const ingredientsTab = tabRefs.ingredientsRef.current;
+
+    const tabs = [saucesTab, bunsTab, ingredientsTab];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0].target;
+        if (target.textContent === "Соусы") {
+          setCurrent("sauce");
+        } else if (target.textContent === "Начинки") {
+          setCurrent("main");
+        } else {
+          setCurrent("bun");
+        }
+      },
+      {
+        rootMargin: "50px",
+      }
+    );
+
+    tabs.forEach((tabEl) => {
+      observer.observe(tabEl);
+    });
   }, []);
 
   return (
