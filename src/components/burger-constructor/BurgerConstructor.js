@@ -7,7 +7,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { SET_ORDER } from "../../services/types";
+import { SET_BUN, SET_ORDER } from "../../services/types";
 import { setCurrentIngredient } from "../../services/actions";
 
 const BurgerConstructor = ({ onClick }) => {
@@ -27,7 +27,7 @@ const BurgerConstructor = ({ onClick }) => {
   const handleDrop = (ingredient) => {
     order.find((el) => el.type === "bun") && ingredient.type === "bun"
       ? dispatch({
-          type: "SET_BUN",
+          type: SET_BUN,
           ingredient: ingredient,
         })
       : dispatch({

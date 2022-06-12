@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { SET_ORDER_NUMBER } from "./types";
+import { REMOVE_INGREDIENT, SET_BUN, SET_ORDER_NUMBER } from "./types";
 import {
   ADD_INGREDIENT,
   GET_INGREDIENTS,
@@ -36,7 +36,11 @@ const orderReducer = (state = [{ price: 0 }], action) => {
       return [...state, action.ingredient];
     }
 
-    case "SET_BUN": {
+    case REMOVE_INGREDIENT: {
+      return [...state.filter((el) => el._id !== action.ingredient._id)];
+    }
+
+    case SET_BUN: {
       const arr = state.filter((el) => el.type !== "bun");
       arr.push(action.ingredient);
       return [...arr];
@@ -49,7 +53,6 @@ const orderReducer = (state = [{ price: 0 }], action) => {
 const orderNumberReducer = (state = 0, action) => {
   switch (action.type) {
     case SET_ORDER_NUMBER: {
-      console.log(action);
       return (state = action.orderNumber);
     }
     default:

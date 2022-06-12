@@ -5,5 +5,8 @@ export const ADD_BUN = "ADD_BUN";
 export const SET_CURRENT_INGREDIENT = "SET_CURRENT_INGREDIENT";
 
 export const SET_ORDER = "SET_ORDER";
+export const SET_BUN = "SET_BUN";
+
+export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 
 export const SET_ORDER_NUMBER = "SET_ORDER_NUMBER";

@@ -19,7 +19,6 @@ const getIngredients = () => (dispatch) => {
 };
 
 const setCurrentIngredient = (currentIngredient) => {
-  console.log(currentIngredient);
   return {
     type: SET_CURRENT_INGREDIENT,
     currentIngredient: currentIngredient,
