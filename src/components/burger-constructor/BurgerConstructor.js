@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./burgerConstructor.module.css";
 import ConstructorItem from "./ConstructorItem";
@@ -13,13 +13,16 @@ import { setCurrentIngredient } from "../../services/actions";
 const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();
   const order = useSelector((store) => store.order);
+  const [price, setPrice] = useState(0);
 
   useEffect(() => {
     order.map((orderEl) => {
       if (orderEl.type !== "bun") {
         dispatch({ type: "addIngridient", payload: orderEl.price });
+        setPrice(price + orderEl.price);
       } else {
         dispatch({ type: "addBun", payload: orderEl.price });
+        setPrice(price + orderEl.price * 2);
       }
     });
   }, [order]);
@@ -112,7 +115,7 @@ const BurgerConstructor = ({ onClick }) => {
             <p
               className={`${styles.burgerConstructor__price} $text text_type_digits-medium`}
             ></p>
-            <p className="text text_type_digits-medium">{1}</p>
+            <p className="text text_type_digits-medium">{price}</p>
             <CurrencyIcon type="primary" />
           </div>
           <Button type="primary" size="large" onClick={onClick}>
