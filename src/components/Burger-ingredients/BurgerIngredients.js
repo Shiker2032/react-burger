@@ -9,6 +9,7 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
+import IngredientsItem from "../Ingredients-item/IngredientsItem";
 
 const BurgerIngredients = ({ onClick }) => {
   const ingredients = useSelector((store) => store.ingredients);
@@ -28,32 +29,13 @@ const BurgerIngredients = ({ onClick }) => {
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
             .filter((ingredient) => ingredient.type === "bun")
-            .map((ingredient) => {
+            .map((ingredient, idx) => {
               return (
-                <li className="pl-4 pr-2 pb-10" key={ingredient._id}>
-                  <article
-                    className={styles.burgerIngredients__cardElement}
-                    onClick={() => {
-                      onClick(ingredient);
-                    }}
-                  >
-                    <div className="pl-4 pb-1 pr-4">
-                      <img src={ingredient.image} />
-                      <Counter count={1} size="default" />
-                      <div className={styles.burgerIngredients__cardPrice}>
-                        <p className="text text_type_digits-default pt-1">
-                          {ingredient.price}
-                        </p>
-                        <CurrencyIcon type="primary" />
-                      </div>
-                    </div>
-                    <h3
-                      className={`${styles.burgerIngredients__cardName} text text_type_main-default`}
-                    >
-                      {ingredient.name}
-                    </h3>
-                  </article>
-                </li>
+                <IngredientsItem
+                  ingredient={ingredient}
+                  onClick={onClick}
+                  key={idx}
+                />
               );
             })}
         </ul>
@@ -65,29 +47,13 @@ const BurgerIngredients = ({ onClick }) => {
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
             .filter((ingredient) => ingredient.type === "sauce")
-            .map((ingredient) => {
+            .map((ingredient, idx) => {
               return (
-                <li className="pl-4 pr-2 pb-10" key={ingredient._id}>
-                  <article
-                    className={styles.burgerIngredients__cardElement}
-                    onClick={() => onClick(ingredient)}
-                  >
-                    <div className="pl-4 pb-1 pr-4">
-                      <img src={ingredient.image} />
-                      <div className={styles.burgerIngredients__cardPrice}>
-                        <p className="text text_type_digits-default pt-1">
-                          {ingredient.price}
-                        </p>
-                        <CurrencyIcon type="primary" />
-                      </div>
-                    </div>
-                    <h3
-                      className={`${styles.burgerIngredients__cardName} text text_type_main-default`}
-                    >
-                      {ingredient.name}
-                    </h3>
-                  </article>
-                </li>
+                <IngredientsItem
+                  key={idx}
+                  ingredient={ingredient}
+                  onClick={onClick}
+                />
               );
             })}
         </ul>
@@ -99,29 +65,13 @@ const BurgerIngredients = ({ onClick }) => {
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
             .filter((ingredient) => ingredient.type === "main")
-            .map((ingredient) => {
+            .map((ingredient, idx) => {
               return (
-                <li className="pl-4 pr-2 pb-10" key={ingredient._id}>
-                  <article
-                    className={styles.burgerIngredients__cardElement}
-                    onClick={() => onClick(ingredient)}
-                  >
-                    <div className="pl-4 pb-1 pr-4">
-                      <img src={ingredient.image} />
-                      <div className={styles.burgerIngredients__cardPrice}>
-                        <p className="text text_type_digits-default pt-1">
-                          {ingredient.price}
-                        </p>
-                        <CurrencyIcon type="primary" />
-                      </div>
-                    </div>
-                    <h3
-                      className={`${styles.burgerIngredients__cardName} text text_type_main-default`}
-                    >
-                      {ingredient.name}
-                    </h3>
-                  </article>
-                </li>
+                <IngredientsItem
+                  ingredient={ingredient}
+                  onClick={onClick}
+                  key={idx}
+                />
               );
             })}
         </ul>

@@ -7,7 +7,21 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 
+import { useDrop } from "react-dnd";
+
+const handleDrop = (ingredient) => {
+  console.log(ingredient);
+};
+
 const BurgerConstructor = ({ onClick }) => {
+  const [{ isOver }, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop: (item) => handleDrop(item.ingredient),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
   const initialState = { price: 0 };
 
   const reducer = (state, action) => {
@@ -33,7 +47,7 @@ const BurgerConstructor = ({ onClick }) => {
   }, [order]);
 
   return (
-    <section className={`${styles.burgerConstructor} pl-4`}>
+    <section ref={dropTarget} className={`${styles.burgerConstructor} pl-4`}>
       {order
         .filter((ingredient) => ingredient.type === "bun")
         .map((ingredient) => {

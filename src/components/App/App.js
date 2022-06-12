@@ -15,6 +15,9 @@ import {
   setOrderNumber,
 } from "../../services/actions";
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 function App(props) {
   const dispatch = useDispatch();
 
@@ -80,17 +83,19 @@ function App(props) {
   return (
     <>
       <Header />
-      <main className={styles.app__flexComponents}>
-        <BurgerIngredients
-          ingredients={ingredients}
-          onClick={handleIngredientClick}
-        />
-        <BurgerConstructor
-          ingredients={ingredients}
-          order={order}
-          onClick={handleOrderClick}
-        />
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.app__flexComponents}>
+          <BurgerIngredients
+            ingredients={ingredients}
+            onClick={handleIngredientClick}
+          />
+          <BurgerConstructor
+            ingredients={ingredients}
+            order={order}
+            onClick={handleOrderClick}
+          />
+        </main>
+      </DndProvider>
 
       {isIngredientsDetailsOpened && (
         <Modal
