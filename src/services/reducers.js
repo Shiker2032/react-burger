@@ -35,6 +35,12 @@ const orderReducer = (state = [{ price: 0 }], action) => {
     case SET_ORDER: {
       return [...state, action.ingredient];
     }
+
+    case "SET_BUN": {
+      const arr = state.filter((el) => el.type !== "bun");
+      arr.push(action.ingredient);
+      return [...arr];
+    }
     default:
       return state;
   }

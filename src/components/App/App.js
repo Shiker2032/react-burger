@@ -31,9 +31,9 @@ function App(props) {
 
   const handleIngredientClick = (ingredient) => {
     setIsIngredientsDetailsOpened(true);
-    order.find((el) => el.type === "bun") && ingredient.type === "bun"
-      ? console.log("duplicate")
-      : dispatch(setCurrentIngredient(ingredient));
+    // order.find((el) => el.type === "bun") && ingredient.type === "bun"
+    //   ? console.log("duplicate")
+    //   : dispatch(setCurrentIngredient(ingredient));
   };
 
   const closeIngredientModal = () => {

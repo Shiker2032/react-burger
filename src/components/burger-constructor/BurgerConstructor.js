@@ -5,35 +5,13 @@ import ConstructorItem from "./ConstructorItem";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-
-const handleDrop = (ingredient) => {
-  console.log(ingredient);
-};
+import { SET_ORDER } from "../../services/types";
+import { setCurrentIngredient } from "../../services/actions";
 
 const BurgerConstructor = ({ onClick }) => {
-  const [{ isOver }, dropTarget] = useDrop({
-    accept: "ingredient",
-    drop: (item) => handleDrop(item.ingredient),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  });
-
-  const initialState = { price: 0 };
-
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case "addIngridient":
-        return { price: state.price + action.payload };
-      case "addBun":
-        return { price: action.payload * 2 };
-    }
-  };
-
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const dispatch = useDispatch();
   const order = useSelector((store) => store.order);
 
   useEffect(() => {
@@ -45,6 +23,26 @@ const BurgerConstructor = ({ onClick }) => {
       }
     });
   }, [order]);
+
+  const handleDrop = (ingredient) => {
+    order.find((el) => el.type === "bun") && ingredient.type === "bun"
+      ? dispatch({
+          type: "SET_BUN",
+          ingredient: ingredient,
+        })
+      : dispatch({
+          type: SET_ORDER,
+          ingredient: ingredient,
+        });
+  };
+
+  const [{ isOver }, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop: (item) => handleDrop(item.ingredient),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
 
   return (
     <section ref={dropTarget} className={`${styles.burgerConstructor} pl-4`}>
@@ -114,9 +112,7 @@ const BurgerConstructor = ({ onClick }) => {
             <p
               className={`${styles.burgerConstructor__price} $text text_type_digits-medium`}
             ></p>
-            <p className="text text_type_digits-medium">
-              {state.price > 1 && state.price}
-            </p>
+            <p className="text text_type_digits-medium">{1}</p>
             <CurrencyIcon type="primary" />
           </div>
           <Button type="primary" size="large" onClick={onClick}>
