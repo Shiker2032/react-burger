@@ -60,11 +60,36 @@ const orderNumberReducer = (state = 0, action) => {
   }
 };
 
+const initialPriceState = {
+  ingredientPrice: 0,
+  bunPrice: 0,
+};
+
+const priceReducer = (state = initialPriceState, action) => {
+  switch (action.type) {
+    case "ADD_INGREDIENT_PRICE": {
+      return {
+        ...state,
+        ingredientPrice: state.ingredientPrice + action.price,
+      };
+    }
+    case "ADD_BUN_PRICE": {
+      return {
+        ...state,
+        bunPrice: action.price,
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   currentIngredient: currentIngredientReducer,
   order: orderReducer,
   orderNumber: orderNumberReducer,
+  price: priceReducer,
 });
 
 export { rootReducer };

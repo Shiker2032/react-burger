@@ -4,11 +4,14 @@ import { useDispatch } from "react-redux";
 import { REMOVE_INGREDIENT } from "../../services/types";
 function ConstructorItem({ ingredient, type, isLocked, children }) {
   const dispatch = useDispatch();
+
+  const handleClose = (ingredient) => {
+    dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
+  };
+
   return (
     <ConstructorElement
-      handleClose={() => {
-        dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
-      }}
+      handleClose={() => handleClose(ingredient)}
       type={type}
       isLocked={isLocked}
       text={

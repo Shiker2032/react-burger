@@ -10,19 +10,19 @@ import { useDrop } from "react-dnd";
 import { SET_BUN, SET_ORDER } from "../../services/types";
 import { setCurrentIngredient } from "../../services/actions";
 
+import { REMOVE_INGREDIENT } from "../../services/types";
+
 const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();
   const order = useSelector((store) => store.order);
-  const [price, setPrice] = useState(0);
+  const price = useSelector((store) => store.price);
 
   useEffect(() => {
     order.map((orderEl) => {
       if (orderEl.type !== "bun") {
         dispatch({ type: "addIngridient", payload: orderEl.price });
-        setPrice(price + orderEl.price);
       } else {
         dispatch({ type: "addBun", payload: orderEl.price });
-        setPrice(price + orderEl.price * 2);
       }
     });
   }, [order]);
@@ -37,6 +37,12 @@ const BurgerConstructor = ({ onClick }) => {
           type: SET_ORDER,
           ingredient: ingredient,
         });
+
+    if (ingredient.type === "bun") {
+      dispatch({ type: "ADD_BUN_PRICE", price: ingredient.price * 2 });
+    } else {
+      dispatch({ type: "ADD_INGREDIENT_PRICE", price: ingredient.price });
+    }
   };
 
   const [{ isOver }, dropTarget] = useDrop({
@@ -115,7 +121,9 @@ const BurgerConstructor = ({ onClick }) => {
             <p
               className={`${styles.burgerConstructor__price} $text text_type_digits-medium`}
             ></p>
-            <p className="text text_type_digits-medium">{price}</p>
+            <p className="text text_type_digits-medium">
+              {price.bunPrice + price.ingredientPrice}
+            </p>
             <CurrencyIcon type="primary" />
           </div>
           <Button type="primary" size="large" onClick={onClick}>
