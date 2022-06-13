@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./burgerConstructor.module.css";
 import ConstructorItem from "./ConstructorItem";
-import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,21 +11,12 @@ import { SET_BUN, SET_ORDER } from "../../services/types";
 import { setCurrentIngredient } from "../../services/actions";
 
 import { REMOVE_INGREDIENT } from "../../services/types";
+import ConstructorItem_ingredient from "./ConstructorItem_ingredient";
 
 const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();
   const order = useSelector((store) => store.order);
   const price = useSelector((store) => store.price);
-
-  useEffect(() => {
-    order.map((orderEl) => {
-      if (orderEl.type !== "bun") {
-        dispatch({ type: "addIngridient", payload: orderEl.price });
-      } else {
-        dispatch({ type: "addBun", payload: orderEl.price });
-      }
-    });
-  }, [order]);
 
   const handleDrop = (ingredient) => {
     order.find((el) => el.type === "bun") && ingredient.type === "bun"
@@ -77,16 +68,15 @@ const BurgerConstructor = ({ onClick }) => {
       <div className={styles.burgerConstructor__wrapper}>
         <ul className={`${styles.burgerConstructor__list} pr-4`}>
           {order.length > 1 &&
-            order.map((ingredient) => {
+            order.map((ingredient, idx) => {
               if (ingredient.price !== 0 && ingredient.type !== "bun") {
                 return (
                   <li key={ingredient._id}>
-                    <article className={styles.burgerConstructor__cardElement}>
-                      <p className={styles.burgerConstructor__dragIcon}>
-                        <DragIcon type="primary" />
-                      </p>
-                      <ConstructorItem ingredient={ingredient} type={""} />
-                    </article>
+                    <ConstructorItem_ingredient
+                      ingredient={ingredient}
+                      index={idx}
+                      id={ingredient._id}
+                    />
                   </li>
                 );
               }

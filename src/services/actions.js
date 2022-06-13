@@ -1,5 +1,6 @@
 import {
   GET_INGREDIENTS,
+  RESET_INGREDIENT,
   SET_CURRENT_INGREDIENT,
   SET_ORDER,
   SET_ORDER_NUMBER,
@@ -39,4 +40,18 @@ const setOrderNumber = (number) => {
   };
 };
 
-export { getIngredients, setCurrentIngredient, setOrder, setOrderNumber };
+const resetItem = (dragIndex, hoverIndex) => {
+  return {
+    type: RESET_INGREDIENT,
+    dragIndex,
+    hoverIndex,
+  };
+};
+
+export {
+  getIngredients,
+  setCurrentIngredient,
+  setOrder,
+  setOrderNumber,
+  resetItem,
+};

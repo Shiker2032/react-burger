@@ -1,5 +1,10 @@
 import { combineReducers } from "redux";
-import { REMOVE_INGREDIENT, SET_BUN, SET_ORDER_NUMBER } from "./types";
+import {
+  REMOVE_INGREDIENT,
+  REORDER_ITEMS,
+  SET_BUN,
+  SET_ORDER_NUMBER,
+} from "./types";
 import {
   ADD_INGREDIENT,
   GET_INGREDIENTS,
@@ -45,6 +50,11 @@ const orderReducer = (state = [{ price: 0 }], action) => {
       arr.push(action.ingredient);
       return [...arr];
     }
+
+    case REORDER_ITEMS: {
+      return [...action.data];
+    }
+
     default:
       return state;
   }
