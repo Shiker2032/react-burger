@@ -83,6 +83,13 @@ const priceReducer = (state = initialPriceState, action) => {
         ingredientPrice: state.ingredientPrice + action.price,
       };
     }
+    case "SUBTRACT_INGREDIENT_PRICE": {
+      return {
+        ...state,
+        ingredientPrice: state.ingredientPrice - action.price,
+      };
+    }
+
     case "ADD_BUN_PRICE": {
       return {
         ...state,

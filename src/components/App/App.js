@@ -29,8 +29,9 @@ function App(props) {
     useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
 
-  const handleIngredientClick = () => {
+  const handleIngredientClick = (ingredient) => {
     setIsIngredientsDetailsOpened(true);
+    dispatch(setCurrentIngredient(ingredient));
   };
 
   const closeIngredientModal = () => {

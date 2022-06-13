@@ -33,7 +33,7 @@ const BurgerIngredients = ({ onClick }) => {
               return (
                 <IngredientsItem
                   ingredient={ingredient}
-                  onClick={onClick}
+                  onClick={() => onClick(ingredient)}
                   key={idx}
                 />
               );

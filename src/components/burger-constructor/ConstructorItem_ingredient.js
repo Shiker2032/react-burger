@@ -49,6 +49,7 @@ function ConstructorItem_ingredient({
 
   const handleClose = (ingredient) => {
     dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
+    dispatch({ type: "SUBTRACT_INGREDIENT_PRICE", price: ingredient.price });
   };
 
   drag(drop(ref));
