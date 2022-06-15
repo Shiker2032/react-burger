@@ -14,20 +14,38 @@ import { REMOVE_INGREDIENT } from "../../services/types";
 import ConstructorItem_ingredient from "./ConstructorItem_ingredient";
 
 const BurgerConstructor = ({ onClick }) => {
+  function getUniqueListBy(arr, key) {
+    return [...new Map(arr.map((item) => [item[key], item])).values()];
+  }
+
   const dispatch = useDispatch();
-  const order = useSelector((store) => store.order);
+  const order = useSelector((store) => getUniqueListBy(store.order, "name"));
   const price = useSelector((store) => store.price);
 
   const handleDrop = (ingredient) => {
-    order.find((el) => el.type === "bun") && ingredient.type === "bun"
-      ? dispatch({
-          type: SET_BUN,
-          ingredient: ingredient,
-        })
-      : dispatch({
+    if (order.find((el) => el.type === "bun") && ingredient.type === "bun") {
+      const previousBun = order.filter((el) => el.type === "bun");
+
+      dispatch({
+        type: "SUBTRACT_BUN_AMOUNT",
+        bun: previousBun,
+      });
+      dispatch({
+        type: SET_BUN,
+        ingredient: ingredient,
+      });
+    }
+    {
+      if (order.includes(ingredient)) {
+        console.log("dup");
+        dispatch({ type: "INCREMENT_INGREDIENT", ingredient: ingredient });
+      } else {
+        dispatch({
           type: SET_ORDER,
           ingredient: ingredient,
         });
+      }
+    }
 
     if (ingredient.type === "bun") {
       dispatch({ type: "ADD_BUN_PRICE", price: ingredient.price * 2 });

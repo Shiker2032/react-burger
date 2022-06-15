@@ -6,14 +6,7 @@ import styles from "./burgerConstructor.module.css";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef, useState } from "react";
-function ConstructorItem_ingredient({
-  ingredient,
-  type,
-  isLocked,
-  children,
-  id,
-  index,
-}) {
+function ConstructorItem_ingredient({ ingredient, id, index }) {
   const order = useSelector((store) => store.order);
 
   const ref = useRef(null);
@@ -39,7 +32,7 @@ function ConstructorItem_ingredient({
 
   const [, drop] = useDrop({
     accept: "element",
-    drop(item) {
+    hover(item) {
       if (item.index === index) return;
       if (!ref.current) return;
       moveElement(item.index, index);
@@ -48,14 +41,22 @@ function ConstructorItem_ingredient({
   });
 
   const handleClose = (ingredient) => {
-    dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
+    if (ingredient.amount < 2) {
+      dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
+      console.log(order);
+    }
+    dispatch({ type: "SUBTRACT_INGREDIENT_AMOUNT", ingredient: ingredient });
     dispatch({ type: "SUBTRACT_INGREDIENT_PRICE", price: ingredient.price });
   };
 
   drag(drop(ref));
 
   return (
-    <article ref={ref} className={styles.burgerConstructor__cardElement}>
+    <article
+      style={{ opacity: opacity }}
+      ref={ref}
+      className={styles.burgerConstructor__cardElement}
+    >
       <p className={styles.burgerConstructor__dragIcon}>
         <DragIcon type="primary" />
       </p>

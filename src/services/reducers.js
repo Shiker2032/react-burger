@@ -38,21 +38,52 @@ const currentIngredientReducer = (state = { price: 0 }, action) => {
 const orderReducer = (state = [{ price: 0 }], action) => {
   switch (action.type) {
     case SET_ORDER: {
-      return [...state, action.ingredient];
+      const ingredient = action.ingredient;
+      ingredient.amount = 1;
+      return [...state, ingredient];
     }
 
+    case "RESET_ORDER": {
+      state = [{ price: 0 }];
+      return state;
+    }
     case REMOVE_INGREDIENT: {
-      return [...state.filter((el) => el._id !== action.ingredient._id)];
+      return [
+        ...state.filter(
+          (el) => el._id !== action.ingredient._id && el.price > 0
+        ),
+      ];
     }
 
     case SET_BUN: {
       const arr = state.filter((el) => el.type !== "bun");
-      arr.push(action.ingredient);
+      const bun = action.ingredient;
+      bun.amount = 1;
+      arr.push(bun);
       return [...arr];
     }
 
     case REORDER_ITEMS: {
       return [...action.data];
+    }
+
+    case "INCREMENT_INGREDIENT": {
+      const ingredient = action.ingredient;
+      ingredient.amount = ingredient.amount + 1;
+      return [...state, ingredient];
+    }
+
+    case "SUBTRACT_INGREDIENT_AMOUNT": {
+      const ingredient = action.ingredient;
+      ingredient.amount = ingredient.amount - 1;
+      return [...state, ingredient];
+    }
+
+    case "SUBTRACT_BUN_AMOUNT": {
+      state.filter((el) => {
+        el.amount = 0;
+      });
+      return [...state];
     }
 
     default:

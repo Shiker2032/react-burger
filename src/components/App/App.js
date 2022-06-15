@@ -32,6 +32,7 @@ function App(props) {
   const handleIngredientClick = (ingredient) => {
     setIsIngredientsDetailsOpened(true);
     dispatch(setCurrentIngredient(ingredient));
+    console.log(ingredient);
   };
 
   const closeIngredientModal = () => {
@@ -51,7 +52,10 @@ function App(props) {
   };
 
   const handleOrderClick = () => {
-    const orderInfo = order.map((ingredients) => ingredients._id);
+    const orderInfo = order
+      .map((ingredients) => ingredients._id)
+      .filter((el) => el !== undefined);
+
     fetch(`${apiConfig.url}/orders`, {
       method: "POST",
       headers: {
@@ -62,10 +66,10 @@ function App(props) {
       }),
     })
       .then(parseResponse)
-      .then((json) => {
-        console.log(json.order.number);
+      .then((json) => {      
         dispatch(setOrderNumber(json.order.number));
         setOrderDetailsOpened(true);
+        dispatch({type: 'RESET_ORDER'})
       })
       .catch((er) => console.log(er));
   };
@@ -73,10 +77,6 @@ function App(props) {
   useEffect(() => {
     dispatch(getIngredients());
   }, []);
-
-  useEffect(() => {
-    dispatch(setOrder(currentIngredient));
-  }, [currentIngredient]);
 
   return (
     <>
