@@ -1,5 +1,4 @@
-import React from "react";
-import styles from "../header/Header.module.css";
+import styles from "../Header/header.module.css";
 import {
   Logo,
   BurgerIcon,

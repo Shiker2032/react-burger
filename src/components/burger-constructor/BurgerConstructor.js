@@ -1,22 +1,27 @@
-import React, { useEffect, useReducer, useState } from "react";
 import PropTypes from "prop-types";
-import styles from "./burgerConstructor.module.css";
-import ConstructorItem from "./ConstructorItem";
-
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  CurrencyIcon,
+  Button,
+  ConstructorElement,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  ADD_BUN_PRICE,
+  ADD_INGREDIENT_PRICE,
+  INCREMENT_INGREDIENT,
+  REMOVE_INGREDIENT,
+  SET_BUN,
+  SET_ORDER,
+  SUBTRACT_BUN_AMOUNT,
+} from "../../services/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { SET_BUN, SET_ORDER } from "../../services/types";
-import { setCurrentIngredient } from "../../services/actions";
-
-import { REMOVE_INGREDIENT } from "../../services/types";
-import ConstructorItem_ingredient from "./ConstructorItem_ingredient";
+import ConstructorItem from "./ConstructorItem";
+import styles from "./burgerConstructor.module.css";
 
 const BurgerConstructor = ({ onClick }) => {
-  function getUniqueListBy(arr, key) {
+  const getUniqueListBy = (arr, key) => {
     return [...new Map(arr.map((item) => [item[key], item])).values()];
-  }
+  };
 
   const dispatch = useDispatch();
   const order = useSelector((store) => getUniqueListBy(store.order, "name"));
@@ -27,7 +32,7 @@ const BurgerConstructor = ({ onClick }) => {
       const previousBun = order.filter((el) => el.type === "bun");
 
       dispatch({
-        type: "SUBTRACT_BUN_AMOUNT",
+        type: SUBTRACT_BUN_AMOUNT,
         bun: previousBun,
       });
       dispatch({
@@ -36,34 +41,33 @@ const BurgerConstructor = ({ onClick }) => {
       });
     }
     {
-      if (order.includes(ingredient)) {
-        console.log("dup");
-        dispatch({ type: "INCREMENT_INGREDIENT", ingredient: ingredient });
-      } else {
-        dispatch({
-          type: SET_ORDER,
-          ingredient: ingredient,
-        });
-      }
+      order.includes(ingredient)
+        ? dispatch({ type: INCREMENT_INGREDIENT, ingredient: ingredient })
+        : dispatch({
+            type: SET_ORDER,
+            ingredient: ingredient,
+          });
     }
-
-    if (ingredient.type === "bun") {
-      dispatch({ type: "ADD_BUN_PRICE", price: ingredient.price * 2 });
-    } else {
-      dispatch({ type: "ADD_INGREDIENT_PRICE", price: ingredient.price });
-    }
+    ingredient.type === "bun"
+      ? dispatch({ type: ADD_BUN_PRICE, price: ingredient.price * 2 })
+      : dispatch({ type: ADD_INGREDIENT_PRICE, price: ingredient.price });
   };
 
-  const [{ isOver }, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop: (item) => handleDrop(item.ingredient),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
   });
 
+  const handleClose = (ingredient) => {
+    dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
+  };
+
   return (
-    <section ref={dropTarget} className={`${styles.burgerConstructor} pl-4`}>
+    <section
+      id={"constructor"}
+      ref={dropTarget}
+      className={`${styles.burgerConstructor} pl-4`}
+    >
       {order
         .filter((ingredient) => ingredient.type === "bun")
         .map((ingredient) => {
@@ -72,13 +76,14 @@ const BurgerConstructor = ({ onClick }) => {
               key={ingredient._id}
               className={`${styles.burgerConstructor__cardBunElement} ml-8 mr-2 mt-25`}
             >
-              <ConstructorItem
-                ingredient={ingredient}
-                isLocked={true}
+              <ConstructorElement
+                handleClose={() => handleClose(ingredient)}
                 type={"top"}
-              >
-                верх{" "}
-              </ConstructorItem>
+                isLocked={true}
+                text={ingredient.name + " верх"}
+                price={ingredient.price}
+                thumbnail={ingredient.image}
+              />
             </article>
           );
         })}
@@ -90,7 +95,7 @@ const BurgerConstructor = ({ onClick }) => {
               if (ingredient.price !== 0 && ingredient.type !== "bun") {
                 return (
                   <li key={ingredient._id}>
-                    <ConstructorItem_ingredient
+                    <ConstructorItem
                       ingredient={ingredient}
                       index={idx}
                       id={ingredient._id}
@@ -110,13 +115,14 @@ const BurgerConstructor = ({ onClick }) => {
               key={ingredient._id}
               className={`${styles.burgerConstructor__cardBunElement} ml-8 mr-2 mb-6`}
             >
-              <ConstructorItem
-                ingredient={ingredient}
-                isLocked={true}
+              <ConstructorElement
+                handleClose={() => handleClose(ingredient)}
                 type={"bottom"}
-              >
-                низ{" "}
-              </ConstructorItem>
+                isLocked={true}
+                text={ingredient.name + " низ"}
+                price={ingredient.price}
+                thumbnail={ingredient.image}
+              />
             </article>
           );
         })}

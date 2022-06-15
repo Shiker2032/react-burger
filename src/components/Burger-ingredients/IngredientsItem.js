@@ -1,27 +1,32 @@
-import React from "react";
+import { useEffect } from "react";
 import styles from "../Burger-ingredients/burgerIngredients.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import { useDrag } from "react-dnd";
-import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
-function IngredientsItem({ ingredient, onClick }) {  
-  const dispatch = useDispatch();
+function IngredientsItem({ ingredient, onClick }) {
+  const constructorElement = document.querySelector("#constructor");
+
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: { ingredient },
+
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
   const opacity = isDragging ? 0.5 : 1;
-  if (isDragging) dispatch({ type: "SET_DRAGGING", isDragging: isDragging });
+
+  useEffect(() => {
+    const outline = isDragging ? "3px solid green" : "0px";
+    constructorElement.style.outline = outline;
+  }, [isDragging]);
 
   return (
-    <li className="pl-4 pr-2 pb-10">
+    <li style={{ cursor: "grab" }} className="pl-4 pr-2 pb-10">
       <article
         className={styles.burgerIngredients__cardElement}
         onClick={() => onClick(ingredient)}
@@ -51,5 +56,10 @@ function IngredientsItem({ ingredient, onClick }) {
     </li>
   );
 }
+
+IngredientsItem.propTypes = {
+  ingredient: PropTypes.object,
+  Onclick: PropTypes.func,
+};
 
 export default IngredientsItem;

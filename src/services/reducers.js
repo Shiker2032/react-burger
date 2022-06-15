@@ -1,23 +1,26 @@
 import { combineReducers } from "redux";
 import {
+  ADD_BUN_PRICE,
+  ADD_INGREDIENT_PRICE,
+  INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
+  RESET_ORDER,
   SET_BUN,
   SET_ORDER_NUMBER,
+  SUBTRACT_BUN_AMOUNT,
+  SUBTRACT_INGREDIENT_AMOUNT,
+  SUBTRACT_INGREDIENT_PRICE,
 } from "./types";
-import {
-  ADD_INGREDIENT,
-  GET_INGREDIENTS,
-  SET_CURRENT_INGREDIENT,
-  SET_ORDER,
-} from "./types";
+import { GET_INGREDIENTS, SET_CURRENT_INGREDIENT, SET_ORDER } from "./types";
 
-const inititialState = [{}];
-
-const ingredientsReducer = (state = inititialState, action) => {
+const ingredientsReducer = (state = [{}], action) => {
   switch (action.type) {
     case GET_INGREDIENTS: {
       return [...state, ...action.data];
+    }
+    case "RESET_INGREDIENTS": {
+      return (state = [{}]);
     }
     default:
       return state;
@@ -43,16 +46,15 @@ const orderReducer = (state = [{ price: 0 }], action) => {
       return [...state, ingredient];
     }
 
-    case "RESET_ORDER": {
+    case RESET_ORDER: {
       state = [{ price: 0 }];
       return state;
     }
+
     case REMOVE_INGREDIENT: {
-      return [
-        ...state.filter(
-          (el) => el._id !== action.ingredient._id && el.price > 0
-        ),
-      ];
+      const arr = state.filter((el) => el._id !== action.id);
+
+      return [...arr];
     }
 
     case SET_BUN: {
@@ -60,32 +62,31 @@ const orderReducer = (state = [{ price: 0 }], action) => {
       const bun = action.ingredient;
       bun.amount = 1;
       arr.push(bun);
-      return [...arr];
+      return arr;
     }
 
     case REORDER_ITEMS: {
       return [...action.data];
     }
 
-    case "INCREMENT_INGREDIENT": {
+    case INCREMENT_INGREDIENT: {
       const ingredient = action.ingredient;
       ingredient.amount = ingredient.amount + 1;
       return [...state, ingredient];
     }
 
-    case "SUBTRACT_INGREDIENT_AMOUNT": {
+    case SUBTRACT_INGREDIENT_AMOUNT: {
       const ingredient = action.ingredient;
       ingredient.amount = ingredient.amount - 1;
       return [...state, ingredient];
     }
 
-    case "SUBTRACT_BUN_AMOUNT": {
+    case SUBTRACT_BUN_AMOUNT: {
       state.filter((el) => {
         el.amount = 0;
       });
       return [...state];
     }
-
     default:
       return state;
   }
@@ -108,20 +109,20 @@ const initialPriceState = {
 
 const priceReducer = (state = initialPriceState, action) => {
   switch (action.type) {
-    case "ADD_INGREDIENT_PRICE": {
+    case ADD_INGREDIENT_PRICE: {
       return {
         ...state,
         ingredientPrice: state.ingredientPrice + action.price,
       };
     }
-    case "SUBTRACT_INGREDIENT_PRICE": {
+    case SUBTRACT_INGREDIENT_PRICE: {
       return {
         ...state,
         ingredientPrice: state.ingredientPrice - action.price,
       };
     }
 
-    case "ADD_BUN_PRICE": {
+    case ADD_BUN_PRICE: {
       return {
         ...state,
         bunPrice: action.price,

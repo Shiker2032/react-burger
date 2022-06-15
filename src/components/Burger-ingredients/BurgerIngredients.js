@@ -1,16 +1,9 @@
-import React from "react";
+import { useRef } from "react";
+import { useSelector } from "react-redux";
+import Tabs from "./Tabs";
+import IngredientsItem from "./IngredientsItem";
 import styles from "./burgerIngredients.module.css";
 import PropTypes from "prop-types";
-import PropTypesIngredientsData from "../../utils/propTypes";
-import Tabs from "./Tabs";
-import { useState, useRef } from "react";
-import {
-  CurrencyIcon,
-  Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
-import IngredientsItem from "../Ingredients-item/IngredientsItem";
-
 const BurgerIngredients = ({ onClick }) => {
   const ingredients = useSelector((store) => store.ingredients);
   const tabRefs = {
@@ -18,6 +11,7 @@ const BurgerIngredients = ({ onClick }) => {
     ingredientsRef: useRef(null),
     saucesRef: useRef(null),
   };
+
   return (
     <section className={`${styles.burgerIngredients} pt-10 mr-10`}>
       <h1 className="text text_type_main-large pb-5">Соберите бургер</h1>
@@ -78,6 +72,9 @@ const BurgerIngredients = ({ onClick }) => {
       </div>
     </section>
   );
+};
+BurgerIngredients.propTypes = {
+  onClick: PropTypes.func,
 };
 
 export default BurgerIngredients;

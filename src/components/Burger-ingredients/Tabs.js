@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./burgerIngredients.module.css";
 import PropTypes from "prop-types";
-import { useInView } from "react-intersection-observer";
+import styles from "./burgerIngredients.module.css";
 
 function Tabs({ tabRefs }) {
   const [current, setCurrent] = React.useState("one");
@@ -27,7 +26,8 @@ function Tabs({ tabRefs }) {
         }
       },
       {
-        rootMargin: "50px",
+        root: document.querySelector("view"),
+        threshold: 1,
       }
     );
 
@@ -37,7 +37,7 @@ function Tabs({ tabRefs }) {
   }, []);
 
   return (
-    <div className={styles.burgerIngredients__tabList}>
+    <div id={"view"} className={styles.burgerIngredients__tabList}>
       <Tab
         value="bun"
         active={current === "bun"}
@@ -77,7 +77,7 @@ function Tabs({ tabRefs }) {
 }
 
 Tabs.propTypes = {
-  tabRefs: PropTypes.object.isRequired,
+  tabRefs: PropTypes.object,
 };
 
 export default Tabs;
