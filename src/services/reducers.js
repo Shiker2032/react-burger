@@ -5,6 +5,7 @@ import {
   INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
+  RESET_INGREDIENTS,
   RESET_ORDER,
   SET_BUN,
   SET_ORDER_NUMBER,
@@ -19,8 +20,11 @@ const ingredientsReducer = (state = [{}], action) => {
     case GET_INGREDIENTS: {
       return [...state, ...action.data];
     }
-    case "RESET_INGREDIENTS": {
-      return (state = [{}]);
+    case RESET_INGREDIENTS: {
+      const arr = state.forEach((el) => {
+        el.amount = 0;
+      });
+      return arr;
     }
     default:
       return state;

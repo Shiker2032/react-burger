@@ -18,7 +18,7 @@ import {
 function App(props) {
   const dispatch = useDispatch();
 
-  const { ingredients, currentIngredient, order, orderNumber } = useSelector(
+  const { currentIngredient, order, orderNumber } = useSelector(
     (store) => store
   );
 
@@ -33,14 +33,6 @@ function App(props) {
 
   const handleCloseIngredientModal = () => {
     setIsIngredientsDetailsOpened(false);
-  };
-
-  const handleEscKeydownIngredientModal = (event) => {
-    event.key === "Escape" && handleCloseIngredientModal();
-  };
-
-  const handleEscKeydownOrderModal = (event) => {
-    event.key === "Escape" && closeOrderModal();
   };
 
   const closeOrderModal = () => {
@@ -64,31 +56,18 @@ function App(props) {
       <Header />
       <DndProvider backend={HTML5Backend}>
         <main className={styles.app__flexComponents}>
-          <BurgerIngredients
-            ingredients={ingredients}
-            onClick={handleIngredientClick}
-          />
-          <BurgerConstructor
-            ingredients={ingredients}
-            order={order}
-            onClick={handleOrderClick}
-          />
+          <BurgerIngredients onClick={handleIngredientClick} />
+          <BurgerConstructor order={order} onClick={handleOrderClick} />
         </main>
       </DndProvider>
 
       {isIngredientsDetailsOpened && (
-        <Modal
-          onCloseClick={handleCloseIngredientModal}
-          onEsckeyDown={handleEscKeydownIngredientModal}
-        >
+        <Modal onCloseClick={handleCloseIngredientModal}>
           <IngredientDetails ingredient={currentIngredient} />
         </Modal>
       )}
       {isOrderDetailsOpened && (
-        <Modal
-          onCloseClick={closeOrderModal}
-          onEsckeyDown={handleEscKeydownOrderModal}
-        >
+        <Modal onCloseClick={closeOrderModal}>
           <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}

@@ -18,13 +18,11 @@ import { useDrop } from "react-dnd";
 import ConstructorItem from "./ConstructorItem";
 import styles from "./burgerConstructor.module.css";
 
-const BurgerConstructor = ({ onClick }) => {
-  const getUniqueListBy = (arr, key) => {
-    return [...new Map(arr.map((item) => [item[key], item])).values()];
-  };
+import { v4 as uuidv4 } from "uuid";
 
+const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();
-  const order = useSelector((store) => getUniqueListBy(store.order, "name"));
+  const order = useSelector((store) => store.order);
   const price = useSelector((store) => store.price);
 
   const handleDrop = (ingredient) => {
@@ -94,7 +92,7 @@ const BurgerConstructor = ({ onClick }) => {
             order.map((ingredient, idx) => {
               if (ingredient.price !== 0 && ingredient.type !== "bun") {
                 return (
-                  <li key={ingredient._id}>
+                  <li key={uuidv4()}>
                     <ConstructorItem
                       ingredient={ingredient}
                       index={idx}

@@ -59,7 +59,7 @@ function IngredientsItem({ ingredient, onClick }) {
 
 IngredientsItem.propTypes = {
   ingredient: PropTypes.object,
-  Onclick: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default IngredientsItem;

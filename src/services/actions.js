@@ -11,8 +11,11 @@ import { apiConfig, parseResponse } from "../components/API/api";
 
 const getIngredients = () => (dispatch) => {
   fetch(`${apiConfig.url}/ingredients`)
-    .then((res) => res.json())
+    .then((res) => parseResponse(res))
     .then((data) => {
+      data.data.forEach((el) => {
+        el.amount = 0;
+      });
       dispatch({
         type: GET_INGREDIENTS,
         data: data.data,
@@ -22,7 +25,6 @@ const getIngredients = () => (dispatch) => {
 };
 
 export const postOrder = (orderInfo, modalHendler) => (dispatch) => {
-  console.log("tt");
   fetch(`${apiConfig.url}/orders`, {
     method: "POST",
     headers: {
@@ -32,13 +34,12 @@ export const postOrder = (orderInfo, modalHendler) => (dispatch) => {
       ingredients: orderInfo,
     }),
   })
-    .then(parseResponse)
+    .then((res) => parseResponse(res))
     .then((json) => {
       dispatch(setOrderNumber(json.order.number));
       modalHendler(true);
       dispatch({ type: RESET_ORDER });
       dispatch({ type: RESET_INGREDIENTS });
-      dispatch(getIngredients());
     })
     .catch((er) => console.log(er));
 };
