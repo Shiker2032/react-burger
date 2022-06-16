@@ -84,9 +84,9 @@ function ConstructorItem({ ingredient, id, index }) {
   );
 }
 
-ConstructorElement.propTypes = {
+ConstructorItem.propTypes = {
   ingredient: PropTypes.object.isRequired,
-  id: PropTypes.number,
+  id: PropTypes.string,
   index: PropTypes.number,
 };
 

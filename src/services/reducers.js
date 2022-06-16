@@ -14,16 +14,17 @@ import {
   SUBTRACT_INGREDIENT_PRICE,
 } from "./types";
 import { GET_INGREDIENTS, SET_CURRENT_INGREDIENT, SET_ORDER } from "./types";
-import { v4 as uuidv4 } from "uuid";
 
 const ingredientsReducer = (state = [{}], action) => {
   switch (action.type) {
     case GET_INGREDIENTS: {
       return [...state, ...action.data];
     }
+
     case RESET_INGREDIENTS: {
-      const arr = state.forEach((el) => {
+      const arr = [...state].map((el) => {
         el.amount = 0;
+        return el;
       });
       return arr;
     }
@@ -62,7 +63,8 @@ const orderReducer = (state = [{ price: 0 }], action) => {
   switch (action.type) {
     case SET_ORDER: {
       const ingredeint = { ...action.ingredient };
-      ingredeint.uid = uuidv4();
+
+      ingredeint.uid = action.uid;
       return [...state, ingredeint];
     }
 

@@ -51,10 +51,11 @@ const setCurrentIngredient = (currentIngredient) => {
   };
 };
 
-const setOrder = (ingredient) => {
+const setOrder = (ingredient, uid) => {
   return {
     type: SET_ORDER,
-    ingredient: {},
+    ingredient: ingredient,
+    uid: uid,
   };
 };
 

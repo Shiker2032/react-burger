@@ -20,6 +20,7 @@ import ConstructorItem from "./ConstructorItem";
 import styles from "./burgerConstructor.module.css";
 
 import { v4 as uuidv4 } from "uuid";
+import { setOrder } from "../../services/actions";
 
 const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();
@@ -41,10 +42,7 @@ const BurgerConstructor = ({ onClick }) => {
 
     {
       if (ingredient.type !== "bun") {
-        dispatch({
-          type: SET_ORDER,
-          ingredient: ingredient,
-        });
+        dispatch(setOrder(ingredient, uuidv4()));
       }
     }
     if (ingredient.type === "bun") {
@@ -98,7 +96,7 @@ const BurgerConstructor = ({ onClick }) => {
             order.map((ingredient, idx) => {
               if (ingredient.price !== 0 && ingredient.type !== "bun") {
                 return (
-                  <li key={uuidv4()}>
+                  <li key={ingredient.uid}>
                     <ConstructorItem
                       ingredient={ingredient}
                       index={idx}
