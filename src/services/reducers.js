@@ -15,18 +15,25 @@ import {
 } from "./types";
 import { GET_INGREDIENTS, SET_CURRENT_INGREDIENT, SET_ORDER } from "./types";
 
-const ingredientsReducer = (state = [{}], action) => {
+const ingredientsInitialState = {
+  ingredients: [],
+};
+
+const ingredientsReducer = (state = ingredientsInitialState, action) => {
   switch (action.type) {
     case GET_INGREDIENTS: {
-      return [...state, ...action.data];
+      return {
+        ...state,
+        ingredients: action.data,
+      };
     }
 
     case RESET_INGREDIENTS: {
-      const arr = [...state].map((el) => {
+      const arr = [...state.ingredients].map((el) => {
         el.amount = 0;
         return el;
       });
-      return arr;
+      return { ...state, ingredients: arr };
     }
 
     case INCREMENT_INGREDIENT: {
@@ -37,10 +44,11 @@ const ingredientsReducer = (state = [{}], action) => {
 
     case SUBTRACT_INGREDIENT_AMOUNT: {
       const ingredient = action.ingredient;
-      const ingredientVar = state.filter((el) => el.name === ingredient.name);
-      ingredientVar.map((el) => {
-        el.amount = el.amount - 1;
-      });
+      state.ingredients
+        .filter((el) => el.name === ingredient.name)
+        .map((el) => {
+          el.amount = el.amount - 1;
+        });
       return state;
     }
     default:
@@ -48,10 +56,17 @@ const ingredientsReducer = (state = [{}], action) => {
   }
 };
 
-const currentIngredientReducer = (state = { price: 0 }, action) => {
+const currentIngredientInitialState = {
+  currentIngredient: { price: 0 },
+};
+
+const currentIngredientReducer = (
+  state = currentIngredientInitialState,
+  action
+) => {
   switch (action.type) {
     case SET_CURRENT_INGREDIENT: {
-      return { ...state, ...action.currentIngredient };
+      return { ...state, currentIngredient: action.currentIngredient };
     }
     default: {
       return state;
@@ -59,51 +74,65 @@ const currentIngredientReducer = (state = { price: 0 }, action) => {
   }
 };
 
-const orderReducer = (state = [{ price: 0 }], action) => {
+const orderInitialState = {
+  order: [{ price: 0 }],
+};
+
+const orderReducer = (state = orderInitialState, action) => {
   switch (action.type) {
     case SET_ORDER: {
       const ingredeint = { ...action.ingredient };
-
       ingredeint.uid = action.uid;
-      return [...state, ingredeint];
+      return { ...state, order: [...state.order, ingredeint] };
     }
 
     case RESET_ORDER: {
-      state = [{ price: 0 }];
+      return (state = orderInitialState);
+    }
+
+    case SET_BUN: {
+      const arr = state.order.filter((el) => el.type !== "bun");
+      const bun = action.ingredient;
+      bun.amount = 1;
+      arr.push(bun);
+      return {
+        ...state,
+        order: arr,
+      };
+    }
+
+    case SUBTRACT_BUN_AMOUNT: {
+      action.bun.amount = 0;
       return state;
     }
 
     case REMOVE_INGREDIENT: {
-      return state.filter((el) => el.uid !== action.ingredient.uid);
-    }
-
-    case SET_BUN: {
-      const arr = state.filter((el) => el.type !== "bun");
-      const bun = action.ingredient;
-      bun.amount = 1;
-      arr.push(bun);
-      return arr;
+      return {
+        ...state,
+        order: state.order.filter((el) => el.uid !== action.ingredient.uid),
+      };
     }
 
     case REORDER_ITEMS: {
-      return [...action.data];
+      return {
+        ...state,
+        order: [...action.data],
+      };
     }
 
-    case SUBTRACT_BUN_AMOUNT: {
-      state.filter((el) => {
-        el.amount = 0;
-      });
-      return [...state];
-    }
     default:
       return state;
   }
 };
 
-const orderNumberReducer = (state = 0, action) => {
+const orderNumberInitialState = {
+  orderNumber: 0,
+};
+
+const orderNumberReducer = (state = orderNumberInitialState, action) => {
   switch (action.type) {
     case SET_ORDER_NUMBER: {
-      return (state = action.orderNumber);
+      return { ...state, orderNumber: action.orderNumber };
     }
     default:
       return state;
@@ -142,11 +171,11 @@ const priceReducer = (state = initialPriceState, action) => {
 };
 
 const rootReducer = combineReducers({
-  ingredients: ingredientsReducer,
-  currentIngredient: currentIngredientReducer,
-  order: orderReducer,
-  orderNumber: orderNumberReducer,
-  price: priceReducer,
+  ingredientsReducer,
+  currentIngredientReducer,
+  orderReducer,
+  orderNumberReducer,
+  priceReducer,
 });
 
 export { rootReducer };

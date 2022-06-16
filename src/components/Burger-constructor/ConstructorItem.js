@@ -16,7 +16,7 @@ import {
 import styles from "./burgerConstructor.module.css";
 
 function ConstructorItem({ ingredient, id, index }) {
-  const order = useSelector((store) => store.order);
+  const order = useSelector((store) => store.orderReducer.order);
   const ref = useRef(null);
   const dispatch = useDispatch();
 

@@ -24,15 +24,17 @@ import { setOrder } from "../../services/actions";
 
 const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();
-  const order = useSelector((store) => store.order);
-  const price = useSelector((store) => store.price);
+  const { order, price } = useSelector((store) => ({
+    order: store.orderReducer.order,
+    price: store.priceReducer,
+  }));
 
   const handleDrop = (ingredient) => {
     if (order.find((el) => el.type === "bun") && ingredient.type === "bun") {
       const previousBun = order.filter((el) => el.type === "bun");
       dispatch({
         type: SUBTRACT_BUN_AMOUNT,
-        bun: previousBun,
+        bun: previousBun[0],
       });
       dispatch({
         type: SET_BUN,

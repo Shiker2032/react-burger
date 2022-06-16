@@ -5,7 +5,10 @@ import IngredientsItem from "./IngredientsItem";
 import styles from "./burgerIngredients.module.css";
 import PropTypes from "prop-types";
 const BurgerIngredients = ({ onClick }) => {
-  const ingredients = useSelector((store) => store.ingredients);
+  const ingredients = useSelector(
+    (store) => store.ingredientsReducer.ingredients
+  );
+
   const tabRefs = {
     bunRef: useRef(null),
     ingredientsRef: useRef(null),

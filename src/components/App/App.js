@@ -18,9 +18,11 @@ import {
 function App(props) {
   const dispatch = useDispatch();
 
-  const { currentIngredient, order, orderNumber } = useSelector(
-    (store) => store
-  );
+  const { currentIngredient, order, orderNumber } = useSelector((store) => ({
+    orderNumber: store.orderNumberReducer.orderNumber,
+    order: store.orderReducer.order,
+    currentIngredient: store.currentIngredientReducer.currentIngredient,
+  }));
 
   const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
     useState(false);
