@@ -74,7 +74,7 @@ const BurgerIngredients = ({ onClick }) => {
   );
 };
 BurgerIngredients.propTypes = {
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

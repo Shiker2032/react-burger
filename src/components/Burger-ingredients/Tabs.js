@@ -77,7 +77,7 @@ function Tabs({ tabRefs }) {
 }
 
 Tabs.propTypes = {
-  tabRefs: PropTypes.object,
+  tabRefs: PropTypes.object.isRequired,
 };
 
 export default Tabs;

@@ -31,13 +31,16 @@ const ingredientsReducer = (state = [{}], action) => {
     case INCREMENT_INGREDIENT: {
       const ingredient = action.ingredient;
       ingredient.amount = ingredient.amount + 1;
-      return [...state, ingredient];
+      return state;
     }
 
     case SUBTRACT_INGREDIENT_AMOUNT: {
       const ingredient = action.ingredient;
-      ingredient.amount = ingredient.amount - 1;
-      return [...state, ingredient];
+      const ingredientVar = state.filter((el) => el.name === ingredient.name);
+      ingredientVar.map((el) => {
+        el.amount = el.amount - 1;
+      });
+      return state;
     }
     default:
       return state;
@@ -77,7 +80,6 @@ const orderReducer = (state = [{ price: 0 }], action) => {
       const bun = action.ingredient;
       bun.amount = 1;
       arr.push(bun);
-      console.log(action);
       return arr;
     }
 

@@ -12,6 +12,7 @@ import {
   SET_BUN,
   SET_ORDER,
   SUBTRACT_BUN_AMOUNT,
+  SUBTRACT_INGREDIENT_AMOUNT,
 } from "../../services/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
@@ -19,7 +20,6 @@ import ConstructorItem from "./ConstructorItem";
 import styles from "./burgerConstructor.module.css";
 
 import { v4 as uuidv4 } from "uuid";
-import { setOrder } from "../../services/actions";
 
 const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();
@@ -29,7 +29,6 @@ const BurgerConstructor = ({ onClick }) => {
   const handleDrop = (ingredient) => {
     if (order.find((el) => el.type === "bun") && ingredient.type === "bun") {
       const previousBun = order.filter((el) => el.type === "bun");
-
       dispatch({
         type: SUBTRACT_BUN_AMOUNT,
         bun: previousBun,
@@ -41,10 +40,7 @@ const BurgerConstructor = ({ onClick }) => {
     }
 
     {
-      if (order.includes(ingredient)) {
-        dispatch({ type: INCREMENT_INGREDIENT, ingredient: ingredient });
-        dispatch(setOrder(ingredient));
-      } else if (ingredient.type !== "bun") {
+      if (ingredient.type !== "bun") {
         dispatch({
           type: SET_ORDER,
           ingredient: ingredient,
@@ -55,6 +51,7 @@ const BurgerConstructor = ({ onClick }) => {
       dispatch({ type: SET_BUN, ingredient });
       dispatch({ type: ADD_BUN_PRICE, price: ingredient.price * 2 });
     } else {
+      dispatch({ type: INCREMENT_INGREDIENT, ingredient: ingredient });
       dispatch({ type: ADD_INGREDIENT_PRICE, price: ingredient.price });
     }
   };
@@ -65,6 +62,7 @@ const BurgerConstructor = ({ onClick }) => {
   });
 
   const handleClose = (ingredient) => {
+    dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
     dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
   };
 
@@ -156,7 +154,7 @@ const BurgerConstructor = ({ onClick }) => {
 };
 
 BurgerConstructor.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default BurgerConstructor;

@@ -50,12 +50,13 @@ function ConstructorItem({ ingredient, id, index }) {
 
   const handleClose = (ingredient) => {
     if (ingredient.amount < 2) {
+      dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
       dispatch({ type: SUBTRACT_INGREDIENT_PRICE, price: ingredient.price });
       dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
-      dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
     } else {
       dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
       dispatch({ type: SUBTRACT_INGREDIENT_PRICE, price: ingredient.price });
+      dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
     }
   };
 
@@ -84,7 +85,7 @@ function ConstructorItem({ ingredient, id, index }) {
 }
 
 ConstructorElement.propTypes = {
-  ingredient: PropTypes.object,
+  ingredient: PropTypes.object.isRequired,
   id: PropTypes.number,
   index: PropTypes.number,
 };

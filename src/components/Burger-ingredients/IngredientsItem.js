@@ -58,8 +58,8 @@ function IngredientsItem({ ingredient, onClick }) {
 }
 
 IngredientsItem.propTypes = {
-  ingredient: PropTypes.object,
-  onClick: PropTypes.func,
+  ingredient: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default IngredientsItem;
