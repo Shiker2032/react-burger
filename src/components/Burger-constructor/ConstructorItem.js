@@ -52,7 +52,7 @@ function ConstructorItem({ ingredient, id, index }) {
     if (ingredient.amount < 2) {
       dispatch({ type: SUBTRACT_INGREDIENT_PRICE, price: ingredient.price });
       dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
-      dispatch({ type: REMOVE_INGREDIENT, id: ingredient._id });
+      dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
     } else {
       dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
       dispatch({ type: SUBTRACT_INGREDIENT_PRICE, price: ingredient.price });

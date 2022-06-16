@@ -54,7 +54,7 @@ const setCurrentIngredient = (currentIngredient) => {
 const setOrder = (ingredient) => {
   return {
     type: SET_ORDER,
-    ingredient: ingredient,
+    ingredient: {},
   };
 };
 

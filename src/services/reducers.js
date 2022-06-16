@@ -14,6 +14,7 @@ import {
   SUBTRACT_INGREDIENT_PRICE,
 } from "./types";
 import { GET_INGREDIENTS, SET_CURRENT_INGREDIENT, SET_ORDER } from "./types";
+import { v4 as uuidv4 } from "uuid";
 
 const ingredientsReducer = (state = [{}], action) => {
   switch (action.type) {
@@ -25,6 +26,18 @@ const ingredientsReducer = (state = [{}], action) => {
         el.amount = 0;
       });
       return arr;
+    }
+
+    case INCREMENT_INGREDIENT: {
+      const ingredient = action.ingredient;
+      ingredient.amount = ingredient.amount + 1;
+      return [...state, ingredient];
+    }
+
+    case SUBTRACT_INGREDIENT_AMOUNT: {
+      const ingredient = action.ingredient;
+      ingredient.amount = ingredient.amount - 1;
+      return [...state, ingredient];
     }
     default:
       return state;
@@ -45,9 +58,9 @@ const currentIngredientReducer = (state = { price: 0 }, action) => {
 const orderReducer = (state = [{ price: 0 }], action) => {
   switch (action.type) {
     case SET_ORDER: {
-      const ingredient = action.ingredient;
-      ingredient.amount = 1;
-      return [...state, ingredient];
+      const ingredeint = { ...action.ingredient };
+      ingredeint.uid = uuidv4();
+      return [...state, ingredeint];
     }
 
     case RESET_ORDER: {
@@ -56,9 +69,7 @@ const orderReducer = (state = [{ price: 0 }], action) => {
     }
 
     case REMOVE_INGREDIENT: {
-      const arr = state.filter((el) => el._id !== action.id);
-
-      return [...arr];
+      return state.filter((el) => el.uid !== action.ingredient.uid);
     }
 
     case SET_BUN: {
@@ -66,23 +77,12 @@ const orderReducer = (state = [{ price: 0 }], action) => {
       const bun = action.ingredient;
       bun.amount = 1;
       arr.push(bun);
+      console.log(action);
       return arr;
     }
 
     case REORDER_ITEMS: {
       return [...action.data];
-    }
-
-    case INCREMENT_INGREDIENT: {
-      const ingredient = action.ingredient;
-      ingredient.amount = ingredient.amount + 1;
-      return [...state, ingredient];
-    }
-
-    case SUBTRACT_INGREDIENT_AMOUNT: {
-      const ingredient = action.ingredient;
-      ingredient.amount = ingredient.amount - 1;
-      return [...state, ingredient];
     }
 
     case SUBTRACT_BUN_AMOUNT: {

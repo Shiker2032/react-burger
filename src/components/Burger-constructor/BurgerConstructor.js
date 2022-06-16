@@ -19,6 +19,7 @@ import ConstructorItem from "./ConstructorItem";
 import styles from "./burgerConstructor.module.css";
 
 import { v4 as uuidv4 } from "uuid";
+import { setOrder } from "../../services/actions";
 
 const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();
@@ -38,17 +39,24 @@ const BurgerConstructor = ({ onClick }) => {
         ingredient: ingredient,
       });
     }
+
     {
-      order.includes(ingredient)
-        ? dispatch({ type: INCREMENT_INGREDIENT, ingredient: ingredient })
-        : dispatch({
-            type: SET_ORDER,
-            ingredient: ingredient,
-          });
+      if (order.includes(ingredient)) {
+        dispatch({ type: INCREMENT_INGREDIENT, ingredient: ingredient });
+        dispatch(setOrder(ingredient));
+      } else if (ingredient.type !== "bun") {
+        dispatch({
+          type: SET_ORDER,
+          ingredient: ingredient,
+        });
+      }
     }
-    ingredient.type === "bun"
-      ? dispatch({ type: ADD_BUN_PRICE, price: ingredient.price * 2 })
-      : dispatch({ type: ADD_INGREDIENT_PRICE, price: ingredient.price });
+    if (ingredient.type === "bun") {
+      dispatch({ type: SET_BUN, ingredient });
+      dispatch({ type: ADD_BUN_PRICE, price: ingredient.price * 2 });
+    } else {
+      dispatch({ type: ADD_INGREDIENT_PRICE, price: ingredient.price });
+    }
   };
 
   const [, dropTarget] = useDrop({
