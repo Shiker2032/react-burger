@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./ingredientDetails.module.css";
 import PropTypesIngredientsData from "../../utils/propTypes";
 
