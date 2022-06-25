@@ -1,0 +1,17 @@
+.login__wrapper {
+  position: absolute;
+  top: 50%; /* position the top  edge of the element at the middle of the parent */
+  left: 50%; /* position the left edge of the element at the middle of the parent */
+
+  transform: translate(-50%, -50%);
+}
+
+.login__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login__link {
+  color: #4c4cff;
+}
