@@ -8,17 +8,25 @@ import { store } from "./services/store";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route path="/login">
+        <Route path="/">
           <Login />
         </Route>
-        <Route path="/">
+        <Route path="/registration">
           <Registration />
+        </Route>
+        <Route path="/forgot-password">
+          <ForgotPassword />
+        </Route>
+        <Route path="/reset-password">
+          <ResetPassword />
         </Route>
       </Switch>
     </Router>
