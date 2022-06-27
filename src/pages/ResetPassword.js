@@ -14,8 +14,8 @@ function ResetPassword(props) {
   return (
     <>
       <Header />
-      <main className={styles.login__wrapper}>
-        <div className={styles.login__body}>
+      <main className={styles.wrapper}>
+        <div className={styles.body}>
           <p className="text text_type_main-medium mb-6">
             Восстановление пароля
           </p>
@@ -37,7 +37,7 @@ function ResetPassword(props) {
           </div>
           <p className="text text_type_main-default text_color_inactive pt-20">
             Вспомнили пароль?
-            <NavLink className={styles.login__link} to="/">
+            <NavLink className={styles.link} to="/">
               Войти
             </NavLink>
           </p>

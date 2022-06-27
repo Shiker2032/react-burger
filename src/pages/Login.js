@@ -16,8 +16,8 @@ function Login(props) {
     <>
       <Header />
 
-      <main className={styles.login__wrapper}>
-        <div className={styles.login__body}>
+      <main className={styles.wrapper}>
+        <div className={styles.body}>
           <p className="text text_type_main-medium mb-6">Вход</p>
           <div className="pb-6">
             <Input
@@ -35,13 +35,13 @@ function Login(props) {
           </div>
           <p className="text text_type_main-default text_color_inactive pt-20">
             Вы — новый пользователь?{" "}
-            <NavLink className={styles.login__link} to="/">
+            <NavLink className={styles.link} to="/">
               зарегистрироваться
             </NavLink>
           </p>
           <p className="text text_type_main-default text_color_inactive">
             Забыли пароль?{" "}
-            <NavLink className={styles.login__link} to="/">
+            <NavLink className={styles.link} to="/">
               Восстановить пароль
             </NavLink>
           </p>
