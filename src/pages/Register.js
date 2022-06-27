@@ -1,4 +1,4 @@
-import styles from "./registration.module.css";
+import styles from "./register.module.css";
 
 import {
   Input,
@@ -6,13 +6,40 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Header from "../components/Header/Header";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useState } from "react";
+import { parseResponse } from "../components/API/api";
 
-function Registration(props) {
+function Register(props) {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailinput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+
+  const history = useHistory();
+
+  const registerClick = () => {
+    register();
+  };
+
+  const register = () => {
+    fetch("https://norma.nomoreparties.space/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: emailInput,
+        password: passwordInput,
+        name: nameInput,
+      }),
+    }).then((res) => {
+      parseResponse(res);
+      console.log(res);
+      if (res.ok) {
+        history.replace({ pathname: "/login" });
+      }
+    });
+  };
   return (
     <>
       <Header />
@@ -36,9 +63,12 @@ function Registration(props) {
               placeholder="E-mail"
             />
           </div>
-          <PasswordInput />
+          <PasswordInput
+            value={passwordInput}
+            onChange={(evt) => setPasswordInput(evt.target.value)}
+          />
           <div className="pt-6">
-            <Button type="primary" size="small ">
+            <Button type="primary" onClick={registerClick} size="small">
               зарегистрироваться
             </Button>
           </div>
@@ -54,4 +84,4 @@ function Registration(props) {
   );
 }
 
-export default Registration;
+export default Register;

@@ -7,7 +7,7 @@ import { store } from "./services/store";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Registration from "./pages/Registration";
+import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
@@ -17,19 +17,19 @@ root.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route path="/login">
+        <Route path="/login" exact={true}>
           <Login />
         </Route>
-        <Route path="/registration">
-          <Registration />
+        <Route path="/register" exact={true}>
+          <Register />
         </Route>
-        <Route path="/">
+        <Route path="/profile" exact={true}>
           <Profile />
         </Route>
-        <Route path="/forgot-password">
+        <Route path="/forgot-password" exact={true}>
           <ForgotPassword />
         </Route>
-        <Route path="/reset-password">
+        <Route path="/reset-password" exact={true}>
           <ResetPassword />
         </Route>
       </Switch>

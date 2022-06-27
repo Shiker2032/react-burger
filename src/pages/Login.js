@@ -15,7 +15,6 @@ function Login(props) {
   return (
     <>
       <Header />
-
       <main className={styles.wrapper}>
         <div className={styles.body}>
           <p className="text text_type_main-medium mb-6">Вход</p>
@@ -27,7 +26,10 @@ function Login(props) {
               placeholder="E-mail"
             />
           </div>
-          <PasswordInput />
+          <PasswordInput
+            value={passwordInput}
+            onChange={(evt) => setPasswordInput(evt.target.value)}
+          />
           <div className="pt-6">
             <Button type="primary" size="small ">
               Войти
@@ -35,13 +37,13 @@ function Login(props) {
           </div>
           <p className="text text_type_main-default text_color_inactive pt-20">
             Вы — новый пользователь?{" "}
-            <NavLink className={styles.link} to="/">
+            <NavLink className={styles.link} to="/register">
               зарегистрироваться
             </NavLink>
           </p>
           <p className="text text_type_main-default text_color_inactive">
             Забыли пароль?{" "}
-            <NavLink className={styles.link} to="/">
+            <NavLink className={styles.link} to="/forgot-password">
               Восстановить пароль
             </NavLink>
           </p>
