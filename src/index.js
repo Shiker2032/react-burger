@@ -17,6 +17,9 @@ root.render(
   <Provider store={store}>
     <Router>
       <Switch>
+        <Route path="/" exact={true}>
+          <App />
+        </Route>
         <Route path="/login" exact={true}>
           <Login />
         </Route>

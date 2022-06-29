@@ -7,7 +7,12 @@ import {
   SET_ORDER,
   SET_ORDER_NUMBER,
 } from "./types";
-import { apiConfig, parseResponse } from "../components/API/api";
+import {
+  apiConfig,
+  getCookie,
+  parseResponse,
+  setCookie,
+} from "../components/API/api";
 
 const getIngredients = () => (dispatch) => {
   fetch(`${apiConfig.url}/ingredients`)
@@ -44,6 +49,35 @@ export const postOrder = (orderInfo, modalHendler) => (dispatch) => {
     .catch((er) => console.log(er));
 };
 
+export const logInUser = (user) => (dispatch) => {
+  fetch("https://norma.nomoreparties.space/api/auth/login", {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify(user),
+  }).then((res) => {
+    let authToken;
+    res.headers.forEach((header) => {
+      parseResponse(res);
+      if (header.indexOf("Bearer") === 0) {
+        authToken = header.split("Bearer")[1];
+      }
+    });
+    if (authToken) {
+      setCookie("token", authToken);
+    }
+    if (res.ok) {
+      dispatch(setUser(user));
+    }
+  });
+};
+
 const setCurrentIngredient = (currentIngredient) => {
   return {
     type: SET_CURRENT_INGREDIENT,
@@ -74,10 +108,18 @@ const resetItem = (dragIndex, hoverIndex) => {
   };
 };
 
+const setUser = (user) => {
+  return {
+    type: "SET_USER",
+    user: user,
+  };
+};
+
 export {
   getIngredients,
   setCurrentIngredient,
   setOrder,
   setOrderNumber,
   resetItem,
+  setUser,
 };

@@ -8,8 +8,6 @@ import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 
 function IngredientsItem({ ingredient, onClick }) {
-  const constructorElement = document.querySelector("#constructor");
-
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: { ingredient },
@@ -22,8 +20,9 @@ function IngredientsItem({ ingredient, onClick }) {
 
   useEffect(() => {
     const outline = isDragging ? "3px solid green" : "0px";
-    constructorElement.style.outline = outline;
+    // constructorElement.style.outline = outline;
   }, [isDragging]);
+  // const constructorElement = document.querySelector("#constructor");
 
   return (
     <li style={{ cursor: "grab" }} className="pl-4 pr-2 pb-10">

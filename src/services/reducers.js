@@ -170,12 +170,32 @@ const priceReducer = (state = initialPriceState, action) => {
   }
 };
 
+const initialAuthState = {
+  user: null,
+  isAuthenticated: false,
+};
+const authReducer = (state = initialAuthState, action) => {
+  switch (action.type) {
+    case "SET_USER": {
+      return {
+        ...state,
+        user: action.user,
+        isAuthenticated: true,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 const rootReducer = combineReducers({
   ingredientsReducer,
   currentIngredientReducer,
   orderReducer,
   orderNumberReducer,
   priceReducer,
+  authReducer,
 });
 
 export { rootReducer };

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useHistory } from "react-router-dom";
 import styles from "./app.module.css";
 import Header from "../Header/Header";
 import Modal from "../Modal/Modal";
@@ -13,10 +14,15 @@ import {
   getIngredients,
   postOrder,
   setCurrentIngredient,
+  setUser,
 } from "../../services/actions";
 
 function App(props) {
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { currentIngredient, order, orderNumber } = useSelector((store) => ({
     orderNumber: store.orderNumberReducer.orderNumber,
@@ -49,13 +55,15 @@ function App(props) {
     console.log(orderInfo);
   };
 
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
+  const logOutClick = () => {
+    dispatch(setUser(null));
+    history.replace({ pathname: "/login" });
+  };
 
   return (
     <>
       <Header />
+      <button onClick={logOutClick}>Выйти</button>
       <DndProvider backend={HTML5Backend}>
         <main className={styles.app__flexComponents}>
           <BurgerIngredients onClick={handleIngredientClick} />
