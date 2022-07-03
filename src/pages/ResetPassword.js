@@ -16,28 +16,6 @@ function ResetPassword(props) {
 
   const history = useHistory();
 
-  // const resetPasswordClick = () => {
-  //   fetch(`https://norma.nomoreparties.space/api/password-reset/reset`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "appliaction/json",
-  //       Authorization: `Bearer ${codeInput}`,
-  //     },
-  //     body: JSON.stringify({
-  //       password: passwordInput,
-  //       token: codeInput,
-  //     }),
-  //   }).then((res) => {
-  //     parseResponse(res);
-  //     console.log(res);
-  //     if (res.ok) {
-  //       history.replace({
-  //         pathname: "/login",
-  //       });
-  //     }
-  //   });
-  // };
-
   const resetPasswordClick = () => {
     return fetch(`https://norma.nomoreparties.space/api/password-reset/reset`, {
       headers: {

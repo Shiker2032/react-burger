@@ -34,7 +34,6 @@ function Register(props) {
       }),
     }).then((res) => {
       parseResponse(res);
-      console.log(res);
       if (res.ok) {
         history.replace({ pathname: "/login" });
       }

@@ -6,6 +6,8 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { NavLink } from "react-router-dom";
+
 const AppHeader = () => {
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
@@ -23,12 +25,13 @@ const AppHeader = () => {
         <a className={styles.header__logo}>
           <Logo />
         </a>
-        <a className={`${styles.header__menuItemLink} p-5`} href="#">
+
+        <NavLink to="/profile" className={`${styles.header__menuItemLink} p-5`}>
           <ProfileIcon type="secondary" />
           <p className="text text_type_main-default text_color_inactive ml-2">
             Личный кабинет
           </p>
-        </a>
+        </NavLink>
       </nav>
     </header>
   );

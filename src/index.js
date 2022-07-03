@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,9 +27,9 @@ root.render(
         <Route path="/register" exact={true}>
           <Register />
         </Route>
-        <Route path="/profile" exact={true}>
+        <ProtectedRoute path="/profile" exact={true}>
           <Profile />
-        </Route>
+        </ProtectedRoute>
         <Route path="/forgot-password" exact={true}>
           <ForgotPassword />
         </Route>

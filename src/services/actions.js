@@ -9,6 +9,7 @@ import {
 } from "./types";
 import {
   apiConfig,
+  deleteCookie,
   getCookie,
   parseResponse,
   setCookie,
@@ -52,28 +53,59 @@ export const postOrder = (orderInfo, modalHendler) => (dispatch) => {
 export const logInUser = (user) => (dispatch) => {
   fetch("https://norma.nomoreparties.space/api/auth/login", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  }).then((res) => {
+    if (res.ok) {
+      res.json().then((data) => {
+        const authToken = data.accessToken.split("Bearer")[1];
+        const refreshToken = data.refreshToken;
+        dispatch(setUser(data.user, true));
+        if (authToken) {
+          setCookie("token", authToken);
+          localStorage.setItem("refreshToken", refreshToken);
+        }
+      });
+    }
+  });
+};
+
+export const logOutUser = (refreshToken) => (dispatch) => {
+  fetch("https://norma.nomoreparties.space/api/auth/logout", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ token: `${refreshToken}` }),
+  }).then((res) => {
+    parseResponse(res);
+    if (res.ok) {
+      dispatch({ type: "RESET_USER" });
+      deleteCookie("token");
+    }
+  });
+};
+
+export const patchUser = (inputData) => (dispatch) => {
+  fetch("https://norma.nomoreparties.space/api/auth/user", {
+    method: "PATCH",
     mode: "cors",
     cache: "no-cache",
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer" + getCookie("token"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-    body: JSON.stringify(user),
+    body: JSON.stringify(inputData),
   }).then((res) => {
-    let authToken;
-    res.headers.forEach((header) => {
-      parseResponse(res);
-      if (header.indexOf("Bearer") === 0) {
-        authToken = header.split("Bearer")[1];
-      }
-    });
-    if (authToken) {
-      setCookie("token", authToken);
-    }
     if (res.ok) {
-      dispatch(setUser(user));
+      res.json().then((data) => {
+        setUser(data.user, true);
+      });
     }
   });
 };
@@ -108,10 +140,11 @@ const resetItem = (dragIndex, hoverIndex) => {
   };
 };
 
-const setUser = (user) => {
+const setUser = (user, authenticated) => {
   return {
     type: "SET_USER",
     user: user,
+    authenticated: authenticated,
   };
 };
 

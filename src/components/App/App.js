@@ -12,10 +12,12 @@ import OrderDetails from "../Order-details/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {
   getIngredients,
+  logOutUser,
   postOrder,
   setCurrentIngredient,
   setUser,
 } from "../../services/actions";
+import { deleteCookie } from "../API/api";
 
 function App(props) {
   useEffect(() => {
@@ -52,11 +54,13 @@ function App(props) {
       .map((ingredients) => ingredients._id)
       .filter((el) => el !== undefined);
     dispatch(postOrder(orderInfo, setOrderDetailsOpened));
-    console.log(orderInfo);
   };
 
   const logOutClick = () => {
     dispatch(setUser(null));
+    dispatch(logOutUser(localStorage.getItem("refreshToken")));
+    deleteCookie("token");
+    localStorage.clear();
     history.replace({ pathname: "/login" });
   };
 

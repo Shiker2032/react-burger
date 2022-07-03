@@ -180,8 +180,11 @@ const authReducer = (state = initialAuthState, action) => {
       return {
         ...state,
         user: action.user,
-        isAuthenticated: true,
+        isAuthenticated: action.authenticated,
       };
+    }
+    case "RESET_USER": {
+      state = initialAuthState;
     }
     default: {
       return state;

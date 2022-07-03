@@ -6,12 +6,31 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Header from "../components/Header/Header";
-import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { patchUser } from "../services/actions";
+import { getCookie } from "../components/API/api";
 
 function Profile(props) {
   const [nameInput, setNameInput] = useState("");
-  const [loginInput, setLoginIput] = useState("");
+  const [emailInput, setemailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+
+  const auth = useSelector((store) => store.authReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setNameInput(auth.user.name);
+    setemailInput(auth.user.email);
+  });
+
+  const confirmChangesClick = () => {
+    let inputData = {
+      name: nameInput ? nameInput : auth.user.name,
+      email: emailInput ? emailInput : auth.user.email,
+    };
+    dispatch(patchUser(inputData));
+  };
   return (
     <>
       <Header />
@@ -45,13 +64,17 @@ function Profile(props) {
           <div className="pb-6">
             <Input
               type="text"
-              onChange={(e) => setLoginIput(e.target.value)}
-              value={loginInput}
-              placeholder="Логин"
+              onChange={(e) => setemailInput(e.target.value)}
+              value={emailInput}
+              placeholder="Email"
             />
           </div>
-          <PasswordInput />
+          <PasswordInput
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+          />
         </div>
+        <Button onClick={confirmChangesClick}>применить</Button>
       </main>
     </>
   );

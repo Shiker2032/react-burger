@@ -12,8 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logInUser, setUser } from "../services/actions";
 
 function Login(props) {
-  const [emailInput, setEmailinput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const [emailInput, setEmailinput] = useState("vladislav.begunov@mail.ru");
+  const [passwordInput, setPasswordInput] = useState("qwer123");
 
   const history = useHistory();
   const auth = useSelector((store) => store.authReducer);
@@ -69,3 +69,9 @@ function Login(props) {
 }
 
 export default Login;
+
+// {success: true, user: {email: "vladislav.begunov@mail.ru", name: "Vlad"},…}
+// accessToken: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzE2M2Q1NDJkMzRhMDAxYzI3M2NkNiIsImlhdCI6MTY1Njg0MTE3MywiZXhwIjoxNjU2ODQyMzczfQ.sam_JnrUhMu8Yt4-E-GGPRY8aqplA2HMUnWHZ0Na5Xk"
+// refreshToken: "14d808c6df9944600db6aea9d76c023060a6fc41ef65a3e8fc3577573c8fea400af844613881413c"
+// success: true
+// user: {email: "vladislav.begunov@mail.ru", name: "Vlad"}
