@@ -7,6 +7,8 @@ import {
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 
+import { Link, useLocation } from "react-router-dom";
+
 function IngredientsItem({ ingredient, onClick }) {
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
@@ -34,11 +36,13 @@ function IngredientsItem({ ingredient, onClick }) {
           {ingredient.amount > 0 && (
             <Counter count={ingredient.amount} size="default" />
           )}
-          <img
-            ref={dragRef}
-            src={ingredient.image}
-            style={{ opacity: opacity }}
-          />
+          <Link to="location">
+            <img
+              ref={dragRef}
+              src={ingredient.image}
+              style={{ opacity: opacity }}
+            />
+          </Link>
           <div className={styles.burgerIngredients__cardPrice}>
             <p className="text text_type_digits-default pt-1">
               {ingredient.price}

@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import Ingredient from "./pages/Ingredient";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -35,6 +36,9 @@ root.render(
         </Route>
         <Route path="/reset-password" exact={true}>
           <ResetPassword />
+        </Route>
+        <Route path="/ingredients/:id" exact>
+          <Ingredient />
         </Route>
       </Switch>
     </Router>

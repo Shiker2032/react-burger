@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useHistory } from "react-router-dom";
+
+import { useHistory, Link, Route, Switch, useLocation } from "react-router-dom";
+
 import styles from "./app.module.css";
 import Header from "../Header/Header";
 import Modal from "../Modal/Modal";
@@ -18,6 +20,7 @@ import {
   setUser,
 } from "../../services/actions";
 import { deleteCookie } from "../API/api";
+import Ingredient from "../../pages/Ingredient";
 
 function App(props) {
   useEffect(() => {
@@ -25,6 +28,7 @@ function App(props) {
   }, []);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
   const { currentIngredient, order, orderNumber } = useSelector((store) => ({
     orderNumber: store.orderNumberReducer.orderNumber,
@@ -37,8 +41,11 @@ function App(props) {
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
 
   const handleIngredientClick = (ingredient) => {
-    setIsIngredientsDetailsOpened(true);
     dispatch(setCurrentIngredient(ingredient));
+    history.replace({
+      pathname: `/ingredients/${ingredient._id}`,
+      state: location,
+    });
   };
 
   const handleCloseIngredientModal = () => {
@@ -67,6 +74,7 @@ function App(props) {
   return (
     <>
       <Header />
+
       <button onClick={logOutClick}>Выйти</button>
       <DndProvider backend={HTML5Backend}>
         <main className={styles.app__flexComponents}>
