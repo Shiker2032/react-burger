@@ -173,6 +173,7 @@ const priceReducer = (state = initialPriceState, action) => {
 const initialAuthState = {
   user: null,
   isAuthenticated: false,
+  requestAttempt: 0,
 };
 const authReducer = (state = initialAuthState, action) => {
   switch (action.type) {

@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useParams, useLocation } from "react-router-dom";
+import IngredientDetails from "../components/Ingredient-details/IngredientDetails";
 
-import IngredientDetails from "../components/IngredientDetails/IngredientDetails";
 import { getIngredients, logInUser } from "../services/actions";
 
 function Ingredient(props) {

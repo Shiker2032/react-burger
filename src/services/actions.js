@@ -72,6 +72,24 @@ export const logInUser = (user) => (dispatch) => {
   });
 };
 
+export const refreshUserAPI = (refreshToken) => (dispatch) => {
+  fetch("https://norma.nomoreparties.space/api/auth/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token: `${refreshToken}` }),
+  }).then((res) => {
+    res.json().then((data) => {
+      const token = data.accessToken;
+      const refreshToken = data.refreshToken;
+
+      setCookie("token", token);
+      localStorage.setItem("refreshToken", refreshToken);
+    });
+  });
+};
+
 export const logOutUser = (refreshToken) => (dispatch) => {
   fetch("https://norma.nomoreparties.space/api/auth/logout", {
     method: "POST",
@@ -84,6 +102,9 @@ export const logOutUser = (refreshToken) => (dispatch) => {
     if (res.ok) {
       dispatch({ type: "RESET_USER" });
       deleteCookie("token");
+    } else {
+      refreshUserAPI(localStorage.refreshToken());
+      console.log("try again");
     }
   });
 };
@@ -106,6 +127,8 @@ export const patchUser = (inputData) => (dispatch) => {
       res.json().then((data) => {
         setUser(data.user, true);
       });
+    } else {
+      dispatch(refreshUserAPI(localStorage.refreshToken));
     }
   });
 };

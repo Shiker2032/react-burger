@@ -29,7 +29,7 @@ function Profile(props) {
       name: nameInput ? nameInput : auth.user.name,
       email: emailInput ? emailInput : auth.user.email,
     };
-    dispatch(patchUser(inputData));
+    dispatch(patchUser(inputData, auth));
   };
   return (
     <>

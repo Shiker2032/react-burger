@@ -4,8 +4,6 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useHistory, useLocation } from "react-router-dom";
-
-import IngredientDetails from "../components/IngredientDetails/IngredientDetails";
 import Modal from "../components/Modal/Modal";
 import OrderDetails from "../components/Order-details/OrderDetails";
 
@@ -21,6 +19,7 @@ import {
   getIngredients,
 } from "../services/actions";
 import { deleteCookie } from "../components/API/api";
+import IngredientDetails from "../components/Ingredient-details/IngredientDetails";
 
 function Constructor(props) {
   useEffect(() => {
