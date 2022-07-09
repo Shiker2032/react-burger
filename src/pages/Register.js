@@ -67,13 +67,13 @@ function Register(props) {
             onChange={(evt) => setPasswordInput(evt.target.value)}
           />
           <div className="pt-6">
-            <Button type="primary" onClick={registerClick} size="small">
+            <Button type="primary" onClick={registerClick} size="medium">
               зарегистрироваться
             </Button>
           </div>
           <p className="text text_type_main-default text_color_inactive pt-20">
             Уже зарегистрированы?
-            <NavLink className={styles.link} to="/">
+            <NavLink className={styles.link} to="/login">
               Войти
             </NavLink>
           </p>

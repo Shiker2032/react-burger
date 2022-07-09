@@ -3,7 +3,6 @@ import { Redirect, Route } from "react-router-dom";
 
 export function ProtectedRoute({ children, ...rest }) {
   const auth = useSelector((store) => store.authReducer);
-  console.log(auth);
   return (
     <Route
       {...rest}

@@ -35,7 +35,7 @@ function ForgotPassword(props) {
       <Header />
       <main className={styles.wrapper}>
         <div className={styles.body}>
-          <p className="text text_type_main-medium mb-6">
+          <p className="text text_type_main-default mb-6">
             Восстановление пароля
           </p>
           <div className="pb-6">
@@ -47,13 +47,13 @@ function ForgotPassword(props) {
             />
           </div>
           <div>
-            <Button type="primary" onClick={resetPasswordClick} size="small ">
+            <Button type="primary" onClick={resetPasswordClick} size="medium">
               Восстановить
             </Button>
           </div>
           <p className="text text_type_main-default text_color_inactive pt-20">
             Вспомнили пароль?
-            <NavLink className={styles.link} to="/">
+            <NavLink className={styles.link} to="/login">
               Войти
             </NavLink>
           </p>

@@ -193,6 +193,25 @@ const authReducer = (state = initialAuthState, action) => {
   }
 };
 
+const initialActiveState = {
+  constructor: false,
+  orderFeed: false,
+  profile: false,
+};
+
+const activeReducer = (state = initialActiveState, action) => {
+  switch (action.type) {
+    case "SET_TAB_STATE": {
+      return { ...state, [action.name]: true };
+    }
+    case "RESET_TAB_STATE": {
+      return (state = initialActiveState);
+    }
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   ingredientsReducer,
   currentIngredientReducer,
@@ -200,6 +219,7 @@ const rootReducer = combineReducers({
   orderNumberReducer,
   priceReducer,
   authReducer,
+  activeReducer,
 });
 
 export { rootReducer };

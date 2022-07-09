@@ -4,34 +4,68 @@ import {
   BurgerIcon,
   ListIcon,
   ProfileIcon,
+  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, Link, useLocation, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 const AppHeader = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [constructorIsActive, orderFeedIsActive, profileIsActive] = useSelector(
+    (store) => [
+      store.activeReducer.constructor,
+      store.activeReducer.orderFeed,
+      store.activeReducer.profile,
+    ]
+  );
+
+  useEffect(() => {
+    console.log(constructorIsActive);
+  }, [constructorIsActive]);
+
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={styles.header__nav}>
-        <a className={`${styles.header__menuItemLink} p-5`} href="#">
-          <BurgerIcon type="primary" />
-          <p className="text text_type_main-default ml-2">Конструктор</p>
-        </a>
-        <a className={`${styles.header__menuItemLink} p-5`} href="#">
+        <Link to="/" className={`${styles.header__menuItemLink} p-5`} href="#">
+          <BurgerIcon type={constructorIsActive ? "primary" : "secondary"} />
+          <p
+            className={`text text_type_main-default ${
+              constructorIsActive ? "" : "text_color_inactive"
+            } ml-2`}
+          >
+            Констркутор
+          </p>
+        </Link>
+        <Link to="/" className={`${styles.header__menuItemLink} p-5`} href="#">
           <ListIcon type="secondary" />
           <p className="text text_type_main-default text_color_inactive ml-2">
             Лента заказов
           </p>
-        </a>
-        <a className={styles.header__logo}>
+        </Link>
+        <div className={styles.header__logo}>
           <Logo />
-        </a>
+        </div>
 
-        <NavLink to="/profile" className={`${styles.header__menuItemLink} p-5`}>
-          <ProfileIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive ml-2">
+        <a
+          onClick={() => {
+            history.push({ pathname: "/profile" });
+          }}
+          to="/profile"
+          className={`${styles.header__menuItemLink} p-5`}
+        >
+          <ProfileIcon type={profileIsActive ? "primary" : "secondary"} />
+          <p
+            className={`text text_type_main-default ${
+              profileIsActive ? "" : "text_color_inactive"
+            } ml-2`}
+          >
             Личный кабинет
           </p>
-        </NavLink>
+        </a>
       </nav>
     </header>
   );

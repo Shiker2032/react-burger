@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Header from "../components/Header/Header";
 import { NavLink, useHistory, Redirect } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logInUser, setUser } from "../services/actions";
 
@@ -22,6 +22,10 @@ function Login(props) {
   const loginClick = () => {
     dispatch(logInUser({ email: emailInput, password: passwordInput }));
   };
+
+  useEffect(() => {
+    dispatch({ type: "RESET_TAB_STATE" });
+  }, []);
 
   if (auth.isAuthenticated) {
     return <Redirect to="/" />;
@@ -50,7 +54,7 @@ function Login(props) {
               Войти
             </Button>
           </div>
-          <p className="text text_type_main-default text_color_inactive pt-20">
+          <p className="text text_type_main-default text_color_inactive pt-20 pb-4">
             Вы — новый пользователь?
             <NavLink className={styles.link} to="/register">
               зарегистрироваться

@@ -19,11 +19,16 @@ import {
   getIngredients,
 } from "../services/actions";
 import { deleteCookie } from "../components/API/api";
-import IngredientDetails from "../components/Ingredient-details/IngredientDetails";
+import IngredientDetails from "./IngredientDetails";
 
 function Constructor(props) {
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch({ type: "RESET_TAB_STATE" });
+    dispatch({
+      type: "SET_TAB_STATE",
+      name: "constructor",
+    });
   }, []);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -62,18 +67,9 @@ function Constructor(props) {
     dispatch(postOrder(orderInfo, setOrderDetailsOpened));
   };
 
-  const logOutClick = () => {
-    dispatch(setUser(null));
-    dispatch(logOutUser(localStorage.getItem("refreshToken")));
-    deleteCookie("token");
-    localStorage.clear();
-    history.replace({ pathname: "/login" });
-  };
-
   return (
     <>
       <Header />
-      <button onClick={logOutClick}>Выйти</button>
       <DndProvider backend={HTML5Backend}>
         <main className={styles.flexComponents}>
           <BurgerIngredients onClick={handleIngredientClick} />

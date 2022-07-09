@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import Constructor from "../../pages/Constructor";
 import ForgotPassword from "../../pages/ForgotPassword";
-import Ingredient from "../../pages/Ingredient";
+import Ingredient from "../../pages/IngredientDetails";
 import Login from "../../pages/Login";
 import Profile from "../../pages/Profile";
 import Register from "../../pages/Register";
@@ -12,6 +12,8 @@ import ResetPassword from "../../pages/ResetPassword";
 import { refreshUserAPI } from "../../services/actions";
 import Modal from "../Modal/Modal";
 import { ProtectedRoute } from "../ProtectedRoute";
+
+import Header from "../Header/Header";
 
 function App(props) {
   const location = useLocation();
@@ -45,7 +47,15 @@ function App(props) {
         <Route path="/reset-password" exact={true}>
           <ResetPassword />
         </Route>
-        <Route path="/ingredients/:id" children={<Ingredient />} />
+        <Route
+          path="/ingredients/:id"
+          children={
+            <>
+              <Header />
+              <Ingredient />
+            </>
+          }
+        />
       </Switch>
       {background && (
         <Route
