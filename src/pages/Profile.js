@@ -8,25 +8,26 @@ import {
 import Header from "../components/Header/Header";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { logOutUser, patchUser, setUser } from "../services/actions";
-import { deleteCookie, getCookie } from "../components/API/api";
+import { getCookie } from "../components/API/api";
+import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 
 function Profile(props) {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setemailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
+  const [profileIsActive, setProfileIsActive] = useState(false);
   const [applyVisible, setApplyVisible] = useState(false);
 
   const auth = useSelector((store) => store.authReducer);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   useEffect(() => {
     setDefaultInput();
-    dispatch({ type: "RESET_TAB_STATE" });
-    dispatch({ type: "SET_TAB_STATE", name: "profile" });
+    dispatch({ type: RESET_TAB_STATE });
+    dispatch({ type: SET_TAB_STATE, name: "profile" });
+    setProfileIsActive(true);
   }, []);
 
   const setDefaultInput = () => {
@@ -78,17 +79,23 @@ function Profile(props) {
   return (
     <>
       <Header />
-      <Button onClick={logOutClick}>Выйти</Button>
-
       <main className={styles.wrapper}>
         <div className="pr-15">
-          <p className="text text_type_main-medium text_color_inactive pb-6">
+          <p
+            className={`text text_type_main-medium ${
+              !profileIsActive ? "text_color_inactive" : ""
+            }  pb-6`}
+          >
             Профиль
           </p>
           <p className="text text_type_main-medium text_color_inactive pb-6">
             История заказов
           </p>
-          <p className="text text_type_main-medium text_color_inactive pb-20">
+          <p
+            style={{ cursor: "pointer" }}
+            onClick={logOutClick}
+            className="text text_type_main-medium text_color_inactive pb-20"
+          >
             Выход
           </p>
           <p
@@ -110,7 +117,7 @@ function Profile(props) {
           <div className="pb-6">
             <Input
               type="text"
-              onChange={(e) => setemailInput(e.target.value)}
+              onChange={(e) => handleInput(e, setemailInput)}
               value={emailInput}
               placeholder="Email"
             />
@@ -119,13 +126,13 @@ function Profile(props) {
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
           />
+          {applyVisible && (
+            <div className={styles.controls}>
+              <Button onClick={confirmChangesClick}>применить</Button>
+              <Button onClick={setDefaultInput}>Отмена</Button>
+            </div>
+          )}
         </div>
-        {applyVisible && (
-          <div>
-            <Button onClick={confirmChangesClick}>применить</Button>
-            <Button onClick={setDefaultInput}>Отмена</Button>
-          </div>
-        )}
       </main>
     </>
   );

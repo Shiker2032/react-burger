@@ -9,7 +9,7 @@ import Login from "../../pages/Login";
 import Profile from "../../pages/Profile";
 import Register from "../../pages/Register";
 import ResetPassword from "../../pages/ResetPassword";
-import { checkUserAPI, refreshUserAPI } from "../../services/actions";
+import { checkUserAPI, refreshUser } from "../../services/actions";
 import Modal from "../Modal/Modal";
 import { ProtectedRoute } from "../ProtectedRoute";
 

@@ -1,8 +1,5 @@
-import { createContext, useContext, useState } from "react";
-
 const apiConfig = {
-  url: "https://norma.nomoreparties.space/api", //ссылка
-  headers: {},
+  url: "https://norma.nomoreparties.space/api",
 };
 
 const parseResponse = (res) => {
@@ -11,6 +8,11 @@ const parseResponse = (res) => {
   } else {
     return Promise.reject(res.status);
   }
+};
+
+export const checkResponse = async (res) => {
+  const data = await res.json();
+  return res.ok ? data : Promise.reject(data.message);
 };
 
 export function setCookie(name, value, props) {

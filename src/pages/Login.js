@@ -17,8 +17,8 @@ import {
 } from "../services/actions";
 
 function Login(props) {
-  const [emailInput, setEmailinput] = useState("vladislav.begunov@mail.ru");
-  const [passwordInput, setPasswordInput] = useState("qwer123");
+  const [emailInput, setEmailinput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
 
   const history = useHistory();
   const auth = useSelector((store) => store.authReducer);

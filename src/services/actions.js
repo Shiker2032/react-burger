@@ -3,31 +3,55 @@ import {
   RESET_INGREDIENT,
   RESET_INGREDIENTS,
   RESET_ORDER,
+  RESET_USER,
   SET_CURRENT_INGREDIENT,
   SET_ORDER,
   SET_ORDER_NUMBER,
+  SET_USER,
 } from "./types";
 import {
   apiConfig,
   deleteCookie,
-  getCookie,
   parseResponse,
   setCookie,
 } from "../components/API/api";
 
-const getIngredients = () => (dispatch) => {
-  fetch(`${apiConfig.url}/ingredients`)
-    .then((res) => parseResponse(res))
-    .then((data) => {
-      data.data.forEach((el) => {
-        el.amount = 0;
-      });
-      dispatch({
-        type: GET_INGREDIENTS,
-        data: data.data,
-      });
-    })
-    .catch((er) => console.log(er));
+import { checkResponse } from "../components/API/api";
+
+const fetchWithRefresh = async (url, options) => {
+  try {
+    const res = await fetch(url, options);
+    const data = await checkResponse(res);
+
+    return data;
+  } catch (err) {
+    if (err === "jwt expired") {
+      const refreshRes = await refreshUser(localStorage.refreshToken);
+      const refreshData = await checkResponse(refreshRes);
+
+      setCookie("token", refreshData.accessToken);
+      localStorage.setItem("refreshToken", refreshData.refreshToken);
+      const res = await fetch(url, options);
+      const data = checkResponse(res);
+      return data;
+    }
+  }
+};
+
+const getIngredients = (order) => async (dispatch) => {
+  const res = await fetch(`${apiConfig.url}/ingredients`);
+  const data = await res.json();
+  const ingredientsArr = data.data;
+
+  ingredientsArr.forEach((ingredientEl) => {
+    order.forEach((orderEl) => {
+      ingredientEl.amount = 0;
+      if (orderEl._id === ingredientEl._id) {
+        ingredientEl.amount = orderEl.amount;
+      }
+    });
+  });
+  dispatch({ type: GET_INGREDIENTS, data: ingredientsArr });
 };
 
 export const postOrder = (orderInfo, modalHendler) => (dispatch) => {
@@ -50,31 +74,6 @@ export const postOrder = (orderInfo, modalHendler) => (dispatch) => {
     .catch((er) => console.log(er));
 };
 
-const checkResponse = async (res) => {
-  const data = await res.json();
-  return res.ok ? data : Promise.reject(data.message);
-};
-
-const fetchWithRefresh = async (url, options) => {
-  try {
-    const res = await fetch(url, options);
-    const data = await checkResponse(res);
-    return data;
-  } catch (err) {
-    if (err === "jwt expired") {
-      const refreshRes = await refreshUserAPI(localStorage.refreshToken);
-      const refreshData = await checkResponse(refreshRes);
-
-      setCookie("token", refreshData.accessToken);
-      localStorage.setItem("refreshToken", refreshData.refreshToken);
-
-      const res = await fetch(url, options);
-      const data = await checkResponse(res);
-      return data;
-    }
-  }
-};
-
 export const logInUser = (url, options) => async (dispatch) => {
   const data = await fetchWithRefresh(url, options);
   const authToken = data.accessToken.split("Bearer")[1];
@@ -92,8 +91,8 @@ export const patchUser = (url, options) => async (dispatch) => {
   dispatch(setUser(data.user));
 };
 
-export const refreshUserAPI = async (refreshToken) => {
-  const res = await fetch("https://norma.nomoreparties.space/api/auth/token", {
+export const refreshUser = async (refreshToken) => {
+  const res = await fetch(`${apiConfig.url}/auth/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -113,10 +112,15 @@ export const checkUserAPI = (url, options) => async (dispatch) => {
 export const logOutUser = (url, options) => async (dispatch) => {
   const message = await fetchWithRefresh(url, options);
   if (message.success) {
-    dispatch({ type: "RESET_USER" });
+    dispatch({ type: RESET_USER });
     deleteCookie("token");
     localStorage.removeItem("refreshToken");
   }
+};
+
+export const resetPassword = (url, options) => async (dispatch) => {
+  const res = await fetch(url, options);
+  return res;
 };
 
 const setCurrentIngredient = (currentIngredient) => {
@@ -151,7 +155,7 @@ const resetItem = (dragIndex, hoverIndex) => {
 
 const setUser = (user, authenticated) => {
   return {
-    type: "SET_USER",
+    type: SET_USER,
     user: user,
     authenticated: authenticated,
   };

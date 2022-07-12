@@ -12,28 +12,14 @@ import BurgerIngredients from "../components/Burger-ingredients/BurgerIngredient
 import Header from "../components/Header/Header";
 import styles from "./constructor.module.css";
 import {
-  logOutUser,
   postOrder,
   setCurrentIngredient,
-  setUser,
   getIngredients,
 } from "../services/actions";
-import { deleteCookie } from "../components/API/api";
 import IngredientDetails from "./IngredientDetails";
+import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 
 function Constructor(props) {
-  useEffect(() => {
-    dispatch(getIngredients());
-    dispatch({ type: "RESET_TAB_STATE" });
-    dispatch({
-      type: "SET_TAB_STATE",
-      name: "constructor",
-    });
-  }, []);
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
-
   const { currentIngredient, order, orderNumber, user } = useSelector(
     (store) => ({
       orderNumber: store.orderNumberReducer.orderNumber,
@@ -42,6 +28,19 @@ function Constructor(props) {
       user: store.authReducer.user,
     })
   );
+
+  useEffect(() => {
+    dispatch({ type: RESET_TAB_STATE });
+    dispatch({
+      type: SET_TAB_STATE,
+      name: "constructor",
+    });
+    dispatch(getIngredients(order));
+  }, []);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
 
   const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
     useState(false);

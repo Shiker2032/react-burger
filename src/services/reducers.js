@@ -7,8 +7,12 @@ import {
   REORDER_ITEMS,
   RESET_INGREDIENTS,
   RESET_ORDER,
+  RESET_TAB_STATE,
+  RESET_USER,
   SET_BUN,
   SET_ORDER_NUMBER,
+  SET_TAB_STATE,
+  SET_USER,
   SUBTRACT_BUN_AMOUNT,
   SUBTRACT_INGREDIENT_AMOUNT,
   SUBTRACT_INGREDIENT_PRICE,
@@ -177,14 +181,14 @@ const initialAuthState = {
 };
 const authReducer = (state = initialAuthState, action) => {
   switch (action.type) {
-    case "SET_USER": {
+    case SET_USER: {
       return {
         ...state,
         user: action.user,
         isAuthenticated: action.authenticated,
       };
     }
-    case "RESET_USER": {
+    case RESET_USER: {
       state = initialAuthState;
     }
     default: {
@@ -201,10 +205,10 @@ const initialActiveState = {
 
 const activeReducer = (state = initialActiveState, action) => {
   switch (action.type) {
-    case "SET_TAB_STATE": {
+    case SET_TAB_STATE: {
       return { ...state, [action.name]: true };
     }
-    case "RESET_TAB_STATE": {
+    case RESET_TAB_STATE: {
       return (state = initialActiveState);
     }
     default:

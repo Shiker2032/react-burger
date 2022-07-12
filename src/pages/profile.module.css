@@ -16,5 +16,20 @@
 
 .link {
   color: #4c4cff;
-  margin-left: 8px;
+  text-decoration: none;
+}
+
+.controls {
+  width: 450px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+}
+
+.controls button {
+  width: 180px;
+}
+
+.controls button button {
+  width: 180px;
 }
