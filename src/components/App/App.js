@@ -1,5 +1,5 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import Constructor from "../../pages/Constructor";
@@ -9,11 +9,12 @@ import Login from "../../pages/Login";
 import Profile from "../../pages/Profile";
 import Register from "../../pages/Register";
 import ResetPassword from "../../pages/ResetPassword";
-import { refreshUserAPI } from "../../services/actions";
+import { checkUserAPI, refreshUserAPI } from "../../services/actions";
 import Modal from "../Modal/Modal";
 import { ProtectedRoute } from "../ProtectedRoute";
 
 import Header from "../Header/Header";
+import { getCookie } from "../API/api";
 
 function App(props) {
   const location = useLocation();
@@ -21,13 +22,28 @@ function App(props) {
   const background = location.state?.background;
   const dispatch = useDispatch();
 
-  const refreshUser = () => {
-    dispatch(refreshUserAPI(localStorage.refreshToken));
+  const user = useSelector((store) => store.authReducer.user);
+
+  useEffect(() => {
+    reloadUser();
+  }, []);
+
+  const reloadUser = () => {
+    if (!user && localStorage.refreshToken) {
+      dispatch(
+        checkUserAPI("https://norma.nomoreparties.space/api/auth/user", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer" + getCookie("token"),
+          },
+          method: "GET",
+        })
+      );
+    }
   };
 
   return (
     <>
-      <button onClick={refreshUser}>Рефреш токен</button>
       <Switch location={background || location}>
         <Route path="/" exact={true}>
           <Constructor />

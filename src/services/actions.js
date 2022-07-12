@@ -50,87 +50,73 @@ export const postOrder = (orderInfo, modalHendler) => (dispatch) => {
     .catch((er) => console.log(er));
 };
 
-export const logInUser = (user) => (dispatch) => {
-  fetch("https://norma.nomoreparties.space/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  }).then((res) => {
-    if (res.ok) {
-      res.json().then((data) => {
-        const authToken = data.accessToken.split("Bearer")[1];
-        const refreshToken = data.refreshToken;
-        dispatch(setUser(data.user, true));
-        if (authToken) {
-          setCookie("token", authToken);
-          localStorage.setItem("refreshToken", refreshToken);
-        }
-      });
-    }
-  });
+const checkResponse = async (res) => {
+  const data = await res.json();
+  return res.ok ? data : Promise.reject(data.message);
 };
 
-export const refreshUserAPI = (refreshToken) => (dispatch) => {
-  fetch("https://norma.nomoreparties.space/api/auth/token", {
+const fetchWithRefresh = async (url, options) => {
+  try {
+    const res = await fetch(url, options);
+    const data = await checkResponse(res);
+    return data;
+  } catch (err) {
+    if (err === "jwt expired") {
+      const refreshRes = await refreshUserAPI(localStorage.refreshToken);
+      const refreshData = await checkResponse(refreshRes);
+
+      setCookie("token", refreshData.accessToken);
+      localStorage.setItem("refreshToken", refreshData.refreshToken);
+
+      const res = await fetch(url, options);
+      const data = await checkResponse(res);
+      return data;
+    }
+  }
+};
+
+export const logInUser = (url, options) => async (dispatch) => {
+  const data = await fetchWithRefresh(url, options);
+  const authToken = data.accessToken.split("Bearer")[1];
+  const refreshToken = data.refreshToken;
+
+  dispatch(setUser(data.user, true));
+  if (authToken) {
+    setCookie("token", authToken);
+    localStorage.setItem("refreshToken", refreshToken);
+  }
+};
+
+export const patchUser = (url, options) => async (dispatch) => {
+  const data = await fetchWithRefresh(url, options);
+  dispatch(setUser(data.user));
+};
+
+export const refreshUserAPI = async (refreshToken) => {
+  const res = await fetch("https://norma.nomoreparties.space/api/auth/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ token: `${refreshToken}` }),
-  }).then((res) => {
-    res.json().then((data) => {
-      const token = data.accessToken;
-      const refreshToken = data.refreshToken;
-
-      setCookie("token", token);
-      localStorage.setItem("refreshToken", refreshToken);
-    });
   });
+  return res;
 };
 
-export const logOutUser = (refreshToken) => (dispatch) => {
-  fetch("https://norma.nomoreparties.space/api/auth/logout", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ token: `${refreshToken}` }),
-  }).then((res) => {
-    parseResponse(res);
-    if (res.ok) {
-      dispatch({ type: "RESET_USER" });
-      deleteCookie("token");
-    } else {
-      refreshUserAPI(localStorage.refreshToken());
-      console.log("try again");
-    }
-  });
+export const checkUserAPI = (url, options) => async (dispatch) => {
+  const { user } = await fetchWithRefresh(url, options);
+  if (user) {
+    dispatch(setUser(user, true));
+  }
 };
 
-export const patchUser = (inputData) => (dispatch) => {
-  fetch("https://norma.nomoreparties.space/api/auth/user", {
-    method: "PATCH",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer" + getCookie("token"),
-    },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-    body: JSON.stringify(inputData),
-  }).then((res) => {
-    if (res.ok) {
-      res.json().then((data) => {
-        setUser(data.user, true);
-      });
-    } else {
-      dispatch(refreshUserAPI(localStorage.refreshToken));
-    }
-  });
+export const logOutUser = (url, options) => async (dispatch) => {
+  const message = await fetchWithRefresh(url, options);
+  if (message.success) {
+    dispatch({ type: "RESET_USER" });
+    deleteCookie("token");
+    localStorage.removeItem("refreshToken");
+  }
 };
 
 const setCurrentIngredient = (currentIngredient) => {

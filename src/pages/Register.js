@@ -8,20 +8,23 @@ import {
 import Header from "../components/Header/Header";
 import { NavLink, useHistory } from "react-router-dom";
 import { useState } from "react";
-import { parseResponse } from "../components/API/api";
+import { parseResponse, setCookie } from "../components/API/api";
+import { setUser } from "../services/actions";
+import { useDispatch } from "react-redux";
 
 function Register(props) {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailinput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const dispatch = useDispatch();
 
   const history = useHistory();
 
   const registerClick = () => {
-    register();
+    dispatch(register());
   };
 
-  const register = () => {
+  const register = () => (dispatch) => {
     fetch("https://norma.nomoreparties.space/api/auth/register", {
       method: "POST",
       headers: {
@@ -33,9 +36,12 @@ function Register(props) {
         name: nameInput,
       }),
     }).then((res) => {
-      parseResponse(res);
+      const data = parseResponse(res);
       if (res.ok) {
-        history.replace({ pathname: "/login" });
+        dispatch(setUser(data.user, true));
+        setCookie(data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+        history.replace({ pathname: "/" });
       }
     });
   };

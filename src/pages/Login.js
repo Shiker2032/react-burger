@@ -9,7 +9,12 @@ import Header from "../components/Header/Header";
 import { NavLink, useHistory, Redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logInUser, setUser } from "../services/actions";
+import {
+  fetchWithRefresh,
+  logInUser,
+  logInUserAPI,
+  setUser,
+} from "../services/actions";
 
 function Login(props) {
   const [emailInput, setEmailinput] = useState("vladislav.begunov@mail.ru");
@@ -20,7 +25,16 @@ function Login(props) {
   const dispatch = useDispatch();
 
   const loginClick = () => {
-    dispatch(logInUser({ email: emailInput, password: passwordInput }));
+    const user = { email: emailInput, password: passwordInput };
+    dispatch(
+      logInUser("https://norma.nomoreparties.space/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      })
+    );
   };
 
   useEffect(() => {

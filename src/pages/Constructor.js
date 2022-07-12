@@ -34,11 +34,14 @@ function Constructor(props) {
   const history = useHistory();
   const location = useLocation();
 
-  const { currentIngredient, order, orderNumber } = useSelector((store) => ({
-    orderNumber: store.orderNumberReducer.orderNumber,
-    order: store.orderReducer.order,
-    currentIngredient: store.currentIngredientReducer.currentIngredient,
-  }));
+  const { currentIngredient, order, orderNumber, user } = useSelector(
+    (store) => ({
+      orderNumber: store.orderNumberReducer.orderNumber,
+      order: store.orderReducer.order,
+      currentIngredient: store.currentIngredientReducer.currentIngredient,
+      user: store.authReducer.user,
+    })
+  );
 
   const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
     useState(false);
@@ -61,10 +64,14 @@ function Constructor(props) {
   };
 
   const handleOrderClick = () => {
-    const orderInfo = order
-      .map((ingredients) => ingredients._id)
-      .filter((el) => el !== undefined);
-    dispatch(postOrder(orderInfo, setOrderDetailsOpened));
+    if (!user) {
+      history.push({ pathname: "/register" });
+    } else {
+      const orderInfo = order
+        .map((ingredients) => ingredients._id)
+        .filter((el) => el !== undefined);
+      dispatch(postOrder(orderInfo, setOrderDetailsOpened));
+    }
   };
 
   return (

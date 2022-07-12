@@ -8,8 +8,11 @@ import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function IngredientsItem({ ingredient, onClick }) {
+  const order = useSelector((store) => store.orderReducer.order);
+
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: { ingredient },

@@ -41,11 +41,15 @@ function Profile(props) {
   };
 
   const logOutClick = () => {
-    dispatch(setUser(null));
-    dispatch(logOutUser(localStorage.getItem("refreshToken")));
-    deleteCookie("token");
-    localStorage.clear();
-    history.replace({ pathname: "/login" });
+    dispatch(
+      logOutUser("https://norma.nomoreparties.space/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ token: `${localStorage.refreshToken}` }),
+      })
+    );
   };
 
   const confirmChangesClick = () => {
@@ -53,7 +57,22 @@ function Profile(props) {
       name: nameInput ? nameInput : auth.user.name,
       email: emailInput ? emailInput : auth.user.email,
     };
-    dispatch(patchUser(inputData, auth));
+
+    dispatch(
+      patchUser("https://norma.nomoreparties.space/api/auth/user", {
+        method: "PATCH",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer" + getCookie("token"),
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(inputData),
+      })
+    );
   };
 
   return (

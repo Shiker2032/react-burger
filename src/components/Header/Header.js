@@ -23,10 +23,6 @@ const AppHeader = () => {
     ]
   );
 
-  useEffect(() => {
-    console.log(constructorIsActive);
-  }, [constructorIsActive]);
-
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={styles.header__nav}>
