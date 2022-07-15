@@ -7,12 +7,14 @@ export const getIngredients = (order) => async (dispatch) => {
   const ingredientsArr = data.data;
 
   ingredientsArr.forEach((ingredientEl) => {
-    order.forEach((orderEl) => {
-      ingredientEl.amount = 0;
-      if (orderEl._id === ingredientEl._id) {
-        ingredientEl.amount = orderEl.amount;
-      }
-    });
+    if (order) {
+      order.forEach((orderEl) => {
+        ingredientEl.amount = 0;
+        if (orderEl._id === ingredientEl._id) {
+          ingredientEl.amount = orderEl.amount;
+        }
+      });
+    }
   });
   dispatch({ type: GET_INGREDIENTS, data: ingredientsArr });
 };

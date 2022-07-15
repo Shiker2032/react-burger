@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
+import { getIngredients } from "../services/actions/ingredient";
 
 import styles from "./ingredientDetails.module.css";
-
-import { getIngredients } from "../services/actions/ingredient";
 
 function IngredientDetails(props) {
   const dispatch = useDispatch();
@@ -14,6 +13,10 @@ function IngredientDetails(props) {
   const ingredients = useSelector(
     (store) => store.ingredientsReducer.ingredients
   );
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
 
   const ingredient = ingredients.find((el) => el._id === params.id);
 

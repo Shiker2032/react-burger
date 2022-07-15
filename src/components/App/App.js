@@ -59,7 +59,6 @@ function App(props) {
           path="/ingredients/:id"
           children={
             <>
-              <Header />
               <Ingredient />
             </>
           }
