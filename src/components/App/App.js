@@ -9,12 +9,11 @@ import Login from "../../pages/Login";
 import Profile from "../../pages/Profile";
 import Register from "../../pages/Register";
 import ResetPassword from "../../pages/ResetPassword";
-import { checkUserAPI, refreshUser } from "../../services/actions";
+import { checkUserAPI } from "../../services/actions/user";
 import Modal from "../Modal/Modal";
 import { ProtectedRoute } from "../ProtectedRoute";
 
 import Header from "../Header/Header";
-import { getCookie } from "../API/api";
 
 function App(props) {
   const location = useLocation();
@@ -30,20 +29,13 @@ function App(props) {
 
   const reloadUser = () => {
     if (!user && localStorage.refreshToken) {
-      dispatch(
-        checkUserAPI("https://norma.nomoreparties.space/api/auth/user", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer" + getCookie("token"),
-          },
-          method: "GET",
-        })
-      );
+      dispatch(checkUserAPI());
     }
   };
 
   return (
     <>
+      <Header />
       <Switch location={background || location}>
         <Route path="/" exact={true}>
           <Constructor />

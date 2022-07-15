@@ -10,7 +10,6 @@ import {
   INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
   SET_BUN,
-  SET_ORDER,
   SUBTRACT_BUN_AMOUNT,
   SUBTRACT_INGREDIENT_AMOUNT,
 } from "../../services/types";
@@ -20,7 +19,7 @@ import ConstructorItem from "./ConstructorItem";
 import styles from "./burgerConstructor.module.css";
 
 import { v4 as uuidv4 } from "uuid";
-import { setOrder } from "../../services/actions";
+import { setOrder } from "../../services/actions/order";
 
 const BurgerConstructor = ({ onClick }) => {
   const dispatch = useDispatch();

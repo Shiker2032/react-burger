@@ -1,25 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import Header from "../components/Header/Header";
 import styles from "./ingredientDetails.module.css";
 
-import { getIngredients, logInUser } from "../services/actions";
+import { getIngredients } from "../services/actions/ingredient";
 
 function IngredientDetails(props) {
   const dispatch = useDispatch();
 
   const params = useParams();
-  const location = useLocation();
   const ingredients = useSelector(
     (store) => store.ingredientsReducer.ingredients
   );
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
 
   const ingredient = ingredients.find((el) => el._id === params.id);
 

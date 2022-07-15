@@ -5,11 +5,10 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Header from "../components/Header/Header";
+
 import { NavLink, useHistory } from "react-router-dom";
 import { useState } from "react";
-import { parseResponse, setCookie } from "../components/API/api";
-import { setUser } from "../services/actions";
+import { registerUser } from "../services/actions/user";
 import { useDispatch } from "react-redux";
 
 function Register(props) {
@@ -20,37 +19,21 @@ function Register(props) {
 
   const history = useHistory();
 
-  const registerClick = () => {
-    dispatch(register());
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = {
+      email: emailInput,
+      password: passwordInput,
+      name: nameInput,
+    };
+    const message = await dispatch(registerUser(user, history));
+    if (message && message.success) history.replace({ pathname: "/" });
   };
 
-  const register = () => (dispatch) => {
-    fetch("https://norma.nomoreparties.space/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: emailInput,
-        password: passwordInput,
-        name: nameInput,
-      }),
-    }).then((res) => {
-      const data = parseResponse(res);
-      if (res.ok) {
-        dispatch(setUser(data.user, true));
-        setCookie(data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
-        history.replace({ pathname: "/" });
-      }
-    });
-  };
   return (
     <>
-      <Header />
-
       <main className={styles.wrapper}>
-        <div className={styles.body}>
+        <form onSubmit={(e) => handleSubmit(e)} className={styles.body}>
           <p className="text text_type_main-medium mb-6">Регистрация</p>
           <div className="pb-6">
             <Input
@@ -73,7 +56,7 @@ function Register(props) {
             onChange={(evt) => setPasswordInput(evt.target.value)}
           />
           <div className="pt-6">
-            <Button type="primary" onClick={registerClick} size="medium">
+            <Button type="primary" size="medium">
               зарегистрироваться
             </Button>
           </div>
@@ -83,7 +66,7 @@ function Register(props) {
               Войти
             </NavLink>
           </p>
-        </div>
+        </form>
       </main>
     </>
   );

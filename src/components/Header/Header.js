@@ -7,12 +7,10 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { NavLink, Link, useLocation, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AppHeader = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const [constructorIsActive, orderFeedIsActive, profileIsActive] = useSelector(

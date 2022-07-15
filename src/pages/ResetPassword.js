@@ -5,44 +5,39 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import Header from "../components/Header/Header";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { apiConfig, getCookie, parseResponse } from "../components/API/api";
 import { useDispatch } from "react-redux";
-import { resetPassword } from "../services/actions";
+import { resetPassword } from "../services/actions/user";
 
 function ResetPassword(props) {
   const [passwordInput, setPasswordInput] = useState("");
   const [codeInput, setCodeInput] = useState("");
 
-  const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
-  const resetPasswordClick = async () => {
-    const res = await dispatch(
-      resetPassword(`${apiConfig.url}/password-reset/reset`, {
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + codeInput,
-        },
-        method: "POST",
-        body: JSON.stringify({
-          password: passwordInput,
-          token: codeInput,
-        }),
-      })
-    );
-    if (res.ok) {
+  if (location.from?.pathname !== "/forgot-password") {
+    history.replace({ pathname: "/forgot-password" });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const inputData = {
+      password: passwordInput,
+      token: codeInput,
+    };
+    const res = await resetPassword(inputData);
+    if (res && res.ok) {
       history.replace({ pathname: "/login" });
     }
   };
 
   return (
     <>
-      <Header />
       <main className={styles.wrapper}>
-        <div className={styles.body}>
+        <form onSubmit={(e) => handleSubmit(e)} className={styles.body}>
           <p className="text text_type_main-medium mb-6">
             Восстановление пароля
           </p>
@@ -61,7 +56,7 @@ function ResetPassword(props) {
             />
           </div>
           <div>
-            <Button type="primary" onClick={resetPasswordClick} size="small ">
+            <Button type="primary" size="small ">
               Сохранить
             </Button>
           </div>
@@ -71,7 +66,7 @@ function ResetPassword(props) {
               Войти
             </NavLink>
           </p>
-        </div>
+        </form>
       </main>
     </>
   );

@@ -9,15 +9,14 @@ import OrderDetails from "../components/Order-details/OrderDetails";
 
 import BurgerConstructor from "../components/Burger-constructor/BurgerConstructor";
 import BurgerIngredients from "../components/Burger-ingredients/BurgerIngredients";
-import Header from "../components/Header/Header";
 import styles from "./constructor.module.css";
-import {
-  postOrder,
-  setCurrentIngredient,
-  getIngredients,
-} from "../services/actions";
+import { postOrder } from "../services/actions/order";
 import IngredientDetails from "./IngredientDetails";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
+import {
+  getIngredients,
+  setCurrentIngredient,
+} from "../services/actions/ingredient";
 
 function Constructor(props) {
   const { currentIngredient, order, orderNumber, user } = useSelector(
@@ -64,7 +63,7 @@ function Constructor(props) {
 
   const handleOrderClick = () => {
     if (!user) {
-      history.push({ pathname: "/register" });
+      history.replace({ pathname: "/login" });
     } else {
       const orderInfo = order
         .map((ingredients) => ingredients._id)
@@ -75,7 +74,6 @@ function Constructor(props) {
 
   return (
     <>
-      <Header />
       <DndProvider backend={HTML5Backend}>
         <main className={styles.flexComponents}>
           <BurgerIngredients onClick={handleIngredientClick} />

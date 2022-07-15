@@ -5,11 +5,10 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Header from "../components/Header/Header";
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser, patchUser, setUser } from "../services/actions";
-import { getCookie } from "../components/API/api";
+import { logOutUser, patchUser } from "../services/actions/user";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 
 function Profile(props) {
@@ -42,43 +41,21 @@ function Profile(props) {
   };
 
   const logOutClick = () => {
-    dispatch(
-      logOutUser("https://norma.nomoreparties.space/api/auth/logout", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ token: `${localStorage.refreshToken}` }),
-      })
-    );
+    dispatch(logOutUser());
   };
 
-  const confirmChangesClick = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let inputData = {
       name: nameInput ? nameInput : auth.user.name,
       email: emailInput ? emailInput : auth.user.email,
     };
 
-    dispatch(
-      patchUser("https://norma.nomoreparties.space/api/auth/user", {
-        method: "PATCH",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer" + getCookie("token"),
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify(inputData),
-      })
-    );
+    dispatch(patchUser(inputData));
   };
 
   return (
     <>
-      <Header />
       <main className={styles.wrapper}>
         <div className="pr-15">
           <p
@@ -105,7 +82,7 @@ function Profile(props) {
             В этом разделе вы можете <br /> изменить свои персональные данные
           </p>
         </div>
-        <div className={styles.body}>
+        <form className={styles.body} onSubmit={(e) => handleSubmit(e)}>
           <div className="pb-6">
             <Input
               type="text"
@@ -128,11 +105,11 @@ function Profile(props) {
           />
           {applyVisible && (
             <div className={styles.controls}>
-              <Button onClick={confirmChangesClick}>применить</Button>
+              <Button htmlType="submit">применить</Button>
               <Button onClick={setDefaultInput}>Отмена</Button>
             </div>
           )}
-        </div>
+        </form>
       </main>
     </>
   );

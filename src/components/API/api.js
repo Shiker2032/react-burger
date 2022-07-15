@@ -2,19 +2,6 @@ const apiConfig = {
   url: "https://norma.nomoreparties.space/api",
 };
 
-const parseResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  } else {
-    return Promise.reject(res.status);
-  }
-};
-
-export const checkResponse = async (res) => {
-  const data = await res.json();
-  return res.ok ? data : Promise.reject(data.message);
-};
-
 export function setCookie(name, value, props) {
   props = props || {};
   let exp = props.expires;
@@ -53,4 +40,4 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export { apiConfig, parseResponse };
+export { apiConfig };
