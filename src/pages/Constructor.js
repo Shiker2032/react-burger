@@ -13,10 +13,7 @@ import styles from "./constructor.module.css";
 import { postOrder } from "../services/actions/order";
 import IngredientDetails from "./IngredientDetails";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
-import {
-  getIngredients,
-  setCurrentIngredient,
-} from "../services/actions/ingredient";
+import { setCurrentIngredient } from "../services/actions/ingredient";
 
 function Constructor(props) {
   const { currentIngredient, order, orderNumber, user } = useSelector(
@@ -34,7 +31,6 @@ function Constructor(props) {
       type: SET_TAB_STATE,
       name: "constructor",
     });
-    dispatch(getIngredients(order));
   }, []);
 
   const dispatch = useDispatch();

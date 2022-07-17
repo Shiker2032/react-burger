@@ -14,6 +14,7 @@ import Modal from "../Modal/Modal";
 import { ProtectedRoute } from "../ProtectedRoute";
 
 import Header from "../Header/Header";
+import { getIngredients } from "../../services/actions/ingredient";
 
 function App(props) {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App(props) {
 
   useEffect(() => {
     reloadUser();
+    dispatch(getIngredients());
   }, []);
 
   const reloadUser = () => {
