@@ -15,8 +15,17 @@ import { ProtectedRoute } from "../ProtectedRoute";
 
 import Header from "../Header/Header";
 import { getIngredients } from "../../services/actions/ingredient";
+import Feed from "../../pages/Feed";
 
 function App(props) {
+  const ws = new WebSocket("wss://norma.nomoreparties.space/orders/all");
+  ws.onopen = (event) => {
+    console.log("Соединение установлено");
+  };
+  ws.onmessage = (message) => {
+    console.log(JSON.parse(message.data));
+  };
+
   const location = useLocation();
   const history = useHistory();
   const background = location.state?.background;
@@ -40,7 +49,7 @@ function App(props) {
       <Header />
       <Switch location={background || location}>
         <Route path="/" exact={true}>
-          <Constructor />
+          <Feed />
         </Route>
         <Route path="/login" exact={true}>
           <Login />

@@ -1,0 +1,53 @@
+main {
+  width: 852px;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.order {
+  background-color: #1c1c21;
+  width: 584px;
+  padding-left: 24px;
+  padding-right: 24px;
+  border-radius: 40px;
+  margin-bottom: 24px;
+}
+
+.status {
+  width: 350px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info__code {
+  display: flex;
+}
+
+.summary {
+  display: flex;
+  padding-bottom: 24px;
+}
+
+.summary__images {
+  width: 80%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.summary__image {
+  width: 64px;
+  height: 64px;
+  border-radius: 100px;
+}
+
+.summary__priceBlock {
+  display: flex;
+  width: 76px;
+  height: 64px;
+  align-items: center;
+}
