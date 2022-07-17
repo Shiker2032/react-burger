@@ -1,84 +1,21 @@
-import { combineReducers } from "redux";
 import {
   ADD_BUN_PRICE,
   ADD_INGREDIENT_PRICE,
-  INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
-  RESET_INGREDIENTS,
   RESET_ORDER,
   SET_BUN,
+  SET_ORDER,
   SET_ORDER_NUMBER,
   SUBTRACT_BUN_AMOUNT,
-  SUBTRACT_INGREDIENT_AMOUNT,
   SUBTRACT_INGREDIENT_PRICE,
-} from "./types";
-import { GET_INGREDIENTS, SET_CURRENT_INGREDIENT, SET_ORDER } from "./types";
-
-const ingredientsInitialState = {
-  ingredients: [],
-};
-
-const ingredientsReducer = (state = ingredientsInitialState, action) => {
-  switch (action.type) {
-    case GET_INGREDIENTS: {
-      return {
-        ...state,
-        ingredients: action.data,
-      };
-    }
-
-    case RESET_INGREDIENTS: {
-      const arr = [...state.ingredients].map((el) => {
-        el.amount = 0;
-        return el;
-      });
-      return { ...state, ingredients: arr };
-    }
-
-    case INCREMENT_INGREDIENT: {
-      const ingredient = action.ingredient;
-      ingredient.amount = ingredient.amount + 1;
-      return state;
-    }
-
-    case SUBTRACT_INGREDIENT_AMOUNT: {
-      const ingredient = action.ingredient;
-      state.ingredients
-        .filter((el) => el.name === ingredient.name)
-        .map((el) => {
-          el.amount = el.amount - 1;
-        });
-      return state;
-    }
-    default:
-      return state;
-  }
-};
-
-const currentIngredientInitialState = {
-  currentIngredient: { price: 0 },
-};
-
-const currentIngredientReducer = (
-  state = currentIngredientInitialState,
-  action
-) => {
-  switch (action.type) {
-    case SET_CURRENT_INGREDIENT: {
-      return { ...state, currentIngredient: action.currentIngredient };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+} from "../types.js";
 
 const orderInitialState = {
   order: [{ price: 0 }],
 };
 
-const orderReducer = (state = orderInitialState, action) => {
+export const orderReducer = (state = orderInitialState, action) => {
   switch (action.type) {
     case SET_ORDER: {
       const ingredeint = { ...action.ingredient };
@@ -129,7 +66,7 @@ const orderNumberInitialState = {
   orderNumber: 0,
 };
 
-const orderNumberReducer = (state = orderNumberInitialState, action) => {
+export const orderNumberReducer = (state = orderNumberInitialState, action) => {
   switch (action.type) {
     case SET_ORDER_NUMBER: {
       return { ...state, orderNumber: action.orderNumber };
@@ -144,7 +81,7 @@ const initialPriceState = {
   bunPrice: 0,
 };
 
-const priceReducer = (state = initialPriceState, action) => {
+export const priceReducer = (state = initialPriceState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT_PRICE: {
       return {
@@ -169,13 +106,3 @@ const priceReducer = (state = initialPriceState, action) => {
       return state;
   }
 };
-
-const rootReducer = combineReducers({
-  ingredientsReducer,
-  currentIngredientReducer,
-  orderReducer,
-  orderNumberReducer,
-  priceReducer,
-});
-
-export { rootReducer };

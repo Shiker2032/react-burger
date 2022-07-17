@@ -7,7 +7,11 @@ import {
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 function IngredientsItem({ ingredient, onClick }) {
+  const order = useSelector((store) => store.orderReducer.order);
   const constructorElement = document.querySelector("#constructor");
 
   const [{ isDragging }, dragRef] = useDrag({
@@ -21,9 +25,13 @@ function IngredientsItem({ ingredient, onClick }) {
   const opacity = isDragging ? 0.5 : 1;
 
   useEffect(() => {
-    const outline = isDragging ? "3px solid green" : "0px";
-    constructorElement.style.outline = outline;
+    checkDrag();
   }, [isDragging]);
+
+  const checkDrag = () => {
+    const outline = isDragging ? "3px solid green" : "0px";
+    if (constructorElement) constructorElement.style.outline = outline;
+  };
 
   return (
     <li style={{ cursor: "grab" }} className="pl-4 pr-2 pb-10">
@@ -35,11 +43,13 @@ function IngredientsItem({ ingredient, onClick }) {
           {ingredient.amount > 0 && (
             <Counter count={ingredient.amount} size="default" />
           )}
-          <img
-            ref={dragRef}
-            src={ingredient.image}
-            style={{ opacity: opacity }}
-          />
+          <Link to="location">
+            <img
+              ref={dragRef}
+              src={ingredient.image}
+              style={{ opacity: opacity }}
+            />
+          </Link>
           <div className={styles.burgerIngredients__cardPrice}>
             <p className="text text_type_digits-default pt-1">
               {ingredient.price}
