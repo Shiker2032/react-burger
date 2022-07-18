@@ -16,6 +16,7 @@ import { ProtectedRoute } from "../ProtectedRoute";
 import Header from "../Header/Header";
 import { getIngredients } from "../../services/actions/ingredient";
 import Feed from "../../pages/Feed";
+import FeedDetails from "../Feed-details/FeedDetails";
 
 function App(props) {
   const ws = new WebSocket("wss://norma.nomoreparties.space/orders/all");
@@ -49,7 +50,7 @@ function App(props) {
       <Header />
       <Switch location={background || location}>
         <Route path="/" exact={true}>
-          <Feed />
+          <FeedDetails />
         </Route>
         <Route path="/login" exact={true}>
           <Login />
@@ -74,6 +75,9 @@ function App(props) {
             </>
           }
         />
+        <Route path="/feed" exact>
+          <Feed />
+        </Route>
       </Switch>
       {background && (
         <Route
