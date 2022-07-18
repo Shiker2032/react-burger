@@ -5,9 +5,6 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 function FeedOrder(props) {
   return (
     <>
-      <p className="text text_type_main-large pb-6 pt-6">Лента заказов</p>
-      {/* компонент order */}
-
       <div className={styles.order}>
         <div className={styles.info}>
           <div className={styles.info__code}>
@@ -38,7 +35,7 @@ function FeedOrder(props) {
             />
           </div>
           <div className={styles.summary__priceBlock}>
-            <p className="text text_type_digits-default">480</p>
+            <p className="text text_type_digits-default pr-2">480</p>
             <CurrencyIcon type="primary" />
           </div>
         </div>

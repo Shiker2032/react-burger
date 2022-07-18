@@ -1,15 +1,20 @@
 import React from "react";
+import styles from "./feed.module.css";
 
-import FeedOrder from "../components/feed-order/feedOrder";
+import FeedOrder from "../components/Feed-order/FeedOrder";
+import FeedStatus from "../components/Feed-status/FeedStatus";
+
 function Feed(props) {
   return (
-    <>
-      <main>
+    <div className={styles.content}>
+      <div className={styles.orders}>
+        <p className="text text_type_main-large pb-6 pt-6">Лента заказов</p>
         <FeedOrder />
         <FeedOrder />
         <FeedOrder />
-      </main>
-    </>
+      </div>
+      <FeedStatus />
+    </div>
   );
 }
 
