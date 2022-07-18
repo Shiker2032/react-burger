@@ -19,14 +19,6 @@ import Feed from "../../pages/Feed";
 import FeedDetails from "../Feed-details/FeedDetails";
 
 function App(props) {
-  const ws = new WebSocket("wss://norma.nomoreparties.space/orders/all");
-  ws.onopen = (event) => {
-    console.log("Соединение установлено");
-  };
-  ws.onmessage = (message) => {
-    console.log(JSON.parse(message.data));
-  };
-
   const location = useLocation();
   const history = useHistory();
   const background = location.state?.background;
@@ -50,7 +42,7 @@ function App(props) {
       <Header />
       <Switch location={background || location}>
         <Route path="/" exact={true}>
-          <FeedDetails />
+          <Feed />
         </Route>
         <Route path="/login" exact={true}>
           <Login />
@@ -77,6 +69,9 @@ function App(props) {
         />
         <Route path="/feed" exact>
           <Feed />
+        </Route>
+        <Route path="/feed/:id" exact>
+          <FeedDetails />
         </Route>
       </Switch>
       {background && (
