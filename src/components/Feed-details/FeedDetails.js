@@ -22,7 +22,10 @@ function FeedDetails(props) {
           </p>
         </div>
       </div>
-      <p className="text text_type_main-medium pb-3">
+      <p
+        style={{ maxWidth: "450px", textAlign: "center" }}
+        className="text text_type_main-medium pb-3"
+      >
         {orderInfo && orderInfo[0].name}
       </p>
       <p

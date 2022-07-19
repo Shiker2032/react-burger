@@ -3,11 +3,12 @@ import styles from "./feedOrder.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 function FeedOrder({ order }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
   const history = useHistory();
+  const location = useLocation();
 
   const getImage = (ingredientEl) => {
     if (ingredientEl && ingredientsArr) {
@@ -19,7 +20,10 @@ function FeedOrder({ order }) {
   };
 
   const handleFeedClick = () => {
-    history.push({ pathname: `/feed/${order._id}` });
+    history.replace({
+      pathname: `/feed/${order._id}`,
+      state: { background: location },
+    });
   };
 
   return (

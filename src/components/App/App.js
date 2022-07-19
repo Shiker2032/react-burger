@@ -54,7 +54,7 @@ function App(props) {
       <Header />
       <Switch location={background || location}>
         <Route path="/" exact={true}>
-          <Feed />
+          <Constructor />
         </Route>
         <Route path="/login" exact={true}>
           <Login />
@@ -79,13 +79,21 @@ function App(props) {
             </>
           }
         />
+
         <Route path="/feed" exact>
           <Feed />
         </Route>
-        <Route path="/feed/:id" exact>
-          <FeedDetails />
-        </Route>
+        <Route
+          path="/feed/:id"
+          exact
+          children={
+            <>
+              <FeedDetails />
+            </>
+          }
+        ></Route>
       </Switch>
+
       {background && (
         <Route
           path="/ingredients/:id"
@@ -98,6 +106,23 @@ function App(props) {
               }}
             >
               <Ingredient />
+            </Modal>
+          }
+        />
+      )}
+
+      {background && (
+        <Route
+          path="/feed/:id"
+          children={
+            <Modal
+              onCloseClick={() => {
+                history.replace({
+                  pathname: "/feed",
+                });
+              }}
+            >
+              <FeedDetails />
             </Modal>
           }
         />
