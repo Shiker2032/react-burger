@@ -17,6 +17,10 @@ import Header from "../Header/Header";
 import { getIngredients } from "../../services/actions/ingredient";
 import Feed from "../../pages/Feed";
 import FeedDetails from "../Feed-details/FeedDetails";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../../services/actions/wsActions";
 
 function App(props) {
   const location = useLocation();
@@ -30,6 +34,14 @@ function App(props) {
     reloadUser();
     dispatch(getIngredients());
   }, []);
+
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START });
+
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    };
+  }, [dispatch]);
 
   const reloadUser = () => {
     if (!user && localStorage.refreshToken) {

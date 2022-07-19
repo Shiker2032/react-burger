@@ -3,9 +3,11 @@ import styles from "./feedOrder.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function FeedOrder({ order }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
+  const history = useHistory();
 
   const getImage = (ingredientEl) => {
     if (ingredientEl && ingredientsArr) {
@@ -14,6 +16,10 @@ function FeedOrder({ order }) {
       );
       return ingredientImage.image;
     }
+  };
+
+  const handleFeedClick = () => {
+    history.push({ pathname: `/feed/${order._id}` });
   };
 
   return (
@@ -37,6 +43,7 @@ function FeedOrder({ order }) {
             {order &&
               order.ingredients.map((ingredientEl) => (
                 <img
+                  onClick={(e) => handleFeedClick(ingredientEl)}
                   key={uuidv4()}
                   className={styles.summary__image}
                   src={getImage(ingredientEl)}

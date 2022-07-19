@@ -1,14 +1,26 @@
 import React from "react";
 import styles from "./feedDetailsElement.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
 
-function FeedDetailsElement(props) {
+function FeedDetailsElement({ ingredient }) {
+  const ingredientsArr = useSelector((store) => store.ingredientsReducer);
+
+  const getImage = (ingredientEl) => {
+    if (ingredientEl && ingredientsArr) {
+      const ingredientImage = ingredientsArr.ingredients.find(
+        (el) => el._id === ingredientEl
+      );
+      return ingredientImage.image;
+    }
+  };
+
   return (
     <div className={styles.feedDetailsElement}>
       <div className={styles.feedDetailsElement__images}>
         <img
           className={styles.feedDetailsElement__image}
-          src="https://avatars.mds.yandex.net/get-mpic/5344223/img_id5569967395110822865.jpeg/190x250"
+          src={getImage(ingredient)}
         />
         <p className="text text_type_main-default pb-6">Флюоресцентная булка</p>
       </div>

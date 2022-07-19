@@ -17,14 +17,6 @@ function Feed(props) {
 
   const { orders } = useSelector((store) => store.wsReducer);
 
-  React.useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
-
-    return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED });
-    };
-  }, [dispatch]);
-
   return (
     <div className={styles.content}>
       <div className={styles.orders}>
