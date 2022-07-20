@@ -11,7 +11,7 @@ const composeEnhancers =
 const enhancer = composeEnhancers(
   applyMiddleware(
     thunk,
-    socketMiddleware("wss://norma.nomoreparties.space/orders/all", wsActions)
+    socketMiddleware("wss://norma.nomoreparties.space/orders", wsActions)
   )
 );
 

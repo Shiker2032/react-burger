@@ -21,6 +21,7 @@ import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../../services/actions/wsActions";
+import OrderHistory from "../../pages/Order-history/OrderHistory";
 
 function App(props) {
   const location = useLocation();
@@ -63,7 +64,7 @@ function App(props) {
           <Register />
         </Route>
         <ProtectedRoute path="/profile" exact={true}>
-          <Profile />
+          <OrderHistory />
         </ProtectedRoute>
         <Route path="/forgot-password" exact={true}>
           <ForgotPassword />

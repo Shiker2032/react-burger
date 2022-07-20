@@ -16,7 +16,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       } = wsActions;
 
       if (type === wsInit) {
-        socket = new WebSocket(wsUrl);
+        socket = new WebSocket(`${wsUrl}${payload}`);
       }
 
       if (socket) {
@@ -29,6 +29,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         };
 
         socket.onmessage = (event) => {
+          console.log(event);
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
