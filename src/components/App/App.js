@@ -37,7 +37,7 @@ function App(props) {
   }, []);
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
+    dispatch({ type: WS_CONNECTION_START, payload: "/all" });
 
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
@@ -64,6 +64,9 @@ function App(props) {
           <Register />
         </Route>
         <ProtectedRoute path="/profile" exact={true}>
+          <Profile />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders" exact={true}>
           <OrderHistory />
         </ProtectedRoute>
         <Route path="/forgot-password" exact={true}>
@@ -120,6 +123,23 @@ function App(props) {
               onCloseClick={() => {
                 history.replace({
                   pathname: "/feed",
+                });
+              }}
+            >
+              <FeedDetails />
+            </Modal>
+          }
+        />
+      )}
+
+      {background && (
+        <Route
+          path="/profile/orders/:id"
+          children={
+            <Modal
+              onCloseClick={() => {
+                history.replace({
+                  pathname: "/profile/orders",
                 });
               }}
             >

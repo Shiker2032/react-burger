@@ -1,17 +1,11 @@
 import styles from "./orderHistory.module.css";
-
-import {
-  Input,
-  PasswordInput,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser, patchUser } from "../../services/actions/user";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../../services/types";
 import FeedOrder from "../../components/Feed-order/FeedOrder";
-import Feed from "../Feed";
+import { useHistory, useLocation } from "react-router-dom";
+
 import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../../components/API/api";
 import { WS_CONNECTION_START } from "../../services/actions/wsActions";
@@ -26,6 +20,8 @@ function OrderHistory(props) {
 
   const auth = useSelector((store) => store.authReducer);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch({ type: RESET_TAB_STATE });
@@ -49,6 +45,13 @@ function OrderHistory(props) {
     };
 
     dispatch(patchUser(inputData));
+  };
+
+  const handleFeedClick = (order) => {
+    history.replace({
+      pathname: `/profile/orders/${order._id}`,
+      state: { background: location },
+    });
   };
 
   const { orders } = useSelector((store) => store.wsReducer);
@@ -86,7 +89,11 @@ function OrderHistory(props) {
         <div className={styles.ordersFeed}>
           {orders &&
             orders.orders.map((orderEl) => (
-              <FeedOrder order={orderEl} key={uuidv4()} />
+              <FeedOrder
+                handleFeedClick={handleFeedClick}
+                order={orderEl}
+                key={uuidv4()}
+              />
             ))}
         </div>
       </main>

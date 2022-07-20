@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-function FeedOrder({ order }) {
+function FeedOrder({ order, handleFeedClick }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
   const history = useHistory();
   const location = useLocation();
@@ -17,13 +17,6 @@ function FeedOrder({ order }) {
       );
       return ingredientImage.image;
     }
-  };
-
-  const handleFeedClick = () => {
-    history.replace({
-      pathname: `/feed/${order._id}`,
-      state: { background: location },
-    });
   };
 
   return (
@@ -47,7 +40,7 @@ function FeedOrder({ order }) {
             {order &&
               order.ingredients.map((ingredientEl) => (
                 <img
-                  onClick={(e) => handleFeedClick(ingredientEl)}
+                  onClick={(e) => handleFeedClick(order)}
                   key={uuidv4()}
                   className={styles.summary__image}
                   src={getImage(ingredientEl)}
