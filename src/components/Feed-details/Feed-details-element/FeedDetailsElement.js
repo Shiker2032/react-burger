@@ -6,22 +6,17 @@ import { useSelector } from "react-redux";
 function FeedDetailsElement({ ingredient }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
 
-  const getImage = (ingredientEl) => {
-    if (ingredientEl && ingredientsArr) {
-      const ingredientImage = ingredientsArr.ingredients.find(
-        (el) => el._id === ingredientEl
-      );
-      return ingredientImage.image;
+  const getIngredient = (id) => {
+    if (id && ingredientsArr) {
+      const ingredient = ingredientsArr.ingredients.find((el) => el._id === id);
+      return ingredient;
     }
   };
 
   return (
     <div className={styles.feedDetailsElement}>
       <div className={styles.feedDetailsElement__images}>
-        <img
-          className={styles.feedDetailsElement__image}
-          src={getImage(ingredient)}
-        />
+        <img className={styles.feedDetailsElement__image} src={""} />
         <p className="text text_type_main-default pb-6">Флюоресцентная булка</p>
       </div>
       <div className={styles.feedDetailsElement__priceBlock}>

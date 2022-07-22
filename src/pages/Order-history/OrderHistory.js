@@ -55,7 +55,6 @@ function OrderHistory(props) {
   };
 
   const { orders } = useSelector((store) => store.wsReducer);
-  console.log(orders);
 
   return (
     <>

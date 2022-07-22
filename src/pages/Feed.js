@@ -18,6 +18,14 @@ function Feed(props) {
   const location = useLocation();
 
   const { orders } = useSelector((store) => store.wsReducer);
+  const ingredientsArr = useSelector((store) => store.ingredientsReducer);
+
+  const getIngredient = (id) => {
+    if (id && ingredientsArr) {
+      const ingredient = ingredientsArr.ingredients.find((el) => el._id === id);
+      return ingredient;
+    }
+  };
 
   React.useEffect(() => {
     dispatch({ type: WS_CONNECTION_START, payload: "/all" });
@@ -34,6 +42,37 @@ function Feed(props) {
     });
   };
 
+  const calculateOrderPrice = (orderArr) => {
+    let price = 0;
+    orderArr.ingredients.map((el_id) => {
+      const ingredient = getIngredient(el_id);
+      price += ingredient?.price;
+    });
+
+    return price;
+  };
+
+  const calculateOrderTime = (order) => {
+    let date = new Date(order.createdAt);
+    let dateNow = new Date(Date.now());
+    let difference = Math.floor((dateNow - date) / (24 * 3600 * 1000));
+    if (difference === 0) {
+      difference = "Сегодня";
+    } else if (difference === 1) {
+      difference = "Вчера";
+    } else {
+      difference = difference.toString() + "дней";
+    }
+
+    const time = `${date.getHours()}:${
+      date.getMinutes() < 10 ? "0" : ""
+    }${date.getMinutes()}`;
+
+    const dateString = `${difference}, ${time} i-GMT+3`;
+
+    return dateString;
+  };
+
   return (
     <div className={styles.content}>
       <div className={styles.orders}>
@@ -44,6 +83,8 @@ function Feed(props) {
               order={orderEl}
               handleFeedClick={handleFeedClick}
               key={uuidv4()}
+              price={calculateOrderPrice(orderEl)}
+              time={calculateOrderTime(orderEl)}
             />
           ))}
       </div>

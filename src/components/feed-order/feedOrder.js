@@ -5,17 +5,15 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-function FeedOrder({ order, handleFeedClick }) {
+function FeedOrder({ order, handleFeedClick, price, time }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
   const history = useHistory();
   const location = useLocation();
 
-  const getImage = (ingredientEl) => {
-    if (ingredientEl && ingredientsArr) {
-      const ingredientImage = ingredientsArr.ingredients.find(
-        (el) => el._id === ingredientEl
-      );
-      return ingredientImage.image;
+  const getIngredient = (id) => {
+    if (id && ingredientsArr) {
+      const ingredient = ingredientsArr.ingredients.find((el) => el._id === id);
+      return ingredient;
     }
   };
 
@@ -30,7 +28,7 @@ function FeedOrder({ order, handleFeedClick }) {
             </p>
           </div>
           <p className="text text_type_main-default pt-6 pb-6 text_color_inactive">
-            Сегодня, 16:20 i-GMT+3
+            {time && time}
           </p>
         </div>
         <p className="text text_type_main-medium pb-6">{order && order.name}</p>
@@ -43,12 +41,14 @@ function FeedOrder({ order, handleFeedClick }) {
                   onClick={(e) => handleFeedClick(order)}
                   key={uuidv4()}
                   className={styles.summary__image}
-                  src={getImage(ingredientEl)}
+                  src={getIngredient(ingredientEl)?.image}
                 />
               ))}
           </div>
           <div className={styles.summary__priceBlock}>
-            <p className="text text_type_digits-default pr-2">480</p>
+            <p className="text text_type_digits-default pr-2">
+              {price && price}
+            </p>
             <CurrencyIcon type="primary" />
           </div>
         </div>
