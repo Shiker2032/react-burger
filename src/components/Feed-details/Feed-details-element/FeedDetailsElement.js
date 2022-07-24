@@ -16,11 +16,18 @@ function FeedDetailsElement({ ingredient }) {
   return (
     <div className={styles.feedDetailsElement}>
       <div className={styles.feedDetailsElement__images}>
-        <img className={styles.feedDetailsElement__image} src={""} />
-        <p className="text text_type_main-default pb-6">Флюоресцентная булка</p>
+        <img
+          className={styles.feedDetailsElement__image}
+          src={ingredient && getIngredient(ingredient).image}
+        />
+        <p className="text text_type_main-default pb-6">
+          {ingredient && getIngredient(ingredient).name}
+        </p>
       </div>
       <div className={styles.feedDetailsElement__priceBlock}>
-        <p className="text text_type_digits-default pr-2">2 x 480</p>
+        <p className="text text_type_digits-default pr-2">
+          {ingredient && getIngredient(ingredient).price}
+        </p>
         <CurrencyIcon type="primary" />
       </div>
     </div>

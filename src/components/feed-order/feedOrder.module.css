@@ -27,16 +27,17 @@
 }
 
 .summary__images {
-  width: 80%;
+  width: 100%;
   display: flex;
-  gap: 10px;
   align-items: center;
+  position: relative;
 }
 
 .summary__image {
   width: 64px;
   height: 64px;
   border-radius: 100px;
+  object-fit: cover;
 }
 
 .summary__priceBlock {
@@ -44,4 +45,35 @@
   width: 76px;
   height: 64px;
   align-items: center;
+}
+
+.image__container {
+  display: flex;
+  background: linear-gradient(#1c1c21, #1c1c21) padding-box,
+    linear-gradient(45deg, #801ab2, #4c4cff) border-box;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  position: relative;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.counter {
+  display: block;
+  position: absolute;
+  top: 8px;
+  right: 20px;
+  color: white;
+}
+
+.lastImage {
+  width: 64px;
+  height: 64px;
+  border-radius: 100px;
+  object-fit: cover;
 }

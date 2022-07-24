@@ -4,12 +4,12 @@ import styles from "./feedStatus.module.css";
 import { v4 as uuidv4 } from "uuid";
 
 function FeedStatus({ orders }) {
-  const completedOrders = orders?.orders
-    .filter((orderEl) => orderEl.status === "done")
-    .splice(0, 10);
-  const pendingOrders = orders?.orders
-    .filter((orderEl) => orderEl.status === "pending")
-    .splice(0, 10);
+  const completedOrders =
+    orders &&
+    orders.filter((orderEl) => orderEl.status === "done").splice(0, 10);
+  const pendingOrders =
+    orders &&
+    orders.filter((orderEl) => orderEl.status === "pending").splice(0, 10);
 
   return (
     <div className={styles.status}>

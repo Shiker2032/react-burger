@@ -4,10 +4,11 @@
 }
 
 .feedDetailsElement__images {
-  width: 80%;
+  width: 100%;
   display: flex;
   gap: 10px;
   align-items: center;
+  overflow: hidden;
 }
 
 .feedDetailsElement__image {

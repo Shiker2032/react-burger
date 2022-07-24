@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./feedOrder.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 function FeedOrder({ order, handleFeedClick, price, time }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
-  const history = useHistory();
-  const location = useLocation();
+  const ingredients = order.ingredients;
 
   const getIngredient = (id) => {
     if (id && ingredientsArr) {
@@ -16,6 +16,8 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
       return ingredient;
     }
   };
+
+  const leftOverIngredient = getIngredient(ingredients[6]);
 
   return (
     <>
@@ -35,15 +37,41 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
 
         <div className={styles.summary}>
           <div className={styles.summary__images}>
-            {order &&
-              order.ingredients.map((ingredientEl) => (
+            {ingredients &&
+              ingredients.map((ingredientEl, idx) => {
+                if (idx < 5) {
+                  return (
+                    <li
+                      style={{ zIndex: 10 - idx }}
+                      key={uuidv4()}
+                      className={styles.image__container}
+                    >
+                      <img
+                        style={{}}
+                        onClick={(e) => handleFeedClick(order)}
+                        className={styles.summary__image}
+                        src={getIngredient(ingredientEl)?.image}
+                      />
+                    </li>
+                  );
+                }
+              })}
+            {leftOverIngredient && (
+              <li
+                style={{ zIndex: 10 - 5 }}
+                key={uuidv4()}
+                className={styles.image__container}
+              >
                 <img
+                  style={{ opacity: "0.6" }}
                   onClick={(e) => handleFeedClick(order)}
-                  key={uuidv4()}
                   className={styles.summary__image}
-                  src={getIngredient(ingredientEl)?.image}
+                  src={getIngredient(leftOverIngredient._id).image}
                 />
-              ))}
+
+                <p className={styles.counter}>+ {ingredients.length - 6}</p>
+              </li>
+            )}
           </div>
           <div className={styles.summary__priceBlock}>
             <p className="text text_type_digits-default pr-2">

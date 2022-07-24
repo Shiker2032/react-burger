@@ -78,7 +78,7 @@ function Feed(props) {
       <div className={styles.orders}>
         <p className="text text_type_main-large pb-6 pt-6">Лента заказов</p>
         {orders &&
-          orders.orders.map((orderEl) => (
+          orders.map((orderEl) => (
             <FeedOrder
               order={orderEl}
               handleFeedClick={handleFeedClick}

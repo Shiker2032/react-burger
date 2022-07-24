@@ -9,9 +9,17 @@ import { useSelector } from "react-redux";
 function FeedDetails(props) {
   const { orders } = useSelector((store) => store.wsReducer);
 
-  const params = useParams();
+  const ingredientsArr = useSelector((store) => store.ingredientsReducer);
 
-  const orderInfo = orders?.orders.filter((el) => el._id === params.id);
+  const getIngredient = (id) => {
+    if (id && ingredientsArr) {
+      const ingredient = ingredientsArr.ingredients.find((el) => el._id === id);
+      return ingredient;
+    }
+  };
+
+  const params = useParams();
+  const orderInfo = orders?.filter((el) => el._id === params.id);
   return (
     <div className={styles.content}>
       <div className={styles.info}>
