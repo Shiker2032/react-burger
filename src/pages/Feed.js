@@ -1,36 +1,24 @@
 import React, { useEffect } from "react";
-import styles from "./feed.module.css";
-
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-
 import FeedStatus from "../components/Feed-status/FeedStatus";
 import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../services/actions/wsActions";
-import { useDispatch, useSelector } from "react-redux";
-import FeedDetails from "../components/Feed-details/FeedDetails";
 import FeedOrder from "../components/Feed-order/FeedOrder";
 import { useHistory, useLocation } from "react-router-dom";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
+import styles from "./feed.module.css";
+
 function Feed(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-
   const { orders } = useSelector((store) => store.wsReducer);
-  const ingredientsArr = useSelector((store) => store.ingredientsReducer);
-
-  const getIngredient = (id) => {
-    if (id && ingredientsArr) {
-      const ingredient = ingredientsArr.ingredients.find((el) => el._id === id);
-      return ingredient;
-    }
-  };
 
   useEffect(() => {
     dispatch({ type: WS_CONNECTION_START, payload: "/all" });
-
     dispatch({ type: RESET_TAB_STATE });
     dispatch({
       type: SET_TAB_STATE,
@@ -50,8 +38,8 @@ function Feed(props) {
   };
 
   const calculateOrderTime = (order) => {
-    let date = new Date(order.createdAt);
-    let dateNow = new Date(Date.now());
+    const date = new Date(order.createdAt);
+    const dateNow = new Date(Date.now());
     let difference = Math.floor((dateNow - date) / (24 * 3600 * 1000));
     if (difference === 0) {
       difference = "Сегодня";
@@ -66,7 +54,6 @@ function Feed(props) {
     }${date.getMinutes()}`;
 
     const dateString = `${difference}, ${time} i-GMT+3`;
-
     return dateString;
   };
 

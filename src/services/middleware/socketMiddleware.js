@@ -1,3 +1,5 @@
+import { WS_CONNECTION_CLOSED } from "../actions/wsActions";
+
 export const socketMiddleware = (wsUrl, wsActions) => {
   return (store) => {
     let socket = null;
@@ -37,7 +39,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         };
 
         socket.onclose = (event) => {
-          dispatch({ type: onClose, payload: event });
+          dispatch({ type: WS_CONNECTION_CLOSED, payload: event });
         };
 
         if (type === wsClose) {

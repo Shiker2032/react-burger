@@ -1,16 +1,14 @@
-import styles from "./login.module.css";
-
 import {
   Input,
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import { NavLink, Redirect, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logInUser } from "../services/actions/user";
 import { RESET_TAB_STATE } from "../services/types";
+import styles from "./login.module.css";
 
 function Login(props) {
   const [emailInput, setEmailinput] = useState("vladislav.begunov@mail.ru");
@@ -18,18 +16,17 @@ function Login(props) {
 
   const auth = useSelector((store) => store.authReducer);
   const dispatch = useDispatch();
-
   const location = useLocation();
+
+  useEffect(() => {
+    dispatch({ type: RESET_TAB_STATE });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const user = { email: emailInput, password: passwordInput };
     dispatch(logInUser(user));
   };
-
-  useEffect(() => {
-    dispatch({ type: RESET_TAB_STATE });
-  }, []);
 
   if (auth.isAuthenticated) {
     return <Redirect to={location.state?.from.pathname || "/"} />;

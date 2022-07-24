@@ -7,19 +7,10 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 
 function FeedDetails(props) {
-  const { orders } = useSelector((store) => store.wsReducer);
-
-  const ingredientsArr = useSelector((store) => store.ingredientsReducer);
-
-  const getIngredient = (id) => {
-    if (id && ingredientsArr) {
-      const ingredient = ingredientsArr.ingredients.find((el) => el._id === id);
-      return ingredient;
-    }
-  };
-
   const params = useParams();
+  const { orders } = useSelector((store) => store.wsReducer);
   const orderInfo = orders?.filter((el) => el._id === params.id);
+
   return (
     <div className={styles.content}>
       <div className={styles.info}>

@@ -1,14 +1,14 @@
 import styles from "./orderHistory.module.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser, patchUser } from "../../services/actions/user";
-import { RESET_TAB_STATE, SET_TAB_STATE } from "../../services/types";
-import FeedOrder from "../../components/Feed-order/FeedOrder";
+import { logOutUser, patchUser } from "../services/actions/user";
+import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
+import FeedOrder from "../components/Feed-order/FeedOrder";
 import { useHistory, useLocation } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
-import { getCookie } from "../../components/API/api";
-import { WS_CONNECTION_START } from "../../services/actions/wsActions";
+import { getCookie } from "../components/API/api";
+import { WS_CONNECTION_START } from "../services/actions/wsActions";
 
 function OrderHistory(props) {
   const [nameInput, setNameInput] = useState("");
@@ -17,7 +17,6 @@ function OrderHistory(props) {
 
   const [profileIsActive, setProfileIsActive] = useState(false);
   const [orderHistoryIsActive, setOrderHistoryIsActive] = useState(false);
-  const [applyVisible, setApplyVisible] = useState(false);
 
   const auth = useSelector((store) => store.authReducer);
   const dispatch = useDispatch();

@@ -21,7 +21,7 @@ import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../../services/actions/wsActions";
-import OrderHistory from "../../pages/Order-history/OrderHistory";
+import OrderHistory from "../../pages/OrderHistory";
 
 function App(props) {
   const location = useLocation();

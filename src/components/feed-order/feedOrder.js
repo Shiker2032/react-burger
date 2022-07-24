@@ -5,23 +5,16 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import { getIngredient } from "../../utils/utils";
 
 function FeedOrder({ order, handleFeedClick, price, time }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
-
-  const ingredients = order.ingredients;
-
-  const getIngredient = (id) => {
-    if (id && ingredientsArr) {
-      const ingredient = ingredientsArr.ingredients.find((el) => el._id === id);
-      return ingredient;
-    }
-  };
+  const orderIngredients = order.ingredients;
 
   const calculateOrderPrice = (orderArr) => {
     let price = 0;
     orderArr.ingredients.map((el_id) => {
-      const ingredient = getIngredient(el_id);
+      const ingredient = getIngredient(el_id, ingredientsArr);
       price += ingredient?.price;
     });
     return price;
@@ -48,7 +41,7 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
     return dateString;
   };
 
-  const leftOverIngredient = getIngredient(ingredients[6]);
+  const leftOverIngredient = getIngredient(orderIngredients[6], ingredientsArr);
 
   return (
     <>
@@ -68,8 +61,8 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
 
         <div className={styles.summary}>
           <div className={styles.summary__images}>
-            {ingredients &&
-              ingredients.map((ingredientEl, idx) => {
+            {orderIngredients &&
+              orderIngredients.map((ingredientEl, idx) => {
                 if (idx < 5) {
                   return (
                     <li
@@ -81,7 +74,7 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
                         style={{}}
                         onClick={(e) => handleFeedClick(order)}
                         className={styles.summary__image}
-                        src={getIngredient(ingredientEl)?.image}
+                        src={getIngredient(ingredientEl, ingredientsArr)?.image}
                       />
                     </li>
                   );
@@ -97,10 +90,14 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
                   style={{ opacity: "0.6" }}
                   onClick={(e) => handleFeedClick(order)}
                   className={styles.summary__image}
-                  src={getIngredient(leftOverIngredient._id).image}
+                  src={
+                    getIngredient(leftOverIngredient._id, ingredientsArr).image
+                  }
                 />
 
-                <p className={styles.counter}>+ {ingredients.length - 6}</p>
+                <p className={styles.counter}>
+                  + {orderIngredients.length - 6}
+                </p>
               </li>
             )}
           </div>

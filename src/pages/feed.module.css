@@ -1,9 +1,7 @@
 .content {
   display: flex;
   justify-content: center;
-
   gap: 60px;
-
   padding-top: 40px;
   align-items: baseline;
   max-height: 250px;

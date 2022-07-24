@@ -10,3 +10,7 @@ export const parseResponse = (res) => {
     return Promise.reject(res.status);
   }
 };
+
+export const getIngredient = (id, ingredientsArr) => {
+  return ingredientsArr?.ingredients.find((el) => el._id === id);
+};
