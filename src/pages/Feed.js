@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FeedDetails from "../components/Feed-details/FeedDetails";
 import FeedOrder from "../components/Feed-order/FeedOrder";
 import { useHistory, useLocation } from "react-router-dom";
+import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 function Feed(props) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -27,8 +28,14 @@ function Feed(props) {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch({ type: WS_CONNECTION_START, payload: "/all" });
+
+    dispatch({ type: RESET_TAB_STATE });
+    dispatch({
+      type: SET_TAB_STATE,
+      name: "orderFeed",
+    });
 
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
@@ -40,16 +47,6 @@ function Feed(props) {
       pathname: `/feed/${order._id}`,
       state: { background: location },
     });
-  };
-
-  const calculateOrderPrice = (orderArr) => {
-    let price = 0;
-    orderArr.ingredients.map((el_id) => {
-      const ingredient = getIngredient(el_id);
-      price += ingredient?.price;
-    });
-
-    return price;
   };
 
   const calculateOrderTime = (order) => {
@@ -76,14 +73,13 @@ function Feed(props) {
   return (
     <div className={styles.content}>
       <div className={styles.orders}>
-        <p className="text text_type_main-large pb-6 pt-6">Лента заказов</p>
+        <p className="text text_type_main-large pb-6">Лента заказов</p>
         {orders &&
           orders.map((orderEl) => (
             <FeedOrder
               order={orderEl}
               handleFeedClick={handleFeedClick}
               key={uuidv4()}
-              price={calculateOrderPrice(orderEl)}
               time={calculateOrderTime(orderEl)}
             />
           ))}

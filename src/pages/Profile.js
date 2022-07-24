@@ -44,6 +44,7 @@ function Profile(props) {
   };
 
   const orderHistoryClick = () => {
+    setProfileIsActive(false);
     history.push({ pathname: "/profile/orders" });
   };
 

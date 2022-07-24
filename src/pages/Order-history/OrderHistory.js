@@ -16,6 +16,7 @@ function OrderHistory(props) {
   const [passwordInput, setPasswordInput] = useState("");
 
   const [profileIsActive, setProfileIsActive] = useState(false);
+  const [orderHistoryIsActive, setOrderHistoryIsActive] = useState(false);
   const [applyVisible, setApplyVisible] = useState(false);
 
   const auth = useSelector((store) => store.authReducer);
@@ -26,7 +27,7 @@ function OrderHistory(props) {
   useEffect(() => {
     dispatch({ type: RESET_TAB_STATE });
     dispatch({ type: SET_TAB_STATE, name: "profile" });
-    setProfileIsActive(true);
+    setOrderHistoryIsActive(true);
     dispatch({
       type: WS_CONNECTION_START,
       payload: `?token=${getCookie("token").slice(1)}`,
@@ -54,26 +55,38 @@ function OrderHistory(props) {
     });
   };
 
+  const profileClick = () => {
+    history.replace({
+      pathname: "/profile",
+    });
+  };
+
   const { orders } = useSelector((store) => store.wsReducer);
 
   return (
     <>
       <main className={styles.wrapper}>
-        <div>
+        <div className={styles.profile__menu}>
           <p
+            style={{ cursor: "pointer" }}
+            onClick={profileClick}
             className={`text text_type_main-medium ${
               !profileIsActive ? "text_color_inactive" : ""
-            }  pb-6`}
+            } `}
           >
             Профиль
           </p>
-          <p className="text text_type_main-medium text_color_inactive pb-6">
+          <p
+            className={`text text_type_main-medium ${
+              !orderHistoryIsActive ? `text_color_inactive` : ""
+            }`}
+          >
             История заказов
           </p>
           <p
             style={{ cursor: "pointer" }}
             onClick={logOutClick}
-            className="text text_type_main-medium text_color_inactive pb-20"
+            className={`text text_type_main-medium text_color_inactive pb-20`}
           >
             Выход
           </p>

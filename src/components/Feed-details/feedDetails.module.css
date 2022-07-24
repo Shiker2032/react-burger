@@ -1,6 +1,7 @@
 .content {
   display: grid;
   justify-items: center;
+  width: 710px;
 }
 
 .status {
@@ -20,10 +21,16 @@
 .feedDetails__summary {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: space-around;
 }
 
 .feedDetails__priceBlock {
   display: flex;
   gap: 8px;
+}
+
+.detailsElements {
+  display: flex;
+  flex-direction: column;
 }

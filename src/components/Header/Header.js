@@ -40,7 +40,11 @@ const AppHeader = () => {
           href="#"
         >
           <ListIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive ml-2">
+          <p
+            className={`text text_type_main-default ${
+              orderFeedIsActive ? "" : "text_color_inactive"
+            }  ml-2`}
+          >
             Лента заказов
           </p>
         </Link>

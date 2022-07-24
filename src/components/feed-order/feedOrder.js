@@ -8,6 +8,7 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 function FeedOrder({ order, handleFeedClick, price, time }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
+
   const ingredients = order.ingredients;
 
   const getIngredient = (id) => {
@@ -15,6 +16,36 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
       const ingredient = ingredientsArr.ingredients.find((el) => el._id === id);
       return ingredient;
     }
+  };
+
+  const calculateOrderPrice = (orderArr) => {
+    let price = 0;
+    orderArr.ingredients.map((el_id) => {
+      const ingredient = getIngredient(el_id);
+      price += ingredient?.price;
+    });
+    return price;
+  };
+
+  const calculateOrderTime = (order) => {
+    let date = new Date(order.createdAt);
+    let dateNow = new Date(Date.now());
+    let difference = Math.floor((dateNow - date) / (24 * 3600 * 1000));
+    if (difference === 0) {
+      difference = "Сегодня";
+    } else if (difference === 1) {
+      difference = "Вчера";
+    } else {
+      difference = difference.toString() + "дней";
+    }
+
+    const time = `${date.getHours()}:${
+      date.getMinutes() < 10 ? "0" : ""
+    }${date.getMinutes()}`;
+
+    const dateString = `${difference}, ${time} i-GMT+3`;
+
+    return dateString;
   };
 
   const leftOverIngredient = getIngredient(ingredients[6]);
@@ -30,7 +61,7 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
             </p>
           </div>
           <p className="text text_type_main-default pt-6 pb-6 text_color_inactive">
-            {time && time}
+            {order && calculateOrderTime(order)}
           </p>
         </div>
         <p className="text text_type_main-medium pb-6">{order && order.name}</p>
@@ -75,7 +106,7 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
           </div>
           <div className={styles.summary__priceBlock}>
             <p className="text text_type_digits-default pr-2">
-              {price && price}
+              {order && calculateOrderPrice(order)}
             </p>
             <CurrencyIcon type="primary" />
           </div>

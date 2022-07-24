@@ -1,11 +1,24 @@
 .content {
-  margin-left: 50px;
-  margin-top: 50px;
   display: flex;
+  justify-content: center;
+
   gap: 60px;
-  max-width: 1240px;
-  margin: 0 auto;
+
   padding-top: 40px;
   align-items: baseline;
   max-height: 250px;
+}
+
+.orders {
+  height: 852px;
+  overflow: auto;
+}
+
+.orders::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.orders::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
 }
