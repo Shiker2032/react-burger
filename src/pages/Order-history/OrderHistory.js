@@ -87,7 +87,7 @@ function OrderHistory(props) {
 
         <div className={styles.ordersFeed}>
           {orders &&
-            orders.orders.map((orderEl) => (
+            orders.map((orderEl) => (
               <FeedOrder
                 handleFeedClick={handleFeedClick}
                 order={orderEl}
