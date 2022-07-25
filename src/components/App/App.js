@@ -75,6 +75,15 @@ function App(props) {
         <Route path="/reset-password" exact={true}>
           <ResetPassword />
         </Route>
+
+        <Route path="/feed" exact>
+          <Feed />
+        </Route>
+
+        <Route path="/feed/:id" exact>
+          <FeedDetails />
+        </Route>
+
         <Route
           path="/ingredients/:id"
           children={
@@ -84,12 +93,17 @@ function App(props) {
           }
         />
 
-        <Route path="/feed" exact>
-          <Feed />
-        </Route>
         <Route
-          path="/feed/:id"
-          exact
+          path="/ingredients/:id"
+          children={
+            <>
+              <Ingredient />
+            </>
+          }
+        />
+
+        <Route
+          path="/profile/orders/:id"
           children={
             <>
               <FeedDetails />
@@ -118,6 +132,7 @@ function App(props) {
       {background && (
         <Route
           path="/feed/:id"
+          exact
           children={
             <Modal
               onCloseClick={() => {

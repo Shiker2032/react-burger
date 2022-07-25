@@ -1,7 +1,6 @@
 .content {
   display: grid;
   justify-items: center;
-  width: 710px;
 }
 
 .status {
