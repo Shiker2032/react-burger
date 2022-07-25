@@ -1,0 +1,15 @@
+.orderDetails {
+  display: grid;
+  justify-items: center;
+  max-width: 100%;
+  padding-left: 140px;
+  padding-right: 140px;
+}
+
+.orderDetails__title {
+  padding-bottom: 10px;
+}
+
+.orderDetails__image {
+  padding-top: 20px;
+}
