@@ -43,3 +43,13 @@ export const wsReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export const orderInfoReducer = (state = [], action) => {
+  switch (action.type) {
+    case "SET_ORDER_INFO": {
+      return action.payload;
+    }
+    default:
+      return state;
+  }
+};

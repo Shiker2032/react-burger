@@ -2,24 +2,27 @@ import styles from "./feedDetailsElement.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 import { getIngredient } from "../../../utils/utils";
+import { useEffect } from "react";
 
-function FeedDetailsElement({ ingredient }) {
+function FeedDetailsElement({ ingredient, price, orderInfo }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
-
   return (
     <div className={styles.feedDetailsElement}>
       <div className={styles.feedDetailsElement__images}>
         <img
           className={styles.feedDetailsElement__image}
-          src={ingredient && getIngredient(ingredient, ingredientsArr).image}
+          src={ingredient && getIngredient(ingredient.id, ingredientsArr).image}
         />
         <p className="text text_type_main-default pb-6">
-          {ingredient && getIngredient(ingredient, ingredientsArr).name}
+          {ingredient && getIngredient(ingredient.id, ingredientsArr).name}
         </p>
       </div>
       <div className={styles.feedDetailsElement__priceBlock}>
         <p className="text text_type_digits-default pr-2">
-          {ingredient && getIngredient(ingredient, ingredientsArr).price}
+          {ingredient &&
+            `${ingredient.amount} X ${
+              getIngredient(ingredient.id, ingredientsArr).price
+            }`}
         </p>
         <CurrencyIcon type="primary" />
       </div>
