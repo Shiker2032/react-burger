@@ -1,77 +1,86 @@
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import styles from "./app.module.css";
-import Header from "../Header/Header";
+
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import Constructor from "../../pages/Constructor";
+import ForgotPassword from "../../pages/ForgotPassword";
+import Ingredient from "../../pages/IngredientDetails";
+import Login from "../../pages/Login";
+import Profile from "../../pages/Profile";
+import Register from "../../pages/Register";
+import ResetPassword from "../../pages/ResetPassword";
+import { checkUserAPI } from "../../services/actions/user";
 import Modal from "../Modal/Modal";
-import BurgerIngredients from "../Burger-ingredients/BurgerIngredients";
-import BurgerConstructor from "../Burger-constructor/BurgerConstructor";
-import OrderDetails from "../Order-details/OrderDetails";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {
-  getIngredients,
-  postOrder,
-  setCurrentIngredient,
-} from "../../services/actions";
+import { ProtectedRoute } from "../ProtectedRoute";
+
+import Header from "../Header/Header";
+import { getIngredients } from "../../services/actions/ingredient";
 
 function App(props) {
+  const location = useLocation();
+  const history = useHistory();
+  const background = location.state?.background;
   const dispatch = useDispatch();
 
-  const { currentIngredient, order, orderNumber } = useSelector((store) => ({
-    orderNumber: store.orderNumberReducer.orderNumber,
-    order: store.orderReducer.order,
-    currentIngredient: store.currentIngredientReducer.currentIngredient,
-  }));
-
-  const [isIngredientsDetailsOpened, setIsIngredientsDetailsOpened] =
-    useState(false);
-  const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
-
-  const handleIngredientClick = (ingredient) => {
-    setIsIngredientsDetailsOpened(true);
-    dispatch(setCurrentIngredient(ingredient));
-  };
-
-  const handleCloseIngredientModal = () => {
-    setIsIngredientsDetailsOpened(false);
-  };
-
-  const closeOrderModal = () => {
-    setOrderDetailsOpened(false);
-  };
-
-  const handleOrderClick = () => {
-    const orderInfo = order
-      .map((ingredients) => ingredients._id)
-      .filter((el) => el !== undefined);
-    dispatch(postOrder(orderInfo, setOrderDetailsOpened));
-    console.log(orderInfo);
-  };
+  const user = useSelector((store) => store.authReducer.user);
 
   useEffect(() => {
+    reloadUser();
     dispatch(getIngredients());
   }, []);
+
+  const reloadUser = () => {
+    if (!user && localStorage.refreshToken) {
+      dispatch(checkUserAPI());
+    }
+  };
 
   return (
     <>
       <Header />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.app__flexComponents}>
-          <BurgerIngredients onClick={handleIngredientClick} />
-          <BurgerConstructor order={order} onClick={handleOrderClick} />
-        </main>
-      </DndProvider>
-
-      {isIngredientsDetailsOpened && (
-        <Modal onCloseClick={handleCloseIngredientModal}>
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
-      {isOrderDetailsOpened && (
-        <Modal onCloseClick={closeOrderModal}>
-          <OrderDetails orderNumber={orderNumber} />
-        </Modal>
+      <Switch location={background || location}>
+        <Route path="/" exact={true}>
+          <Constructor />
+        </Route>
+        <Route path="/login" exact={true}>
+          <Login />
+        </Route>
+        <Route path="/register" exact={true}>
+          <Register />
+        </Route>
+        <ProtectedRoute path="/profile" exact={true}>
+          <Profile />
+        </ProtectedRoute>
+        <Route path="/forgot-password" exact={true}>
+          <ForgotPassword />
+        </Route>
+        <Route path="/reset-password" exact={true}>
+          <ResetPassword />
+        </Route>
+        <Route
+          path="/ingredients/:id"
+          children={
+            <>
+              <Ingredient />
+            </>
+          }
+        />
+      </Switch>
+      {background && (
+        <Route
+          path="/ingredients/:id"
+          children={
+            <Modal
+              onCloseClick={() => {
+                history.replace({
+                  pathname: "/",
+                });
+              }}
+            >
+              <Ingredient />
+            </Modal>
+          }
+        />
       )}
     </>
   );
