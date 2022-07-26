@@ -10,6 +10,7 @@ import FeedOrder from "../components/Feed-order/FeedOrder";
 import { useHistory, useLocation } from "react-router-dom";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 import styles from "./feed.module.css";
+import { calculateOrderTime } from "../utils/utils";
 
 function Feed(props) {
   const dispatch = useDispatch();
@@ -34,26 +35,6 @@ function Feed(props) {
       pathname: `/feed/${order._id}`,
       state: { background: location },
     });
-  };
-
-  const calculateOrderTime = (order) => {
-    const date = new Date(order.createdAt);
-    const dateNow = new Date(Date.now());
-    let difference = Math.floor((dateNow - date) / (24 * 3600 * 1000));
-    if (difference === 0) {
-      difference = "Сегодня";
-    } else if (difference === 1) {
-      difference = "Вчера";
-    } else {
-      difference = difference.toString() + "дней";
-    }
-
-    const time = `${date.getHours()}:${
-      date.getMinutes() < 10 ? "0" : ""
-    }${date.getMinutes()}`;
-
-    const dateString = `${difference}, ${time} i-GMT+3`;
-    return dateString;
   };
 
   return (

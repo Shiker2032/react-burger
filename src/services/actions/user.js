@@ -129,7 +129,7 @@ export const logOutUser = () => async (dispatch) => {
       },
       body: JSON.stringify({ token: `${localStorage.refreshToken}` }),
     });
-    if (message.success) {
+    if (message?.success) {
       dispatch({ type: RESET_USER });
       deleteCookie("token");
       localStorage.removeItem("refreshToken");

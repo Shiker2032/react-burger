@@ -2,35 +2,18 @@ import React, { useEffect } from "react";
 import styles from "./feedDetails.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedDetailsElement from "./Feed-details-element/FeedDetailsElement";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredient } from "../../utils/utils";
-import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_START,
-} from "../../services/actions/wsActions";
+import { useSelector } from "react-redux";
+import { getIngredient, calculateOrderTime } from "../../utils/utils";
 
 function FeedDetails(props) {
   const params = useParams();
-  const dispatch = useDispatch();
   const { orders } = useSelector((store) => store.wsReducer);
   const orderInfo = orders?.filter((el) => el._id === params.id);
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
-  const orderInfoReducer = useSelector((store) => store.orderInfoReducer);
 
   let arrDonor = [];
-
-  useEffect(() => {
-    connectionForModal();
-    return () => {};
-  }, []);
-
-  const connectionForModal = () => {
-    if (!orders) {
-      dispatch({ type: WS_CONNECTION_START, payload: "/all" });
-    }
-  };
 
   const setArray = (orderInfo) => {
     if (orderInfo) {
@@ -110,7 +93,7 @@ function FeedDetails(props) {
       </div>
       <div className={styles.feedDetails__summary}>
         <p className="text text_type_main-default text_color_inactive pt-10">
-          Вчера, 13:50 i-GMT+3
+          {orderInfo && calculateOrderTime(orderInfo[0])}
         </p>
         <div className={styles.feedDetails__priceBlock}>
           <p className="text text_type_digits-default pb-4">

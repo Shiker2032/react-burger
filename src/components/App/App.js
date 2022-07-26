@@ -54,9 +54,9 @@ function App(props) {
         <ProtectedRoute path="/profile" exact={true}>
           <Profile />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders" exact={true}>
+        <Route path="/profile/orders" exact={true}>
           <OrderHistory />
-        </ProtectedRoute>
+        </Route>
         <Route path="/forgot-password" exact={true}>
           <ForgotPassword />
         </Route>
@@ -64,16 +64,17 @@ function App(props) {
           <ResetPassword />
         </Route>
 
-        <Route path="/feed" exact>
+        <Route path="/feed" exact={true}>
           <Feed />
         </Route>
 
-        <Route path="/feed/:id" exact>
+        <Route path="/feed/:id" exact={true}>
           <FeedDetails />
         </Route>
 
         <Route
           path="/ingredients/:id"
+          exact={true}
           children={
             <>
               <Ingredient />
@@ -83,6 +84,7 @@ function App(props) {
 
         <Route
           path="/ingredients/:id"
+          exact={true}
           children={
             <>
               <Ingredient />
@@ -92,6 +94,7 @@ function App(props) {
 
         <Route
           path="/profile/orders/:id"
+          exact={true}
           children={
             <>
               <FeedDetails />
@@ -103,6 +106,7 @@ function App(props) {
       {background && (
         <Route
           path="/ingredients/:id"
+          exact={true}
           children={
             <Modal
               onCloseClick={() => {
@@ -120,7 +124,7 @@ function App(props) {
       {background && (
         <Route
           path="/feed/:id"
-          exact
+          exact={true}
           children={
             <Modal
               onCloseClick={() => {
@@ -138,6 +142,7 @@ function App(props) {
       {background && (
         <Route
           path="/profile/orders/:id"
+          exact={true}
           children={
             <Modal
               onCloseClick={() => {

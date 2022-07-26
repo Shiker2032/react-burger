@@ -2,9 +2,8 @@ import styles from "./feedDetailsElement.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 import { getIngredient } from "../../../utils/utils";
-import { useEffect } from "react";
 
-function FeedDetailsElement({ ingredient, price, orderInfo }) {
+function FeedDetailsElement({ ingredient }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
   return (
     <div className={styles.feedDetailsElement}>

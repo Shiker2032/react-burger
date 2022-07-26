@@ -42,6 +42,7 @@ function OrderHistory(props) {
 
   const logOutClick = () => {
     dispatch(logOutUser());
+    history.replace({ pathname: "/login" });
   };
 
   const handleSubmit = (e) => {

@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
 import styles from "./feedOrder.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import { getIngredient } from "../../utils/utils";
+import { getIngredient, calculateOrderTime } from "../../utils/utils";
 
-function FeedOrder({ order, handleFeedClick, price, time }) {
+function FeedOrder({ order, handleFeedClick }) {
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
   const orderIngredients = order.ingredients;
 
@@ -18,27 +15,6 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
       price += ingredient?.price;
     });
     return price;
-  };
-
-  const calculateOrderTime = (order) => {
-    let date = new Date(order.createdAt);
-    let dateNow = new Date(Date.now());
-    let difference = Math.floor((dateNow - date) / (24 * 3600 * 1000));
-    if (difference === 0) {
-      difference = "Сегодня";
-    } else if (difference === 1) {
-      difference = "Вчера";
-    } else {
-      difference = difference.toString() + "дней";
-    }
-
-    const time = `${date.getHours()}:${
-      date.getMinutes() < 10 ? "0" : ""
-    }${date.getMinutes()}`;
-
-    const dateString = `${difference}, ${time} i-GMT+3`;
-
-    return dateString;
   };
 
   const leftOverIngredient = getIngredient(orderIngredients[6], ingredientsArr);

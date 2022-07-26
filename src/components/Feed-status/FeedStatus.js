@@ -2,8 +2,10 @@ import React from "react";
 import styles from "./feedStatus.module.css";
 
 import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
 
 function FeedStatus({ orders }) {
+  const { total, totalToday } = useSelector((store) => store.wsReducer);
   const completedOrders =
     orders &&
     orders.filter((orderEl) => orderEl.status === "done").splice(0, 10);
@@ -41,14 +43,14 @@ function FeedStatus({ orders }) {
         <p className="text text_type_main-medium pt-15">
           Выполнено за все время:
         </p>
-        <p className="text text_type_digits-large">{orders && orders.total}</p>
+        <p className="text text_type_digits-large">{total && total}</p>
       </div>
       <div className="completedToday">
         <p className="text text_type_main-medium pt-15">
           Выполнено за сегодня:
         </p>
         <p className="text text_type_digits-large">
-          {orders && orders.totalToday}
+          {totalToday && totalToday}
         </p>
       </div>
     </div>
