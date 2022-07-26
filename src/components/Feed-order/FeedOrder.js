@@ -45,7 +45,11 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
 
   return (
     <>
-      <div className={styles.order}>
+      <div
+        style={{ cursor: "pointer" }}
+        className={styles.order}
+        onClick={() => handleFeedClick(order)}
+      >
         <div className={styles.info}>
           <div className={styles.info__code}>
             <p className="text text_type_main-default">#</p>
@@ -72,7 +76,6 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
                     >
                       <img
                         style={{}}
-                        onClick={(e) => handleFeedClick(order)}
                         className={styles.summary__image}
                         src={getIngredient(ingredientEl, ingredientsArr)?.image}
                       />
@@ -88,7 +91,6 @@ function FeedOrder({ order, handleFeedClick, price, time }) {
               >
                 <img
                   style={{ opacity: "0.6" }}
-                  onClick={(e) => handleFeedClick(order)}
                   className={styles.summary__image}
                   src={
                     getIngredient(leftOverIngredient._id, ingredientsArr).image

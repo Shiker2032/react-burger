@@ -17,10 +17,6 @@ import Header from "../Header/Header";
 import { getIngredients } from "../../services/actions/ingredient";
 import Feed from "../../pages/Feed";
 import FeedDetails from "../Feed-details/FeedDetails";
-import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_START,
-} from "../../services/actions/wsActions";
 import OrderHistory from "../../pages/OrderHistory";
 
 function App(props) {
@@ -35,14 +31,6 @@ function App(props) {
     reloadUser();
     dispatch(getIngredients());
   }, []);
-
-  useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, payload: "/all" });
-
-    return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED });
-    };
-  }, [dispatch]);
 
   const reloadUser = () => {
     if (!user && localStorage.refreshToken) {

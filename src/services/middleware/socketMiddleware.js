@@ -7,15 +7,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
     return (next) => (action) => {
       const { dispatch } = store;
       const { type, payload } = action;
-      const {
-        wsInit,
-        wsSendMessage,
-        onOpen,
-        onClose,
-        onError,
-        onMessage,
-        wsClose,
-      } = wsActions;
+      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
 
       if (type === wsInit) {
         socket = new WebSocket(`${wsUrl}${payload}`);
@@ -39,12 +31,8 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         };
 
         socket.onclose = (event) => {
-          dispatch({ type: WS_CONNECTION_CLOSED, payload: event });
+          dispatch({ type: onClose, payload: event });
         };
-
-        if (type === wsClose) {
-          socket.close();
-        }
       }
 
       next(action);

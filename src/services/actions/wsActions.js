@@ -6,7 +6,7 @@ export const WS_GET_MESSAGE = "WS_GET_MESSAGE";
 
 export const wsActions = {
   wsInit: WS_CONNECTION_START,
-  wsClose: WS_CONNECTION_CLOSED,
+  onClose: WS_CONNECTION_CLOSED,
   onOpen: WS_CONNECTION_SUCCESS,
   onError: WS_CONNECTION_ERROR,
   onMessage: WS_GET_MESSAGE,

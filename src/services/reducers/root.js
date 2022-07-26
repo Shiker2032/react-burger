@@ -3,7 +3,7 @@ import { authReducer } from "./auth";
 import { ingredientsReducer, currentIngredientReducer } from "./ingredient";
 import { orderReducer, orderNumberReducer, priceReducer } from "./order";
 import { activeReducer } from "./activeTab";
-import { wsReducer, orderInfoReducer } from "./wsReducer";
+import { wsReducer } from "./wsReducer";
 
 const rootReducer = combineReducers({
   ingredientsReducer,
@@ -14,7 +14,6 @@ const rootReducer = combineReducers({
   authReducer,
   activeReducer,
   wsReducer,
-  orderInfoReducer,
 });
 
 export { rootReducer };

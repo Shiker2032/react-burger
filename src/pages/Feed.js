@@ -24,7 +24,6 @@ function Feed(props) {
       type: SET_TAB_STATE,
       name: "orderFeed",
     });
-
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
     };

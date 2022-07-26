@@ -6,9 +6,12 @@ import { useLocation, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredient } from "../../utils/utils";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../../services/actions/wsActions";
 
 function FeedDetails(props) {
-  console.log("fired");
   const params = useParams();
   const dispatch = useDispatch();
   const { orders } = useSelector((store) => store.wsReducer);
@@ -17,6 +20,17 @@ function FeedDetails(props) {
   const orderInfoReducer = useSelector((store) => store.orderInfoReducer);
 
   let arrDonor = [];
+
+  useEffect(() => {
+    connectionForModal();
+    return () => {};
+  }, []);
+
+  const connectionForModal = () => {
+    if (!orders) {
+      dispatch({ type: WS_CONNECTION_START, payload: "/all" });
+    }
+  };
 
   const setArray = (orderInfo) => {
     if (orderInfo) {

@@ -8,7 +8,10 @@ import { useHistory, useLocation } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../components/API/api";
-import { WS_CONNECTION_START } from "../services/actions/wsActions";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../services/actions/wsActions";
 
 function OrderHistory(props) {
   const [nameInput, setNameInput] = useState("");
@@ -31,6 +34,10 @@ function OrderHistory(props) {
       type: WS_CONNECTION_START,
       payload: `?token=${getCookie("token").slice(1)}`,
     });
+
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    };
   }, []);
 
   const logOutClick = () => {

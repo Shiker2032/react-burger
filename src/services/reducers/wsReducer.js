@@ -38,17 +38,6 @@ export const wsReducer = (state = initialState, action) => {
         total: action.payload.total,
         totalToday: action.payload.totalToday,
       };
-
-    default:
-      return state;
-  }
-};
-
-export const orderInfoReducer = (state = [], action) => {
-  switch (action.type) {
-    case "SET_ORDER_INFO": {
-      return action.payload;
-    }
     default:
       return state;
   }
