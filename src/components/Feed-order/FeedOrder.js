@@ -12,10 +12,14 @@ function FeedOrder({ order, handleFeedClick }) {
     let price = 0;
     orderArr.ingredients.map((el_id) => {
       const ingredient = getIngredient(el_id, ingredientsArr);
-      price += ingredient?.price;
+      if (ingredient && ingredient.price !== undefined) {
+        price += ingredient?.price;
+      }
     });
     return price;
   };
+
+  console.log(calculateOrderPrice(order));
 
   const leftOverIngredient = getIngredient(orderIngredients[6], ingredientsArr);
 
