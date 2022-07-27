@@ -34,11 +34,10 @@ function OrderHistory(props) {
       type: WS_CONNECTION_START,
       payload: `?token=${getCookie("token").slice(1)}`,
     });
-
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
     };
-  }, []);
+  }, [dispatch]);
 
   const logOutClick = () => {
     dispatch(logOutUser());

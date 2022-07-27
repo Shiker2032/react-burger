@@ -18,9 +18,6 @@ function FeedOrder({ order, handleFeedClick }) {
     });
     return price;
   };
-
-  console.log(calculateOrderPrice(order));
-
   const leftOverIngredient = getIngredient(orderIngredients[6], ingredientsArr);
 
   return (

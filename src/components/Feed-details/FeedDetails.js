@@ -2,18 +2,48 @@ import React, { useEffect } from "react";
 import styles from "./feedDetails.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedDetailsElement from "./Feed-details-element/FeedDetailsElement";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getIngredient, calculateOrderTime } from "../../utils/utils";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../../services/actions/wsActions";
+import { getCookie } from "../API/api";
 
 function FeedDetails(props) {
+  const dispatch = useDispatch();
   const params = useParams();
   const { orders } = useSelector((store) => store.wsReducer);
   const orderInfo = orders?.filter((el) => el._id === params.id);
   const ingredientsArr = useSelector((store) => store.ingredientsReducer);
 
+  const { pathname } = useLocation();
+
   let arrDonor = [];
+
+  const modalConnection = () => {
+    if (pathname.includes("/feed/")) {
+      dispatch({ type: WS_CONNECTION_START, payload: "/all" });
+    }
+    if (pathname.includes("/profile/order")) {
+      dispatch({
+        type: WS_CONNECTION_START,
+        payload: `?token=${getCookie("token").slice(1)}`,
+      });
+    }
+    return;
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      modalConnection();
+    }, 0.5);
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    };
+  }, []);
 
   const setArray = (orderInfo) => {
     if (orderInfo) {

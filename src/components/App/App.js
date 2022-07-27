@@ -92,7 +92,7 @@ function App(props) {
           }
         />
 
-        <Route
+        <ProtectedRoute
           path="/profile/orders/:id"
           exact={true}
           children={
@@ -100,7 +100,7 @@ function App(props) {
               <FeedDetails />
             </>
           }
-        ></Route>
+        ></ProtectedRoute>
       </Switch>
 
       {background && (
