@@ -35,7 +35,7 @@ function FeedOrder({ order, handleFeedClick }) {
             </p>
           </div>
           <p className="text text_type_main-default pt-6 pb-6 text_color_inactive">
-            {order && calculateOrderTime(order)}
+            {order && calculateOrderTime(order.createdAt)}
           </p>
         </div>
         <p className="text text_type_main-medium pb-6">{order && order.name}</p>

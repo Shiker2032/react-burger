@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom/client";
+import * as ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/App/App";
 
@@ -7,11 +7,11 @@ import { store } from "./services/store";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+ReactDOM.render(
   <Provider store={store}>
     <Router>
       <App />
     </Router>
-  </Provider>
+  </Provider>,
+  document.getElementById("root")
 );

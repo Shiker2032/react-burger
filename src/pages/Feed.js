@@ -47,7 +47,7 @@ function Feed(props) {
               order={orderEl}
               handleFeedClick={handleFeedClick}
               key={uuidv4()}
-              time={calculateOrderTime(orderEl)}
+              time={calculateOrderTime(orderEl.createdAt)}
             />
           ))}
       </div>
