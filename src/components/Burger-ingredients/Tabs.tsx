@@ -1,18 +1,32 @@
-import React, { useEffect } from "react";
+import React, {
+  FC,
+  HtmlHTMLAttributes,
+  MutableRefObject,
+  useEffect,
+} from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import styles from "./burgerIngredients.module.css";
 
-function Tabs({ tabRefs }) {
+type TTabs = {
+  tabRefs: {
+    [key: string]: {
+      current: any;
+    };
+  };
+};
+
+const Tabs: FC<TTabs> = ({ tabRefs }) => {
   const [current, setCurrent] = React.useState("one");
 
   useEffect(() => {
     setCurrent("bun");
+
     const saucesTab = tabRefs.saucesRef.current;
     const bunsTab = tabRefs.bunRef.current;
     const ingredientsTab = tabRefs.ingredientsRef.current;
 
-    const tabs = [saucesTab, bunsTab, ingredientsTab];
+    const tabs: any = [saucesTab, bunsTab, ingredientsTab];
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -31,7 +45,7 @@ function Tabs({ tabRefs }) {
       }
     );
 
-    tabs.forEach((tabEl) => {
+    tabs.forEach((tabEl: any) => {
       observer.observe(tabEl);
     });
   }, []);
@@ -74,10 +88,6 @@ function Tabs({ tabRefs }) {
       </Tab>
     </div>
   );
-}
-
-Tabs.propTypes = {
-  tabRefs: PropTypes.object.isRequired,
 };
 
 export default Tabs;

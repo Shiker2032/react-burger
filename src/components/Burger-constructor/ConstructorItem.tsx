@@ -4,10 +4,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import {
+  IIngredient,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
   SUBTRACT_INGREDIENT_AMOUNT,
@@ -15,8 +16,18 @@ import {
 } from "../../services/types";
 import styles from "./burgerConstructor.module.css";
 
-function ConstructorItem({ ingredient, id, index }) {
-  const order = useSelector((store) => store.orderReducer.order);
+type TConstructorItemProps = {
+  ingredient: IIngredient;
+  id: string;
+  index: number;
+};
+
+const ConstructorItem: FC<TConstructorItemProps> = ({
+  ingredient,
+  id,
+  index,
+}) => {
+  const order = useSelector((store: any) => store.orderReducer.order);
   const ref = useRef(null);
   const dispatch = useDispatch();
 
@@ -29,7 +40,7 @@ function ConstructorItem({ ingredient, id, index }) {
   });
   const opacity = isDragging ? 0.5 : 1;
 
-  const moveElement = (dragIndex, hoverIndex) => {
+  const moveElement = (dragIndex: number, hoverIndex: number) => {
     let newItems = [...order];
     let dragItem = newItems[dragIndex];
     newItems.splice(dragIndex, 1);
@@ -40,7 +51,7 @@ function ConstructorItem({ ingredient, id, index }) {
 
   const [, drop] = useDrop({
     accept: "element",
-    hover(item) {
+    hover(item: { id: string; index: number }) {
       if (item.index === index) return;
       if (!ref.current) return;
       moveElement(item.index, index);
@@ -48,7 +59,7 @@ function ConstructorItem({ ingredient, id, index }) {
     },
   });
 
-  const handleClose = (ingredient) => {
+  const handleClose = (ingredient: IIngredient) => {
     if (ingredient.amount < 2) {
       dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
       dispatch({ type: SUBTRACT_INGREDIENT_PRICE, price: ingredient.price });
@@ -82,12 +93,6 @@ function ConstructorItem({ ingredient, id, index }) {
       />
     </article>
   );
-}
-
-ConstructorItem.propTypes = {
-  ingredient: PropTypes.object.isRequired,
-  id: PropTypes.string,
-  index: PropTypes.number,
 };
 
 export default ConstructorItem;

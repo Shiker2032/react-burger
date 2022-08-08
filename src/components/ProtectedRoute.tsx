@@ -1,8 +1,14 @@
+import { FC, ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
 
-export function ProtectedRoute({ children, ...rest }) {
-  const auth = useSelector((store) => store.authReducer);
+export type TProtectedRoute = {
+  children: ReactNode;
+  path: string;
+};
+
+export const ProtectedRoute: FC<TProtectedRoute> = ({ children, ...rest }) => {
+  const auth = useSelector((store: any) => store.authReducer);
   return (
     <Route
       {...rest}
@@ -23,4 +29,4 @@ export function ProtectedRoute({ children, ...rest }) {
       }
     />
   );
-}
+};

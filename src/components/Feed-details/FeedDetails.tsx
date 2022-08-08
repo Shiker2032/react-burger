@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import styles from "./feedDetails.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedDetailsElement from "./Feed-details-element/FeedDetailsElement";
@@ -11,17 +11,20 @@ import {
   WS_CONNECTION_START,
 } from "../../services/actions/wsActions";
 import { getCookie } from "../API/api";
+import { IOrder } from "../../services/types";
 
-function FeedDetails(props) {
+const FeedDetails: FC = () => {
   const dispatch = useDispatch();
-  const params = useParams();
-  const { orders } = useSelector((store) => store.wsReducer);
-  const orderInfo = orders?.filter((el) => el._id === params.id);
-  const ingredientsArr = useSelector((store) => store.ingredientsReducer);
+  const params: { id: string } = useParams();
+  console.log(params);
+
+  const { orders } = useSelector((store: any) => store.wsReducer);
+  const orderInfo = orders?.filter((el: IOrder) => el._id === params.id);
+  const ingredientsArr = useSelector((store: any) => store.ingredientsReducer);
 
   const { pathname } = useLocation();
 
-  let arrDonor = [];
+  let arrDonor: any[] = [];
 
   const modalConnection = () => {
     if (pathname.includes("/feed/")) {
@@ -30,7 +33,7 @@ function FeedDetails(props) {
     if (pathname.includes("/profile/order")) {
       dispatch({
         type: WS_CONNECTION_START,
-        payload: `?token=${getCookie("token").slice(1)}`,
+        payload: `?token=${getCookie("token")?.slice(1)}`,
       });
     }
     return;
@@ -45,7 +48,7 @@ function FeedDetails(props) {
     };
   }, []);
 
-  const setArray = (orderInfo) => {
+  const setArray = (orderInfo: Array<IOrder>) => {
     if (orderInfo) {
       orderInfo[0]?.ingredients.map((el) => {
         arrDonor.push({ id: el, amount: 1 });
@@ -54,7 +57,7 @@ function FeedDetails(props) {
     }
   };
 
-  const filterOrderInfo = (orderArr) => {
+  const filterOrderInfo = (orderArr: Array<{ id: string; amount: number }>) => {
     let element = orderArr;
     element?.map((el, idx) => {
       let counter = 0;
@@ -77,11 +80,14 @@ function FeedDetails(props) {
     setArray(orderInfo);
   }
 
-  const calculateOrderPrice = (orderArr) => {
-    let price = 0;
+  const calculateOrderPrice = (orderArr: IOrder) => {
+    let price: number = 0;
+
     orderArr?.ingredients.map((el_id) => {
       const ingredient = getIngredient(el_id, ingredientsArr);
-      price += ingredient?.price;
+      if (ingredient) {
+        price += ingredient.price;
+      }
     });
     return price;
   };
@@ -112,13 +118,7 @@ function FeedDetails(props) {
       <div className={styles.detailsElements}>
         {arrDonor &&
           arrDonor.map((el) => {
-            return (
-              <FeedDetailsElement
-                orderInfo={orderInfo}
-                ingredient={el}
-                key={uuidv4()}
-              />
-            );
+            return <FeedDetailsElement ingredient={el} key={uuidv4()} />;
           })}
       </div>
       <div className={styles.feedDetails__summary}>
@@ -134,6 +134,6 @@ function FeedDetails(props) {
       </div>
     </div>
   );
-}
+};
 
 export default FeedDetails;

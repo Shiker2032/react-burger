@@ -14,7 +14,7 @@ const AppHeader = () => {
   const history = useHistory();
 
   const [constructorIsActive, orderFeedIsActive, profileIsActive] = useSelector(
-    (store) => [
+    (store: any) => [
       store.activeReducer.constructor,
       store.activeReducer.orderFeed,
       store.activeReducer.profile,
@@ -56,7 +56,6 @@ const AppHeader = () => {
           onClick={() => {
             history.push({ pathname: "/profile" });
           }}
-          to="/profile"
           className={`${styles.header__menuItemLink} p-5`}
         >
           <ProfileIcon type={profileIsActive ? "primary" : "secondary"} />

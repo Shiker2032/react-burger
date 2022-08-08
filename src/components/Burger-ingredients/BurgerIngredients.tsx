@@ -1,12 +1,18 @@
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import { useSelector } from "react-redux";
 import Tabs from "./Tabs";
 import IngredientsItem from "./IngredientsItem";
 import styles from "./burgerIngredients.module.css";
 import PropTypes from "prop-types";
-const BurgerIngredients = ({ onClick }) => {
+import { IIngredient } from "../../services/types";
+
+type TBurgerIngredientsProps = {
+  onClick: (ingredient: IIngredient) => void;
+};
+
+const BurgerIngredients: FC<TBurgerIngredientsProps> = ({ onClick }) => {
   const ingredients = useSelector(
-    (store) => store.ingredientsReducer.ingredients
+    (store: any) => store.ingredientsReducer.ingredients
   );
 
   const tabRefs = {
@@ -25,8 +31,9 @@ const BurgerIngredients = ({ onClick }) => {
         </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
-            .filter((ingredient) => ingredient.type === "bun")
-            .map((ingredient, idx) => {
+
+            .filter((ingredient: IIngredient) => ingredient.type === "bun")
+            .map((ingredient: IIngredient, idx: number) => {
               return (
                 <IngredientsItem
                   ingredient={ingredient}
@@ -37,14 +44,13 @@ const BurgerIngredients = ({ onClick }) => {
             })}
         </ul>
 
-        <a name="sauce"></a>
         <h3 className="text text_type_main-medium" ref={tabRefs.saucesRef}>
           Соусы
         </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
-            .filter((ingredient) => ingredient.type === "sauce")
-            .map((ingredient, idx) => {
+            .filter((ingredient: IIngredient) => ingredient.type === "sauce")
+            .map((ingredient: IIngredient, idx: number) => {
               return (
                 <IngredientsItem
                   key={idx}
@@ -55,14 +61,13 @@ const BurgerIngredients = ({ onClick }) => {
             })}
         </ul>
 
-        <a name="main"></a>
         <h3 className="text text_type_main-medium" ref={tabRefs.ingredientsRef}>
           Начинки
         </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
-            .filter((ingredient) => ingredient.type === "main")
-            .map((ingredient, idx) => {
+            .filter((ingredient: IIngredient) => ingredient.type === "main")
+            .map((ingredient: IIngredient, idx: number) => {
               return (
                 <IngredientsItem
                   ingredient={ingredient}
@@ -76,8 +81,4 @@ const BurgerIngredients = ({ onClick }) => {
     </section>
   );
 };
-BurgerIngredients.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
-
 export default BurgerIngredients;

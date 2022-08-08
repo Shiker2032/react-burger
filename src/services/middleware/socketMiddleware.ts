@@ -1,10 +1,16 @@
-import { WS_CONNECTION_CLOSED } from "../actions/wsActions";
+interface IAction {
+  onClose: string;
+  onError: string;
+  onMessage: string;
+  onOpen: string;
+  wsInit: string;
+}
 
-export const socketMiddleware = (wsUrl, wsActions) => {
-  return (store) => {
-    let socket = null;
+export const socketMiddleware = (wsUrl: string, wsActions: IAction) => {
+  return (store: any) => {
+    let socket: WebSocket | null = null;
 
-    return (next) => (action) => {
+    return (next: any) => (action: any) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
@@ -24,6 +30,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
 
         socket.onmessage = (event) => {
           const { data } = event;
+
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
 

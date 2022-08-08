@@ -3,12 +3,19 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { getIngredient, calculateOrderTime } from "../../utils/utils";
+import { IOrder } from "../../services/types";
+import { FC } from "react";
 
-function FeedOrder({ order, handleFeedClick }) {
-  const ingredientsArr = useSelector((store) => store.ingredientsReducer);
+type TFeedOrderProps = {
+  order: IOrder;
+  handleFeedClick: (order: IOrder) => void;
+};
+
+const FeedOrder: FC<TFeedOrderProps> = ({ order, handleFeedClick }) => {
+  const ingredientsArr = useSelector((store: any) => store.ingredientsReducer);
   const orderIngredients = order.ingredients;
 
-  const calculateOrderPrice = (orderArr) => {
+  const calculateOrderPrice = (orderArr: IOrder) => {
     let price = 0;
     orderArr.ingredients.map((el_id) => {
       const ingredient = getIngredient(el_id, ingredientsArr);
@@ -70,7 +77,7 @@ function FeedOrder({ order, handleFeedClick }) {
                   style={{ opacity: "0.6" }}
                   className={styles.summary__image}
                   src={
-                    getIngredient(leftOverIngredient._id, ingredientsArr).image
+                    getIngredient(leftOverIngredient._id, ingredientsArr)?.image
                   }
                 />
 
@@ -90,6 +97,6 @@ function FeedOrder({ order, handleFeedClick }) {
       </div>
     </>
   );
-}
+};
 
 export default FeedOrder;

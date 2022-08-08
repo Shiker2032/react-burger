@@ -9,7 +9,7 @@ import {
   SET_ORDER_NUMBER,
   SUBTRACT_BUN_AMOUNT,
   SUBTRACT_INGREDIENT_PRICE,
-} from "../types.js";
+} from "../types.ts";
 
 const orderInitialState = {
   order: [{ price: 0 }],

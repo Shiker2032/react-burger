@@ -1,10 +1,22 @@
+//@ts-nocheck
+
 import styles from "./feedDetailsElement.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 import { getIngredient } from "../../../utils/utils";
+import { FC } from "react";
 
-function FeedDetailsElement({ ingredient }) {
-  const ingredientsArr = useSelector((store) => store.ingredientsReducer);
+interface IIngredient {
+  _id: string;
+  amount: number;
+}
+
+type TFeedDetailsElementProps = {
+  ingredient: IIngredient;
+};
+
+const FeedDetailsElement: FC<TFeedDetailsElementProps> = ({ ingredient }) => {
+  const ingredientsArr = useSelector((store: any) => store.ingredientsReducer);
   return (
     <div className={styles.feedDetailsElement}>
       <div className={styles.feedDetailsElement__images}>
@@ -27,6 +39,6 @@ function FeedDetailsElement({ ingredient }) {
       </div>
     </div>
   );
-}
+};
 
 export default FeedDetailsElement;

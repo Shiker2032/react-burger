@@ -33,3 +33,30 @@ export const RESET_USER = "RESET_USER";
 
 export const SET_TAB_STATE = "SET_TAB_STATE";
 export const RESET_TAB_STATE = "RESET_TAB_STATE";
+
+export interface IOrder {
+  createdAt: Date;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: string;
+  updatedAt: Date;
+  _id: string;
+}
+
+export interface IIngredient {
+  calories: number;
+  carbohydrates: number;
+  fat: number;
+  image: string;
+  image_large: string;
+  image_mobile: string;
+  name: string;
+  price: number;
+  proteins: number;
+  type: string;
+  __v: number;
+  _id: string;
+  amount: number;
+  uid: any;
+}

@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
+import { FC } from "react";
 import styles from "./orderDetails.module.css";
 
-const OrderDetails = ({ orderNumber }) => {
+type TOrderDetailsProps = {
+  orderNumber: number;
+};
+
+const OrderDetails: FC<TOrderDetailsProps> = ({ orderNumber }) => {
   return (
     <div className={`${styles.orderDetails} pt-30 pb-30`}>
       <h3 className="styles.orderDetails__title text text_type_digits-large">

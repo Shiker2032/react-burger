@@ -1,18 +1,26 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import styles from "../Burger-ingredients/burgerIngredients.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
-import PropTypes from "prop-types";
-
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { IIngredient } from "../../services/types";
 
-function IngredientsItem({ ingredient, onClick }) {
-  const order = useSelector((store) => store.orderReducer.order);
-  const constructorElement = document.querySelector("#constructor");
+type TIngredientsItemProps = {
+  ingredient: IIngredient;
+  onClick: (ingredient: IIngredient) => void;
+};
+
+const IngredientsItem: FC<TIngredientsItemProps> = ({
+  ingredient,
+  onClick,
+}) => {
+  const order = useSelector((store: any) => store.orderReducer.order);
+  const constructorElement: HTMLElement | null =
+    document.querySelector("#constructor");
 
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
@@ -65,11 +73,6 @@ function IngredientsItem({ ingredient, onClick }) {
       </article>
     </li>
   );
-}
-
-IngredientsItem.propTypes = {
-  ingredient: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default IngredientsItem;

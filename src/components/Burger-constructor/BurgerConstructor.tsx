@@ -7,6 +7,7 @@ import {
 import {
   ADD_BUN_PRICE,
   ADD_INGREDIENT_PRICE,
+  IIngredient,
   INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
   SET_BUN,
@@ -20,17 +21,27 @@ import styles from "./burgerConstructor.module.css";
 
 import { v4 as uuidv4 } from "uuid";
 import { setOrder } from "../../services/actions/order";
+import { FC } from "react";
 
-const BurgerConstructor = ({ onClick }) => {
+type TBurgerConstructorProps = {
+  onClick: () => void;
+};
+
+const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
   const dispatch = useDispatch();
-  const { order, price } = useSelector((store) => ({
+  const { order, price } = useSelector((store: any) => ({
     order: store.orderReducer.order,
     price: store.priceReducer,
   }));
 
-  const handleDrop = (ingredient) => {
-    if (order.find((el) => el.type === "bun") && ingredient.type === "bun") {
-      const previousBun = order.filter((el) => el.type === "bun");
+  console.log(order);
+
+  const handleDrop = (ingredient: IIngredient) => {
+    if (
+      order.find((el: IIngredient) => el.type === "bun") &&
+      ingredient.type === "bun"
+    ) {
+      const previousBun = order.filter((el: IIngredient) => el.type === "bun");
       dispatch({
         type: SUBTRACT_BUN_AMOUNT,
         bun: previousBun[0],
@@ -57,10 +68,12 @@ const BurgerConstructor = ({ onClick }) => {
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop: (item) => handleDrop(item.ingredient),
+    drop: (item: { ingredient: IIngredient }) => {
+      handleDrop(item.ingredient);
+    },
   });
 
-  const handleClose = (ingredient) => {
+  const handleClose = (ingredient: IIngredient) => {
     dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
     dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
   };
@@ -72,8 +85,8 @@ const BurgerConstructor = ({ onClick }) => {
       className={`${styles.burgerConstructor} pl-4`}
     >
       {order
-        .filter((ingredient) => ingredient.type === "bun")
-        .map((ingredient) => {
+        .filter((ingredient: IIngredient) => ingredient.type === "bun")
+        .map((ingredient: IIngredient) => {
           return (
             <article
               key={ingredient._id}
@@ -94,7 +107,7 @@ const BurgerConstructor = ({ onClick }) => {
       <div className={styles.burgerConstructor__wrapper}>
         <ul className={`${styles.burgerConstructor__list} pr-4`}>
           {order.length > 1 &&
-            order.map((ingredient, idx) => {
+            order.map((ingredient: IIngredient, idx: number) => {
               if (ingredient.price !== 0 && ingredient.type !== "bun") {
                 return (
                   <li key={ingredient.uid}>
@@ -111,8 +124,8 @@ const BurgerConstructor = ({ onClick }) => {
       </div>
 
       {order
-        .filter((ingredient) => ingredient.type === "bun")
-        .map((ingredient) => {
+        .filter((ingredient: IIngredient) => ingredient.type === "bun")
+        .map((ingredient: IIngredient) => {
           return (
             <article
               key={ingredient._id}
@@ -130,7 +143,7 @@ const BurgerConstructor = ({ onClick }) => {
           );
         })}
 
-      {order.find((orderEl) => orderEl.type === "bun") && (
+      {order.find((orderEl: IIngredient) => orderEl.type === "bun") && (
         <div
           className={`${styles.burgerConstructor__totalPriceContainer} mr-4`}
         >
@@ -150,10 +163,6 @@ const BurgerConstructor = ({ onClick }) => {
       )}
     </section>
   );
-};
-
-BurgerConstructor.propTypes = {
-  onClick: PropTypes.func,
 };
 
 export default BurgerConstructor;

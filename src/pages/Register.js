@@ -11,7 +11,7 @@ import { useState } from "react";
 import { registerUser } from "../services/actions/user";
 import { useDispatch } from "react-redux";
 
-function Register(props) {
+const Register = () => {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailinput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -70,6 +70,6 @@ function Register(props) {
       </main>
     </>
   );
-}
+};
 
 export default Register;

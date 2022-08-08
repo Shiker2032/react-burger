@@ -1,3 +1,5 @@
+import { IIngredient } from "../services/types";
+
 export const checkResponse = async (res: Response) => {
   const data = await res.json();
   return res.ok ? data : Promise.reject(data.message);
@@ -10,21 +12,6 @@ export const parseResponse = (res: Response) => {
     return Promise.reject(res.status);
   }
 };
-
-interface IIngredient {
-  calories: number;
-  carbohydrates: number;
-  fat: number;
-  image: string;
-  image_large: string;
-  image_mobile: string;
-  name: string;
-  price: number;
-  proteins: number;
-  type: string;
-  __v: number;
-  _id: string;
-}
 
 interface IOrder {
   ingredients: Array<IIngredient>;
