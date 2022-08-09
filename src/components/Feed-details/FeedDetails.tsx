@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import styles from "./feedDetails.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedDetailsElement from "./Feed-details-element/FeedDetailsElement";
@@ -7,8 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredient, calculateOrderTime } from "../../utils/utils";
 import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_START,
+  wsConnectionClose,
+  wsConnectionStart,
 } from "../../services/actions/wsActions";
 import { getCookie } from "../API/api";
 import { IOrder } from "../../services/types";
@@ -28,13 +28,10 @@ const FeedDetails: FC = () => {
 
   const modalConnection = () => {
     if (pathname.includes("/feed/")) {
-      dispatch({ type: WS_CONNECTION_START, payload: "/all" });
+      dispatch(wsConnectionStart("/all"));
     }
     if (pathname.includes("/profile/order")) {
-      dispatch({
-        type: WS_CONNECTION_START,
-        payload: `?token=${getCookie("token")?.slice(1)}`,
-      });
+      dispatch(wsConnectionStart(`?token=${getCookie("token")?.slice(1)}`));
     }
     return;
   };
@@ -44,7 +41,7 @@ const FeedDetails: FC = () => {
       modalConnection();
     }, 0.5);
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED });
+      dispatch(wsConnectionClose());
     };
   }, []);
 

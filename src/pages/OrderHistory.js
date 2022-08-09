@@ -9,9 +9,12 @@ import { useHistory, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../components/API/api";
 import {
+  wsConnectionClose,
+  wsConnectionStart,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../services/actions/wsActions";
+import { resetTab, setTab } from "../services/actions/tabs";
 
 function OrderHistory(props) {
   const [nameInput, setNameInput] = useState("");
@@ -27,15 +30,12 @@ function OrderHistory(props) {
   const location = useLocation();
 
   useEffect(() => {
-    dispatch({ type: RESET_TAB_STATE });
-    dispatch({ type: SET_TAB_STATE, name: "profile" });
+    dispatch(resetTab());
+    dispatch(setTab("profile"));
     setOrderHistoryIsActive(true);
-    dispatch({
-      type: WS_CONNECTION_START,
-      payload: `?token=${getCookie("token").slice(1)}`,
-    });
+    dispatch(wsConnectionStart(`?token=${getCookie("token").slice(1)}`));
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED });
+      dispatch(wsConnectionClose());
     };
   }, [dispatch]);
 

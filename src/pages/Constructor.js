@@ -12,8 +12,9 @@ import BurgerIngredients from "../components/Burger-ingredients/BurgerIngredient
 import styles from "./constructor.module.css";
 import { postOrder } from "../services/actions/order";
 import IngredientDetails from "./IngredientDetails";
-import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
+import { SET_TAB_STATE } from "../services/types";
 import { setCurrentIngredient } from "../services/actions/ingredient";
+import { resetTab, setTab } from "../services/actions/tabs";
 
 function Constructor(props) {
   const { currentIngredient, order, orderNumber, user } = useSelector(
@@ -26,11 +27,8 @@ function Constructor(props) {
   );
 
   useEffect(() => {
-    dispatch({ type: RESET_TAB_STATE });
-    dispatch({
-      type: SET_TAB_STATE,
-      name: "constructor",
-    });
+    dispatch(resetTab());
+    dispatch(setTab("constructor"));
   }, []);
 
   const dispatch = useDispatch();

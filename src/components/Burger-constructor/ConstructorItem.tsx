@@ -7,14 +7,14 @@ import {} from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
-import {
-  IIngredient,
-  REMOVE_INGREDIENT,
-  REORDER_ITEMS,
-  SUBTRACT_INGREDIENT_AMOUNT,
-  SUBTRACT_INGREDIENT_PRICE,
-} from "../../services/types";
+import { IIngredient, REORDER_ITEMS } from "../../services/types";
 import styles from "./burgerConstructor.module.css";
+import {
+  removeIngredient,
+  reorderItems,
+  subtracIngredient,
+  subtractIngredientPrice,
+} from "../../services/actions/ingredient";
 
 type TConstructorItemProps = {
   ingredient: IIngredient;
@@ -46,7 +46,7 @@ const ConstructorItem: FC<TConstructorItemProps> = ({
     newItems.splice(dragIndex, 1);
     newItems.splice(hoverIndex, 0, dragItem);
     newItems.filter((el) => el.price > 0);
-    dispatch({ type: REORDER_ITEMS, data: newItems });
+    dispatch(reorderItems(newItems));
   };
 
   const [, drop] = useDrop({
@@ -61,13 +61,13 @@ const ConstructorItem: FC<TConstructorItemProps> = ({
 
   const handleClose = (ingredient: IIngredient) => {
     if (ingredient.amount < 2) {
-      dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
-      dispatch({ type: SUBTRACT_INGREDIENT_PRICE, price: ingredient.price });
-      dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
+      dispatch(removeIngredient(ingredient));
+      dispatch(subtractIngredientPrice(ingredient.price));
+      dispatch(subtracIngredient(ingredient));
     } else {
-      dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
-      dispatch({ type: SUBTRACT_INGREDIENT_PRICE, price: ingredient.price });
-      dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
+      dispatch(subtracIngredient(ingredient));
+      dispatch(subtractIngredientPrice(ingredient.price));
+      dispatch(removeIngredient(ingredient));
     }
   };
 

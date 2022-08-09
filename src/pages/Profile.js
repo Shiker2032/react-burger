@@ -12,6 +12,7 @@ import { logOutUser, patchUser } from "../services/actions/user";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 
 import { useHistory } from "react-router-dom";
+import { resetTab, setTab } from "../services/actions/tabs";
 
 function Profile(props) {
   const [nameInput, setNameInput] = useState("");
@@ -27,8 +28,8 @@ function Profile(props) {
 
   useEffect(() => {
     setDefaultInput();
-    dispatch({ type: RESET_TAB_STATE });
-    dispatch({ type: SET_TAB_STATE, name: "profile" });
+    dispatch(resetTab());
+    dispatch(setTab("profile"));
     setProfileIsActive(true);
   }, []);
 

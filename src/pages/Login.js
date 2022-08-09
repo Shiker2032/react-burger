@@ -7,8 +7,8 @@ import { NavLink, Redirect, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logInUser } from "../services/actions/user";
-import { RESET_TAB_STATE } from "../services/types";
 import styles from "./login.module.css";
+import { resetTab } from "../services/actions/tabs";
 
 function Login(props) {
   const [emailInput, setEmailinput] = useState("vladislav.begunov@mail.ru");
@@ -19,7 +19,7 @@ function Login(props) {
   const location = useLocation();
 
   useEffect(() => {
-    dispatch({ type: RESET_TAB_STATE });
+    dispatch(resetTab());
   }, []);
 
   const handleSubmit = (e) => {

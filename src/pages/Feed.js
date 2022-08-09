@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import FeedStatus from "../components/Feed-status/FeedStatus";
 import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_START,
+  wsConnectionClose,
+  wsConnectionStart,
 } from "../services/actions/wsActions";
 import FeedOrder from "../components/Feed-order/FeedOrder";
 import { useHistory, useLocation } from "react-router-dom";
-import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 import styles from "./feed.module.css";
 import { calculateOrderTime } from "../utils/utils";
+import { resetTab, setTab } from "../services/actions/tabs";
 
 function Feed(props) {
   const dispatch = useDispatch();
@@ -19,14 +19,11 @@ function Feed(props) {
   const { orders } = useSelector((store) => store.wsReducer);
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, payload: "/all" });
-    dispatch({ type: RESET_TAB_STATE });
-    dispatch({
-      type: SET_TAB_STATE,
-      name: "orderFeed",
-    });
+    dispatch(wsConnectionStart("/all"));
+    dispatch(resetTab());
+    dispatch(setTab("orderFeed"));
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED });
+      dispatch(wsConnectionClose());
     };
   }, [dispatch]);
 

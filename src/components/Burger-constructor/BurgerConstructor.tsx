@@ -5,13 +5,10 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
-  ADD_BUN_PRICE,
   ADD_INGREDIENT_PRICE,
   IIngredient,
   INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
-  SET_BUN,
-  SUBTRACT_BUN_AMOUNT,
   SUBTRACT_INGREDIENT_AMOUNT,
 } from "../../services/types";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +19,15 @@ import styles from "./burgerConstructor.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { setOrder } from "../../services/actions/order";
 import { FC } from "react";
+import {
+  addIngredientPrice,
+  incrementIngredient,
+  removeIngredient,
+  setBun,
+  setBunPrice,
+  subtracIngredient,
+  subtractBun,
+} from "../../services/actions/ingredient";
 
 type TBurgerConstructorProps = {
   onClick: () => void;
@@ -34,22 +40,16 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
     price: store.priceReducer,
   }));
 
-  console.log(order);
-
   const handleDrop = (ingredient: IIngredient) => {
     if (
       order.find((el: IIngredient) => el.type === "bun") &&
       ingredient.type === "bun"
     ) {
       const previousBun = order.filter((el: IIngredient) => el.type === "bun");
-      dispatch({
-        type: SUBTRACT_BUN_AMOUNT,
-        bun: previousBun[0],
-      });
-      dispatch({
-        type: SET_BUN,
-        ingredient: ingredient,
-      });
+      console.log(previousBun);
+
+      dispatch(subtractBun(previousBun[0]));
+      dispatch(setBun(ingredient));
     }
 
     {
@@ -58,11 +58,11 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
       }
     }
     if (ingredient.type === "bun") {
-      dispatch({ type: SET_BUN, ingredient });
-      dispatch({ type: ADD_BUN_PRICE, price: ingredient.price * 2 });
+      dispatch(setBun(ingredient));
+      dispatch(setBunPrice(ingredient.price * 2));
     } else {
-      dispatch({ type: INCREMENT_INGREDIENT, ingredient: ingredient });
-      dispatch({ type: ADD_INGREDIENT_PRICE, price: ingredient.price });
+      dispatch(incrementIngredient(ingredient));
+      dispatch(addIngredientPrice(ingredient.price));
     }
   };
 
@@ -74,8 +74,8 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
   });
 
   const handleClose = (ingredient: IIngredient) => {
-    dispatch({ type: SUBTRACT_INGREDIENT_AMOUNT, ingredient: ingredient });
-    dispatch({ type: REMOVE_INGREDIENT, ingredient: ingredient });
+    dispatch(subtracIngredient(ingredient));
+    dispatch(removeIngredient(ingredient));
   };
 
   return (
