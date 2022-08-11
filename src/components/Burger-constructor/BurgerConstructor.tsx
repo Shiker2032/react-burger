@@ -4,13 +4,7 @@ import {
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  ADD_INGREDIENT_PRICE,
-  IIngredient,
-  INCREMENT_INGREDIENT,
-  REMOVE_INGREDIENT,
-  SUBTRACT_INGREDIENT_AMOUNT,
-} from "../../services/types";
+import { IIngredient } from "../../services/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import ConstructorItem from "./ConstructorItem";
@@ -23,11 +17,9 @@ import {
   addIngredientPrice,
   incrementIngredient,
   removeIngredient,
-  setBun,
-  setBunPrice,
   subtracIngredient,
-  subtractBun,
 } from "../../services/actions/ingredient";
+import { setBun, setBunPrice, subtractBun } from "../../services/actions/bun";
 
 type TBurgerConstructorProps = {
   onClick: () => void;

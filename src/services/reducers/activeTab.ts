@@ -1,12 +1,22 @@
+import { TTabsActions } from "../actions/tabs";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../types";
 
-const initialActiveState = {
+type TActiveTabState = {
+  constructor: boolean;
+  orderFeed: boolean;
+  profile: boolean;
+};
+
+const initialActiveState: TActiveTabState = {
   constructor: false,
   orderFeed: false,
   profile: false,
 };
 
-export const activeReducer = (state = initialActiveState, action) => {
+export const activeReducer = (
+  state = initialActiveState,
+  action: TTabsActions
+) => {
   switch (action.type) {
     case SET_TAB_STATE: {
       return { ...state, [action.name]: true };

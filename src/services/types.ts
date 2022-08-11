@@ -1,4 +1,4 @@
-export const GET_INGREDIENTS: "GET_INGREDIENTS" = "GET_INGREDIENTS";
+export const SET_INGREDIENTS: "SET_INGREDIENTS" = "SET_INGREDIENTS";
 export const RESET_INGREDIENTS: "RESET_INGREDIENTS" = "RESET_INGREDIENTS";
 
 export const ADD_INGREDIENT: "ADD_INGREDIENT" = "ADD_INGREDIENT";
@@ -65,3 +65,8 @@ export interface IIngredient {
   amount: number;
   uid: any;
 }
+
+export type TUser = {
+  email: string;
+  name: string;
+};

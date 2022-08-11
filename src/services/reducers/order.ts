@@ -1,6 +1,10 @@
+import { TBunActions } from "../actions/bun";
+import { TIngredientActions } from "../actions/ingredient";
+import { TOrderActions } from "../actions/order";
 import {
   ADD_BUN_PRICE,
   ADD_INGREDIENT_PRICE,
+  IIngredient,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
   RESET_ORDER,
@@ -9,13 +13,20 @@ import {
   SET_ORDER_NUMBER,
   SUBTRACT_BUN_AMOUNT,
   SUBTRACT_INGREDIENT_PRICE,
-} from "../types.ts";
+} from "../types";
 
-const orderInitialState = {
-  order: [{ price: 0 }],
+type TOrderState = {
+  order: Array<IIngredient>;
 };
 
-export const orderReducer = (state = orderInitialState, action) => {
+const orderInitialState: TOrderState = {
+  order: [],
+};
+
+export const orderReducer = (
+  state = orderInitialState,
+  action: TOrderActions | TBunActions | TIngredientActions
+) => {
   switch (action.type) {
     case SET_ORDER: {
       const ingredeint = { ...action.ingredient };
@@ -28,6 +39,8 @@ export const orderReducer = (state = orderInitialState, action) => {
     }
 
     case SET_BUN: {
+      console.log(state);
+
       const arr = state.order.filter((el) => el.type !== "bun");
       const bun = action.ingredient;
       bun.amount = 1;
@@ -66,7 +79,10 @@ const orderNumberInitialState = {
   orderNumber: 0,
 };
 
-export const orderNumberReducer = (state = orderNumberInitialState, action) => {
+export const orderNumberReducer = (
+  state = orderNumberInitialState,
+  action: TOrderActions
+) => {
   switch (action.type) {
     case SET_ORDER_NUMBER: {
       return { ...state, orderNumber: action.orderNumber };
@@ -81,7 +97,10 @@ const initialPriceState = {
   bunPrice: 0,
 };
 
-export const priceReducer = (state = initialPriceState, action) => {
+export const priceReducer = (
+  state = initialPriceState,
+  action: TIngredientActions | TBunActions
+) => {
   switch (action.type) {
     case ADD_INGREDIENT_PRICE: {
       return {

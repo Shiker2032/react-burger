@@ -1,18 +1,27 @@
+import { TIngredientActions } from "../actions/ingredient";
 import {
-  GET_INGREDIENTS,
+  IIngredient,
   INCREMENT_INGREDIENT,
   RESET_INGREDIENTS,
   SET_CURRENT_INGREDIENT,
+  SET_INGREDIENTS,
   SUBTRACT_INGREDIENT_AMOUNT,
 } from "../types";
 
-const ingredientsInitialState = {
+type TIngredientsState = {
+  ingredients: Array<IIngredient>;
+};
+
+const ingredientsInitialState: TIngredientsState = {
   ingredients: [],
 };
 
-export const ingredientsReducer = (state = ingredientsInitialState, action) => {
+export const ingredientsReducer = (
+  state = ingredientsInitialState,
+  action: TIngredientActions
+) => {
   switch (action.type) {
-    case GET_INGREDIENTS: {
+    case SET_INGREDIENTS: {
       return {
         ...state,
         ingredients: action.data,
@@ -53,7 +62,7 @@ const currentIngredientInitialState = {
 
 export const currentIngredientReducer = (
   state = currentIngredientInitialState,
-  action
+  action: TIngredientActions
 ) => {
   switch (action.type) {
     case SET_CURRENT_INGREDIENT: {

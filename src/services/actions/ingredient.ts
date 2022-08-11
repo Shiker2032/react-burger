@@ -2,37 +2,19 @@ import { apiConfig } from "../../components/API/api";
 import { AppDispatch } from "../types/index";
 import { AppThunk } from "../types/index";
 import {
-  ADD_BUN_PRICE,
   ADD_INGREDIENT_PRICE,
-  GET_INGREDIENTS,
   IIngredient,
   INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
   RESET_INGREDIENTS,
-  SET_BUN,
   SET_CURRENT_INGREDIENT,
-  SUBTRACT_BUN_AMOUNT,
+  SET_INGREDIENTS,
   SUBTRACT_INGREDIENT_AMOUNT,
   SUBTRACT_INGREDIENT_PRICE,
 } from "../types";
 
 export type TCurrentIngredientActions = ISetCurrentIngredientAction;
-
-interface ISubtractBunAction {
-  type: typeof SUBTRACT_BUN_AMOUNT;
-  bun: IIngredient;
-}
-
-interface ISetBunAction {
-  type: typeof SET_BUN;
-  ingredient: IIngredient;
-}
-
-interface ISetBunPriceAction {
-  type: typeof ADD_BUN_PRICE;
-  price: number;
-}
 
 interface ISubtractIngredientAction {
   type: typeof SUBTRACT_INGREDIENT_AMOUNT;
@@ -73,11 +55,21 @@ interface IResetIngredientsAction {
   type: typeof RESET_INGREDIENTS;
 }
 
+interface ISetIngredientsAction {
+  type: typeof SET_INGREDIENTS;
+  data: Array<IIngredient>;
+}
+
+const setIngredients = (data: Array<IIngredient>): ISetIngredientsAction => ({
+  type: SET_INGREDIENTS,
+  data: data,
+});
+
 export const getIngredients: AppThunk = () => async (dispatch: AppDispatch) => {
   const res = await fetch(`${apiConfig.url}/ingredients`);
   const data = await res.json();
   const ingredientsArr = data.data;
-  dispatch({ type: GET_INGREDIENTS, data: ingredientsArr });
+  dispatch(setIngredients(ingredientsArr));
 };
 
 export const setCurrentIngredient = (
@@ -91,21 +83,6 @@ export const setCurrentIngredient = (
 
 export const resetIngredients = (): IResetIngredientsAction => ({
   type: RESET_INGREDIENTS,
-});
-
-export const subtractBun = (bun: IIngredient): ISubtractBunAction => ({
-  type: SUBTRACT_BUN_AMOUNT,
-  bun: bun,
-});
-
-export const setBun = (ingredient: IIngredient): ISetBunAction => ({
-  type: SET_BUN,
-  ingredient: ingredient,
-});
-
-export const setBunPrice = (price: number): ISetBunPriceAction => ({
-  type: ADD_BUN_PRICE,
-  price: price,
 });
 
 export const subtracIngredient = (
@@ -150,13 +127,12 @@ export const reorderItems = (
 });
 
 export type TIngredientActions =
-  | ISubtractBunAction
-  | ISetBunAction
-  | ISetBunPriceAction
+  | ISetIngredientsAction
   | ISubtractIngredientAction
   | IIncrementIngredientAction
   | IAddIngredientPriceAction
   | ISubtractIngredientPriceAction
   | IRemoveIngredientAction
   | IReorderItemsAction
-  | IResetIngredientsAction;
+  | IResetIngredientsAction
+  | ISetCurrentIngredientAction;

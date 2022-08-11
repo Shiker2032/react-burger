@@ -1,4 +1,4 @@
-import { TUser } from "../services/actions/user";
+import { TUser } from "../services/types";
 import { IIngredient } from "../services/types";
 
 type TData = {

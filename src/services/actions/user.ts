@@ -1,4 +1,4 @@
-import { RESET_USER, SET_USER } from "../types";
+import { RESET_USER, SET_USER, TUser } from "../types";
 import {
   apiConfig,
   deleteCookie,
@@ -9,15 +9,14 @@ import { checkResponse } from "../../utils/utils";
 import { AppThunk } from "../types/index";
 import { AppDispatch } from "../types/index";
 
-export type TUser = {
-  email: string;
-  name: string;
-};
-
 interface ISetUserAction {
   type: typeof SET_USER;
   user: TUser;
   authenticated: boolean;
+}
+
+interface IResetUserAction {
+  type: typeof RESET_USER;
 }
 
 export const setUser = (
@@ -30,12 +29,15 @@ export const setUser = (
     authenticated: authenticated,
   };
 };
+export const resetUser = (): IResetUserAction => ({ type: RESET_USER });
 
 type TOptions = {
   body?: string;
   headers: any;
   method: string;
 };
+
+export type TUserActions = ISetUserAction | IResetUserAction;
 
 const fetchWithRefresh = async (url: string, options: TOptions) => {
   try {
@@ -163,7 +165,7 @@ export const logOutUser: AppThunk = () => async (dispatch: AppDispatch) => {
       body: JSON.stringify({ token: `${localStorage.refreshToken}` }),
     });
     if (message?.success) {
-      dispatch({ type: RESET_USER });
+      dispatch(resetUser());
       deleteCookie("token");
       localStorage.removeItem("refreshToken");
     }

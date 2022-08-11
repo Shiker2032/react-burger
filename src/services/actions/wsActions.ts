@@ -1,3 +1,5 @@
+import { IOrder } from "../types";
+
 export const WS_CONNECTION_START: "WS_CONNECTION_START" = "WS_CONNECTION_START";
 export const WS_CONNECTION_SUCCESS: "WS_CONNECTION_SUCCESS" =
   "WS_CONNECTION_SUCCESS";
@@ -13,6 +15,23 @@ interface IWsConnectionStartAction {
 
 interface IWsConnectionCloseAction {
   type: typeof WS_CONNECTION_CLOSED;
+}
+
+interface IWsConnectionErrorAction {
+  type: typeof WS_CONNECTION_ERROR;
+}
+
+interface IWsConnectionGetMessageAction {
+  type: typeof WS_GET_MESSAGE;
+  payload: {
+    orders: Array<IOrder>;
+    total: number;
+    totalToday: number;
+  };
+}
+
+interface IWsConnectionSuccessAction {
+  type: typeof WS_CONNECTION_SUCCESS;
 }
 
 export const wsConnectionStart = (url: string): IWsConnectionStartAction => ({
@@ -32,4 +51,9 @@ export const wsActions = {
   onMessage: WS_GET_MESSAGE,
 };
 
-export type TWsActions = IWsConnectionStartAction | IWsConnectionCloseAction;
+export type TWsActions =
+  | IWsConnectionStartAction
+  | IWsConnectionCloseAction
+  | IWsConnectionErrorAction
+  | IWsConnectionGetMessageAction
+  | IWsConnectionSuccessAction;
