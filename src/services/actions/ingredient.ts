@@ -1,4 +1,6 @@
 import { apiConfig } from "../../components/API/api";
+import { AppDispatch } from "../types/index";
+import { AppThunk } from "../types/index";
 import {
   ADD_BUN_PRICE,
   ADD_INGREDIENT_PRICE,
@@ -7,13 +9,14 @@ import {
   INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
+  RESET_INGREDIENTS,
   SET_BUN,
   SET_CURRENT_INGREDIENT,
   SUBTRACT_BUN_AMOUNT,
   SUBTRACT_INGREDIENT_AMOUNT,
   SUBTRACT_INGREDIENT_PRICE,
 } from "../types";
-//union
+
 export type TCurrentIngredientActions = ISetCurrentIngredientAction;
 
 interface ISubtractBunAction {
@@ -61,26 +64,34 @@ interface IReorderItemsAction {
   data: Array<IIngredient>;
 }
 
-export const getIngredients = () => async (dispatch: any) => {
+interface ISetCurrentIngredientAction {
+  type: typeof SET_CURRENT_INGREDIENT;
+  currentIngredient: IIngredient;
+}
+
+interface IResetIngredientsAction {
+  type: typeof RESET_INGREDIENTS;
+}
+
+export const getIngredients: AppThunk = () => async (dispatch: AppDispatch) => {
   const res = await fetch(`${apiConfig.url}/ingredients`);
   const data = await res.json();
   const ingredientsArr = data.data;
   dispatch({ type: GET_INGREDIENTS, data: ingredientsArr });
 };
 
-interface ISetCurrentIngredientAction {
-  type: typeof SET_CURRENT_INGREDIENT;
-  currentIngredient: any;
-}
-
 export const setCurrentIngredient = (
-  currentIngredient: any
+  currentIngredient: IIngredient
 ): ISetCurrentIngredientAction => {
   return {
     type: SET_CURRENT_INGREDIENT,
     currentIngredient: currentIngredient,
   };
 };
+
+export const resetIngredients = (): IResetIngredientsAction => ({
+  type: RESET_INGREDIENTS,
+});
 
 export const subtractBun = (bun: IIngredient): ISubtractBunAction => ({
   type: SUBTRACT_BUN_AMOUNT,
@@ -137,3 +148,15 @@ export const reorderItems = (
   type: REORDER_ITEMS,
   data: newItems,
 });
+
+export type TIngredientActions =
+  | ISubtractBunAction
+  | ISetBunAction
+  | ISetBunPriceAction
+  | ISubtractIngredientAction
+  | IIncrementIngredientAction
+  | IAddIngredientPriceAction
+  | ISubtractIngredientPriceAction
+  | IRemoveIngredientAction
+  | IReorderItemsAction
+  | IResetIngredientsAction;

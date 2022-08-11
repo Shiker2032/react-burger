@@ -11,14 +11,14 @@ interface IWsConnectionStartAction {
   payload: string;
 }
 
+interface IWsConnectionCloseAction {
+  type: typeof WS_CONNECTION_CLOSED;
+}
+
 export const wsConnectionStart = (url: string): IWsConnectionStartAction => ({
   type: WS_CONNECTION_START,
   payload: url,
 });
-
-interface IWsConnectionCloseAction {
-  type: typeof WS_CONNECTION_CLOSED;
-}
 
 export const wsConnectionClose = (): IWsConnectionCloseAction => ({
   type: WS_CONNECTION_CLOSED,
@@ -31,3 +31,5 @@ export const wsActions = {
   onError: WS_CONNECTION_ERROR,
   onMessage: WS_GET_MESSAGE,
 };
+
+export type TWsActions = IWsConnectionStartAction | IWsConnectionCloseAction;

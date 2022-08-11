@@ -6,8 +6,38 @@ import {
   setCookie,
 } from "../../components/API/api.js";
 import { checkResponse } from "../../utils/utils";
+import { AppThunk } from "../types/index";
+import { AppDispatch } from "../types/index";
 
-const fetchWithRefresh = async (url, options) => {
+export type TUser = {
+  email: string;
+  name: string;
+};
+
+interface ISetUserAction {
+  type: typeof SET_USER;
+  user: TUser;
+  authenticated: boolean;
+}
+
+export const setUser = (
+  user: TUser,
+  authenticated: boolean
+): ISetUserAction => {
+  return {
+    type: SET_USER,
+    user: user,
+    authenticated: authenticated,
+  };
+};
+
+type TOptions = {
+  body?: string;
+  headers: any;
+  method: string;
+};
+
+const fetchWithRefresh = async (url: string, options: TOptions) => {
   try {
     const res = await fetch(url, options);
     const data = await checkResponse(res);
@@ -15,7 +45,8 @@ const fetchWithRefresh = async (url, options) => {
   } catch (err) {
     if (err === "jwt expired") {
       const refreshRes = await refreshUser(localStorage.refreshToken);
-      const refreshData = await checkResponse(refreshRes);
+
+      const refreshData = await checkResponse(refreshRes!);
 
       setCookie("token", refreshData.accessToken);
       localStorage.setItem("refreshToken", refreshData.refreshToken);
@@ -26,7 +57,7 @@ const fetchWithRefresh = async (url, options) => {
   }
 };
 
-export const logInUser = (user) => async (dispatch) => {
+export const logInUser = (user: TUser) => async (dispatch: AppDispatch) => {
   try {
     const data = await fetchWithRefresh(`${apiConfig.url}/auth/login`, {
       method: "POST",
@@ -35,41 +66,41 @@ export const logInUser = (user) => async (dispatch) => {
       },
       body: JSON.stringify(user),
     });
-    const authToken = data.accessToken.split("Bearer")[1];
-    const refreshToken = data.refreshToken;
+    if (data !== undefined) {
+      const authToken = data.accessToken?.split("Bearer")[1];
+      const refreshToken = data.refreshToken;
 
-    dispatch(setUser(data.user, true));
-    if (authToken) {
-      setCookie("token", authToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      dispatch(setUser(data.user, true));
+      if (authToken) {
+        setCookie("token", authToken);
+        localStorage.setItem("refreshToken", refreshToken);
+      }
     }
   } catch (err) {
     console.log(err);
   }
 };
 
-export const patchUser = (inputData) => async (dispatch) => {
-  try {
-    const res = await fetchWithRefresh(`${apiConfig.url}/auth/user`, {
-      method: "PATCH",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer" + getCookie("token"),
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(inputData),
-    });
-    dispatch(setUser(res.user));
-  } catch (err) {
-    console.log(err);
-  }
-};
+export const patchUser =
+  (inputData: TUser) => async (dispatch: AppDispatch) => {
+    try {
+      const res = await fetchWithRefresh(`${apiConfig.url}/auth/user`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer" + getCookie("token"),
+        },
+        body: JSON.stringify(inputData),
+      });
+      if (res) {
+        dispatch(setUser(res.user, true));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-export const refreshUser = async (refreshToken) => {
+export const refreshUser = async (refreshToken: string) => {
   try {
     const res = await fetch(`${apiConfig.url}/auth/token`, {
       method: "POST",
@@ -84,7 +115,7 @@ export const refreshUser = async (refreshToken) => {
   }
 };
 
-export const registerUser = (user) => async (dispatch) => {
+export const registerUser = (user: TUser) => async (dispatch: AppDispatch) => {
   try {
     const res = await fetch(`${apiConfig.url}/auth/register`, {
       method: "POST",
@@ -97,7 +128,9 @@ export const registerUser = (user) => async (dispatch) => {
     if (res.ok) {
       dispatch(setUser(data.user, true));
       setCookie(data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+      if (data !== undefined) {
+        localStorage.setItem("refreshToken", data.refreshToken);
+      }
     }
     return data;
   } catch (err) {
@@ -105,22 +138,22 @@ export const registerUser = (user) => async (dispatch) => {
   }
 };
 
-export const checkUserAPI = () => async (dispatch) => {
+export const checkUserAPI: AppThunk = () => async (dispatch: AppDispatch) => {
   try {
-    const { user } = await fetchWithRefresh(`${apiConfig.url}/auth/user`, {
+    const resp = await fetchWithRefresh(`${apiConfig.url}/auth/user`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer" + getCookie("token"),
       },
       method: "GET",
     });
-    if (user) dispatch(setUser(user, true));
+    if (resp?.user) dispatch(setUser(resp.user, true));
   } catch (err) {
     console.log(err);
   }
 };
 
-export const logOutUser = () => async (dispatch) => {
+export const logOutUser: AppThunk = () => async (dispatch: AppDispatch) => {
   try {
     const message = await fetchWithRefresh(`${apiConfig.url}/auth/logout`, {
       method: "POST",
@@ -139,7 +172,10 @@ export const logOutUser = () => async (dispatch) => {
   }
 };
 
-export const resetPassword = async (inputData) => {
+export const resetPassword = async (inputData: {
+  password: string;
+  token: string;
+}) => {
   try {
     const res = await fetch(`${apiConfig.url}/password-reset/reset`, {
       headers: {
@@ -149,14 +185,13 @@ export const resetPassword = async (inputData) => {
       method: "POST",
       body: JSON.stringify(inputData),
     });
-    const data = await checkResponse(res);
     return res;
   } catch (err) {
     console.log(err);
   }
 };
 
-export const forgotPassword = async (emailInput) => {
+export const forgotPassword = async (emailInput: string) => {
   try {
     const res = await fetch(`${apiConfig.url}/password-reset`, {
       method: "POST",
@@ -172,12 +207,4 @@ export const forgotPassword = async (emailInput) => {
   } catch (err) {
     console.log(err);
   }
-};
-
-export const setUser = (user, authenticated) => {
-  return {
-    type: SET_USER,
-    user: user,
-    authenticated: authenticated,
-  };
 };

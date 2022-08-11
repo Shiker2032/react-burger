@@ -1,7 +1,16 @@
+import { TUser } from "../services/actions/user";
 import { IIngredient } from "../services/types";
 
+type TData = {
+  success: boolean;
+  accessToken?: string;
+  user: TUser;
+  refreshToken: string;
+  message: string;
+};
+
 export const checkResponse = async (res: Response) => {
-  const data = await res.json();
+  const data: TData = await res.json();
   return res.ok ? data : Promise.reject(data.message);
 };
 

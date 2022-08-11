@@ -16,7 +16,6 @@ import { IOrder } from "../../services/types";
 const FeedDetails: FC = () => {
   const dispatch = useDispatch();
   const params: { id: string } = useParams();
-  console.log(params);
 
   const { orders } = useSelector((store: any) => store.wsReducer);
   const orderInfo = orders?.filter((el: IOrder) => el._id === params.id);

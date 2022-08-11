@@ -9,9 +9,11 @@ interface ISetTabAction {
   name: string;
 }
 
-export const resetTab = (): IResetTabAction => ({ type: RESET_TAB_STATE });
-
 export const setTab = (name: string): ISetTabAction => ({
   type: SET_TAB_STATE,
   name: name,
 });
+
+export const resetTab = (): IResetTabAction => ({ type: RESET_TAB_STATE });
+
+export type TTabsActions = ISetTabAction | IResetTabAction;
