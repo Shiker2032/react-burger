@@ -1,8 +1,7 @@
 import styles from "./orderHistory.module.css";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { logOutUser, patchUser } from "../services/actions/user";
-import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
+
+import { logOutUser } from "../services/actions/user";
 import FeedOrder from "../components/Feed-order/FeedOrder";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -11,21 +10,17 @@ import { getCookie } from "../components/API/api";
 import {
   wsConnectionClose,
   wsConnectionStart,
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_START,
 } from "../services/actions/wsActions";
 import { resetTab, setTab } from "../services/actions/tabs";
+import { useDispatchHook, useSelectorHook } from "../services/types/index";
+import { IOrder } from "../services/types";
 
-function OrderHistory(props) {
-  const [nameInput, setNameInput] = useState("");
-  const [emailInput, setemailInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
-
+function OrderHistory() {
   const [profileIsActive, setProfileIsActive] = useState(false);
   const [orderHistoryIsActive, setOrderHistoryIsActive] = useState(false);
+  const { orders } = useSelectorHook((store) => store.wsReducer);
 
-  const auth = useSelector((store) => store.authReducer);
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
   const history = useHistory();
   const location = useLocation();
 
@@ -33,7 +28,7 @@ function OrderHistory(props) {
     dispatch(resetTab());
     dispatch(setTab("profile"));
     setOrderHistoryIsActive(true);
-    dispatch(wsConnectionStart(`?token=${getCookie("token").slice(1)}`));
+    dispatch(wsConnectionStart(`?token=${getCookie("token")?.slice(1)}`));
     return () => {
       dispatch(wsConnectionClose());
     };
@@ -44,17 +39,7 @@ function OrderHistory(props) {
     history.replace({ pathname: "/login" });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let inputData = {
-      name: nameInput ? nameInput : auth.user.name,
-      email: emailInput ? emailInput : auth.user.email,
-    };
-
-    dispatch(patchUser(inputData));
-  };
-
-  const handleFeedClick = (order) => {
+  const handleFeedClick = (order: IOrder) => {
     history.replace({
       pathname: `/profile/orders/${order._id}`,
       state: { background: location },
@@ -66,8 +51,6 @@ function OrderHistory(props) {
       pathname: "/profile",
     });
   };
-
-  const { orders } = useSelector((store) => store.wsReducer);
 
   return (
     <>

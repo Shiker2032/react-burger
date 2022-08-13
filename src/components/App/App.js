@@ -6,7 +6,7 @@ import Constructor from "../../pages/Constructor";
 import ForgotPassword from "../../pages/ForgotPassword";
 import Ingredient from "../../pages/IngredientDetails";
 import Login from "../../pages/Login";
-import Profile from "../../pages/Profile";
+import Profile from "../../pages/Profile.tsx";
 import Register from "../../pages/Register";
 import ResetPassword from "../../pages/ResetPassword";
 import { checkUserAPI } from "../../services/actions/user";

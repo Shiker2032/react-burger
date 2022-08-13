@@ -4,25 +4,25 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Redirect, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { logInUser } from "../services/actions/user";
 import styles from "./login.module.css";
 import { resetTab } from "../services/actions/tabs";
+import { useDispatchHook, useSelectorHook } from "../services/types/index";
 
-function Login(props) {
+function Login() {
   const [emailInput, setEmailinput] = useState("vladislav.begunov@mail.ru");
   const [passwordInput, setPasswordInput] = useState("qwer123");
 
-  const auth = useSelector((store) => store.authReducer);
-  const dispatch = useDispatch();
-  const location = useLocation();
+  const auth = useSelectorHook((store) => store.authReducer);
+  const dispatch = useDispatchHook();
+  const location = useLocation<any>();
 
   useEffect(() => {
     dispatch(resetTab());
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const user = { email: emailInput, password: passwordInput };
     dispatch(logInUser(user));
@@ -46,11 +46,12 @@ function Login(props) {
             />
           </div>
           <PasswordInput
+            name="password-input"
             value={passwordInput}
             onChange={(evt) => setPasswordInput(evt.target.value)}
           />
           <div className="pt-6">
-            <Button type="primary" size="small " htmlType="submit">
+            <Button type="primary" size="small" htmlType="submit">
               Войти
             </Button>
           </div>

@@ -1,18 +1,19 @@
 import { useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
+import { useSelectorHook } from "../services/types/index";
 
 import styles from "./ingredientDetails.module.css";
 
-function IngredientDetails(props) {
-  const params = useParams();
-  const ingredients = useSelector(
+const IngredientDetails = () => {
+  const params = useParams<{ id: string }>();
+  const ingredients = useSelectorHook(
     (store) => store.ingredientsReducer.ingredients
   );
   const ingredient = ingredients.find((el) => el._id === params.id);
 
-  return (
-    ingredient && (
+  if (ingredient) {
+    return (
       <>
         <div className={`${styles.ingredientDetails} pt-10 pb-15 pl-10 pr-10`}>
           <h3
@@ -64,10 +65,10 @@ function IngredientDetails(props) {
           </div>
         </div>
       </>
-    )
-  );
-
-  return <div>text</div>;
-}
+    );
+  } else {
+    return <></>;
+  }
+};
 
 export default IngredientDetails;

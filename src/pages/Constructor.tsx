@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useDispatch, useSelector } from "react-redux";
-
 import { useHistory, useLocation } from "react-router-dom";
 import Modal from "../components/Modal/Modal";
 import OrderDetails from "../components/Order-details/OrderDetails";
@@ -12,26 +10,25 @@ import BurgerIngredients from "../components/Burger-ingredients/BurgerIngredient
 import styles from "./constructor.module.css";
 import { postOrder } from "../services/actions/order";
 import IngredientDetails from "./IngredientDetails";
-import { SET_TAB_STATE } from "../services/types";
 import { setCurrentIngredient } from "../services/actions/ingredient";
 import { resetTab, setTab } from "../services/actions/tabs";
+import { useDispatchHook, useSelectorHook } from "../services/types/index";
+import { IIngredient } from "../services/types";
 
-function Constructor(props) {
-  const { currentIngredient, order, orderNumber, user } = useSelector(
-    (store) => ({
-      orderNumber: store.orderNumberReducer.orderNumber,
-      order: store.orderReducer.order,
-      currentIngredient: store.currentIngredientReducer.currentIngredient,
-      user: store.authReducer.user,
-    })
-  );
+function Constructor() {
+  const { order, orderNumber, user } = useSelectorHook((store) => ({
+    orderNumber: store.orderNumberReducer.orderNumber,
+    order: store.orderReducer.order,
+    currentIngredient: store.currentIngredientReducer.currentIngredient,
+    user: store.authReducer.user,
+  }));
 
   useEffect(() => {
     dispatch(resetTab());
     dispatch(setTab("constructor"));
   }, []);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
   const history = useHistory();
   const location = useLocation();
 
@@ -39,7 +36,7 @@ function Constructor(props) {
     useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
 
-  const handleIngredientClick = (ingredient) => {
+  const handleIngredientClick = (ingredient: IIngredient) => {
     dispatch(setCurrentIngredient(ingredient));
     history.replace({
       pathname: `/ingredients/${ingredient._id}`,
@@ -62,6 +59,7 @@ function Constructor(props) {
       const orderInfo = order
         .map((ingredients) => ingredients._id)
         .filter((el) => el !== undefined);
+      console.log(typeof setOrderDetailsOpened);
       dispatch(postOrder(orderInfo, setOrderDetailsOpened));
     }
   };
@@ -71,13 +69,13 @@ function Constructor(props) {
       <DndProvider backend={HTML5Backend}>
         <main className={styles.flexComponents}>
           <BurgerIngredients onClick={handleIngredientClick} />
-          <BurgerConstructor order={order} onClick={handleOrderClick} />
+          <BurgerConstructor onClick={handleOrderClick} />
         </main>
       </DndProvider>
 
       {isIngredientsDetailsOpened && (
         <Modal onCloseClick={handleCloseIngredientModal}>
-          <IngredientDetails ingredient={currentIngredient} />
+          <IngredientDetails />
         </Modal>
       )}
       {isOrderDetailsOpened && (

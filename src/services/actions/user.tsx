@@ -4,7 +4,7 @@ import {
   deleteCookie,
   getCookie,
   setCookie,
-} from "../../components/API/api.js";
+} from "../../components/API/api";
 import { checkResponse } from "../../utils/utils";
 import { AppThunk } from "../types/index";
 import { AppDispatch } from "../types/index";
@@ -50,7 +50,7 @@ const fetchWithRefresh = async (url: string, options: TOptions) => {
 
       const refreshData = await checkResponse(refreshRes!);
 
-      setCookie("token", refreshData.accessToken);
+      setCookie("token", refreshData!.accessToken!);
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       const res = await fetch(url, options);
       const data = checkResponse(res);
@@ -117,28 +117,29 @@ export const refreshUser = async (refreshToken: string) => {
   }
 };
 
-export const registerUser = (user: TUser) => async (dispatch: AppDispatch) => {
-  try {
-    const res = await fetch(`${apiConfig.url}/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-    const data = await checkResponse(res);
-    if (res.ok) {
-      dispatch(setUser(data.user, true));
-      setCookie(data.accessToken);
-      if (data !== undefined) {
-        localStorage.setItem("refreshToken", data.refreshToken);
+export const registerUser: AppThunk =
+  (user: TUser) => async (dispatch: AppDispatch) => {
+    try {
+      const res = await fetch(`${apiConfig.url}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const data = await checkResponse(res);
+      if (res.ok) {
+        dispatch(setUser(data.user, true));
+        setCookie(data.accessToken!);
+        if (data !== undefined) {
+          localStorage.setItem("refreshToken", data.refreshToken);
+        }
       }
+      return data;
+    } catch (err) {
+      console.log(err);
     }
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
-};
+  };
 
 export const checkUserAPI: AppThunk = () => async (dispatch: AppDispatch) => {
   try {

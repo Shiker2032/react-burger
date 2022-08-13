@@ -39,8 +39,6 @@ export const orderReducer = (
     }
 
     case SET_BUN: {
-      console.log(state);
-
       const arr = state.order.filter((el) => el.type !== "bun");
       const bun = action.ingredient;
       bun.amount = 1;

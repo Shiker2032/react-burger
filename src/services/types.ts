@@ -67,6 +67,7 @@ export interface IIngredient {
 }
 
 export type TUser = {
-  email: string;
-  name: string;
+  email?: string;
+  name?: string;
+  password?: string;
 };

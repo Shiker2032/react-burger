@@ -9,12 +9,12 @@ import { IOrder } from "../types";
 
 type TWsState = {
   wsConnected: boolean;
-  orders: IOrder | null;
+  orders?: Array<IOrder>;
 };
 
-const initialState = {
+const initialState: TWsState = {
   wsConnected: false,
-  orders: null,
+  orders: [],
 };
 
 export const wsReducer = (state = initialState, action: TWsActions) => {

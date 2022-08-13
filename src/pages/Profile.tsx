@@ -7,23 +7,28 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logOutUser, patchUser } from "../services/actions/user";
-import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 
 import { useHistory } from "react-router-dom";
 import { resetTab, setTab } from "../services/actions/tabs";
+import { useSelectorHook } from "../services/types/index";
+import { TUser } from "../services/types";
 
-function Profile(props) {
-  const [nameInput, setNameInput] = useState("");
-  const [emailInput, setemailInput] = useState("");
+function Profile() {
+  const auth = useSelectorHook((store) => store.authReducer);
+  const [nameInput, setNameInput] = useState(
+    auth?.user?.name ? auth?.user?.name : ""
+  );
+  const [emailInput, setemailInput] = useState(
+    auth?.user?.email ? auth?.user?.email : ""
+  );
   const [passwordInput, setPasswordInput] = useState("");
 
   const [profileIsActive, setProfileIsActive] = useState(false);
   const [applyVisible, setApplyVisible] = useState(false);
 
-  const auth = useSelector((store) => store.authReducer);
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
@@ -34,12 +39,13 @@ function Profile(props) {
   }, []);
 
   const setDefaultInput = () => {
-    setNameInput(auth.user.name);
-    setemailInput(auth.user.email);
     setApplyVisible(false);
   };
 
-  const handleInput = (e, inputSetter) => {
+  const handleInput = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    inputSetter: React.Dispatch<React.SetStateAction<string>>
+  ) => {
     inputSetter(e.target.value);
     setApplyVisible(true);
   };
@@ -53,11 +59,11 @@ function Profile(props) {
     dispatch(logOutUser());
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let inputData = {
-      name: nameInput ? nameInput : auth.user.name,
-      email: emailInput ? emailInput : auth.user.email,
+    const inputData: TUser = {
+      name: nameInput ? nameInput : auth?.user?.name,
+      email: emailInput ? emailInput : auth?.user?.email,
     };
 
     dispatch(patchUser(inputData));
@@ -113,6 +119,7 @@ function Profile(props) {
             />
           </div>
           <PasswordInput
+            name="password-input"
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
           />

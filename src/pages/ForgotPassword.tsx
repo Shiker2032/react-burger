@@ -5,18 +5,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 import { forgotPassword } from "../services/actions/user";
 
-function ForgotPassword(props) {
-  const history = useHistory();
+function ForgotPassword() {
+  const history: any = useHistory();
   const [emailInput, setEmailinput] = useState("");
   const location = useLocation();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const message = await forgotPassword(emailInput);
-    if (message.success)
+    if (message?.success)
       history.replace({ pathname: "/reset-password", from: location });
   };
   return (

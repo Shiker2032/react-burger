@@ -1,32 +1,33 @@
 import styles from "./register.module.css";
-
 import {
-  Input,
   PasswordInput,
   Button,
+  Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { NavLink, useHistory } from "react-router-dom";
 import { useState } from "react";
-import { registerUser } from "../services/actions/user";
+import { registerUser, TUserActions } from "../services/actions/user";
 import { useDispatch } from "react-redux";
+import { TUser } from "../services/types";
+import { useDispatchHook } from "../services/types/index";
 
 const Register = () => {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailinput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
 
   const history = useHistory();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const user = {
+    const user: TUser = {
       email: emailInput,
       password: passwordInput,
       name: nameInput,
     };
-    const message = await dispatch(registerUser(user, history));
+    const message: any = dispatch(registerUser(user));
     if (message && message.success) history.replace({ pathname: "/" });
   };
 
@@ -52,6 +53,7 @@ const Register = () => {
             />
           </div>
           <PasswordInput
+            name="password-input"
             value={passwordInput}
             onChange={(evt) => setPasswordInput(evt.target.value)}
           />

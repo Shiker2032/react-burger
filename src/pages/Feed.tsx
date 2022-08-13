@@ -11,12 +11,14 @@ import { useHistory, useLocation } from "react-router-dom";
 import styles from "./feed.module.css";
 import { calculateOrderTime } from "../utils/utils";
 import { resetTab, setTab } from "../services/actions/tabs";
+import { useSelectorHook } from "../services/types/index";
+import { IOrder } from "../services/types";
 
-function Feed(props) {
+function Feed() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const { orders } = useSelector((store) => store.wsReducer);
+  const { orders } = useSelectorHook((store) => store.wsReducer);
 
   useEffect(() => {
     dispatch(wsConnectionStart("/all"));
@@ -27,7 +29,7 @@ function Feed(props) {
     };
   }, [dispatch]);
 
-  const handleFeedClick = (order) => {
+  const handleFeedClick = (order: IOrder) => {
     history.replace({
       pathname: `/feed/${order._id}`,
       state: { background: location },
@@ -44,11 +46,10 @@ function Feed(props) {
               order={orderEl}
               handleFeedClick={handleFeedClick}
               key={uuidv4()}
-              time={calculateOrderTime(orderEl.createdAt)}
             />
           ))}
       </div>
-      <FeedStatus orders={orders} />
+      <FeedStatus orders={orders ? orders : []} />
     </div>
   );
 }

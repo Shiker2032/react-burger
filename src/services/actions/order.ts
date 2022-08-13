@@ -3,14 +3,11 @@ import { parseResponse } from "../../utils/utils";
 import { AppDispatch } from "../types/index";
 import { AppThunk } from "../types/index";
 import {
-  ADD_BUN_PRICE,
   IIngredient,
   RESET_INGREDIENT,
   RESET_ORDER,
-  SET_BUN,
   SET_ORDER,
   SET_ORDER_NUMBER,
-  SUBTRACT_BUN_AMOUNT,
 } from "../types";
 import { resetIngredients } from "./ingredient";
 
@@ -42,7 +39,8 @@ export type TOrderActions =
   | IResetOrderAction;
 
 export const postOrder: AppThunk =
-  (orderInfo, modalHendler) => (dispatch: AppDispatch) => {
+  (orderInfo, modalHendler: React.Dispatch<React.SetStateAction<boolean>>) =>
+  (dispatch: AppDispatch) => {
     try {
       fetch(`${apiConfig.url}/orders`, {
         method: "POST",
