@@ -1,0 +1,35 @@
+.content {
+  display: grid;
+  justify-items: center;
+}
+
+.status {
+  width: 350px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info__code {
+  display: flex;
+}
+
+.feedDetails__summary {
+  display: flex;
+  align-items: baseline;
+  width: 1000px;
+  justify-content: space-around;
+}
+
+.feedDetails__priceBlock {
+  display: flex;
+  gap: 8px;
+}
+
+.detailsElements {
+  display: flex;
+  flex-direction: column;
+}

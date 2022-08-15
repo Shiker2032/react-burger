@@ -1,0 +1,40 @@
+.ingredientDetails {
+  display: grid;
+  justify-items: center;
+}
+
+.ingredientDetails__title {
+  padding-top: 14px;
+  max-height: 64px;
+  width: 640px;
+  margin: 0;
+  text-align: center;
+}
+
+.ingredientDetails__content {
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredientDetails__name {
+  text-align: center;
+}
+
+.ingredientDetails__nutritionalValueList {
+  max-height: 56px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ingredientDetails__nutritionalValueItem {
+  max-height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
