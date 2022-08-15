@@ -38,7 +38,6 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
       ingredient.type === "bun"
     ) {
       const previousBun = order.filter((el: TIngredient) => el.type === "bun");
-      console.log(previousBun);
 
       dispatch(subtractBun(previousBun[0]));
       dispatch(setBun(ingredient));

@@ -20,7 +20,7 @@
 .feedDetails__summary {
   display: flex;
   align-items: baseline;
-  width: 100%;
+  width: 1000px;
   justify-content: space-around;
 }
 

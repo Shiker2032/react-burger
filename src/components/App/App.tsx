@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import Constructor from "../../pages/Constructor";
@@ -18,10 +17,10 @@ import { getIngredients } from "../../services/actions/ingredient";
 import Feed from "../../pages/Feed";
 import FeedDetails from "../Feed-details/FeedDetails";
 import OrderHistory from "../../pages/OrderHistory";
-import { useSelectorHook, useDispatchHook } from "../../services/types/index";
+import { useDispatchHook, useSelectorHook } from "../../services/types/index";
 
 function App() {
-  const location = useLocation<any>();
+  const location: any = useLocation();
   const history = useHistory();
   const background = location.state?.background;
   const dispatch = useDispatchHook();
@@ -52,7 +51,7 @@ function App() {
         <Route path="/register" exact={true}>
           <Register />
         </Route>
-        <ProtectedRoute path="/profile">
+        <ProtectedRoute path="/profile" exact={true}>
           <Profile />
         </ProtectedRoute>
         <Route path="/profile/orders" exact={true}>
@@ -95,6 +94,7 @@ function App() {
 
         <ProtectedRoute
           path="/profile/orders/:id"
+          exact={true}
           children={
             <>
               <FeedDetails />

@@ -39,6 +39,8 @@ function Profile() {
 
   const setDefaultInput = () => {
     setApplyVisible(false);
+    setNameInput(auth?.user?.name ? auth?.user?.name : "");
+    setemailInput(auth?.user?.email ? auth?.user?.email : "");
   };
 
   const handleInput = (
@@ -50,7 +52,6 @@ function Profile() {
   };
 
   const orderHistoryClick = () => {
-    setProfileIsActive(false);
     history.push({ pathname: "/profile/orders" });
   };
 
@@ -66,6 +67,7 @@ function Profile() {
     };
 
     dispatch(patchUser(inputData));
+    setApplyVisible(false);
   };
 
   return (

@@ -5,6 +5,7 @@ import { useSelectorHook } from "../services/types/index";
 export type TProtectedRoute = {
   children: ReactNode;
   path: string;
+  exact: boolean;
 };
 
 export const ProtectedRoute: FC<TProtectedRoute> = ({ children, ...rest }) => {

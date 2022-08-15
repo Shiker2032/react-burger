@@ -1,10 +1,9 @@
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./feedDetails.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedDetailsElement from "./Feed-details-element/FeedDetailsElement";
 import { useParams, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
 import { getIngredient, calculateOrderTime } from "../../utils/utils";
 import {
   wsConnectionClose,
@@ -12,17 +11,17 @@ import {
 } from "../../services/actions/wsActions";
 import { getCookie } from "../API/api";
 import { TOrder } from "../../services/types";
+import { useDispatchHook, useSelectorHook } from "../../services/types/index";
 
-const FeedDetails: FC = () => {
-  const dispatch = useDispatch();
+function FeedDetails() {
+  const dispatch = useDispatchHook();
   const params: { id: string } = useParams();
 
-  const { orders } = useSelector((store: any) => store.wsReducer);
+  const { orders } = useSelectorHook((store) => store.wsReducer);
   const orderInfo = orders?.filter((el: TOrder) => el._id === params.id);
-  const ingredientsArr = useSelector((store: any) => store.ingredientsReducer);
+  const ingredientsArr = useSelectorHook((store) => store.ingredientsReducer);
 
   const { pathname } = useLocation();
-
   let arrDonor: Array<any> = [];
 
   const modalConnection = () => {
@@ -94,7 +93,7 @@ const FeedDetails: FC = () => {
         <div className={styles.info__code}>
           <p className="text text_type_main-default pt-4">#</p>
           <p className="text text_type_digits-default pt-4 pb-10">
-            {orderInfo && orderInfo[0].number}
+            {orderInfo && orderInfo[0] && orderInfo[0].number}
           </p>
         </div>
       </div>
@@ -102,7 +101,7 @@ const FeedDetails: FC = () => {
         style={{ maxWidth: "450px", textAlign: "center" }}
         className="text text_type_main-medium pb-3"
       >
-        {orderInfo && orderInfo[0].name}
+        {orderInfo && orderInfo[0] && orderInfo[0].name}
       </p>
       <p
         className="text text_type_main-default pb-15"
@@ -119,7 +118,9 @@ const FeedDetails: FC = () => {
       </div>
       <div className={styles.feedDetails__summary}>
         <p className="text text_type_main-default text_color_inactive pt-10">
-          {orderInfo && calculateOrderTime(orderInfo[0])}
+          {orderInfo &&
+            orderInfo[0] &&
+            calculateOrderTime(orderInfo[0].createdAt)}
         </p>
         <div className={styles.feedDetails__priceBlock}>
           <p className="text text_type_digits-default pb-4">
@@ -130,6 +131,6 @@ const FeedDetails: FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default FeedDetails;

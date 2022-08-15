@@ -46,6 +46,7 @@ function Feed() {
               order={orderEl}
               handleFeedClick={handleFeedClick}
               key={uuidv4()}
+              time={calculateOrderTime(orderEl.createdAt)}
             />
           ))}
       </div>

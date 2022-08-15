@@ -9,6 +9,7 @@ import { useSelectorHook } from "../../services/types/index";
 type TFeedOrderProps = {
   order: TOrder;
   handleFeedClick: (order: TOrder) => void;
+  time?: string;
 };
 
 const FeedOrder: FC<TFeedOrderProps> = ({ order, handleFeedClick }) => {

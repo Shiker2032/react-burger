@@ -59,7 +59,6 @@ function Constructor() {
       const orderInfo = order
         .map((ingredients) => ingredients._id)
         .filter((el) => el !== undefined);
-      console.log(typeof setOrderDetailsOpened);
       dispatch(postOrder(orderInfo, setOrderDetailsOpened));
     }
   };
