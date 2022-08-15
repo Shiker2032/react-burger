@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
+import { TIngredient } from "../services/types";
 import { useSelectorHook } from "../services/types/index";
 
 import styles from "./ingredientDetails.module.css";
@@ -10,7 +11,9 @@ const IngredientDetails = () => {
   const ingredients = useSelectorHook(
     (store) => store.ingredientsReducer.ingredients
   );
-  const ingredient = ingredients.find((el) => el._id === params.id);
+  const ingredient = ingredients.find(
+    (el: TIngredient) => el._id === params.id
+  );
 
   if (ingredient) {
     return (

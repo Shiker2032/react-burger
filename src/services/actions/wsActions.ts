@@ -1,4 +1,4 @@
-import { IOrder } from "../types";
+import { TOrder } from "../types";
 
 export const WS_CONNECTION_START: "WS_CONNECTION_START" = "WS_CONNECTION_START";
 export const WS_CONNECTION_SUCCESS: "WS_CONNECTION_SUCCESS" =
@@ -24,7 +24,7 @@ interface IWsConnectionErrorAction {
 interface IWsConnectionGetMessageAction {
   type: typeof WS_GET_MESSAGE;
   payload: {
-    orders: Array<IOrder>;
+    orders: Array<TOrder>;
     total: number;
     totalToday: number;
   };

@@ -1,16 +1,16 @@
 import {
   ADD_BUN_PRICE,
-  IIngredient,
+  TIngredient,
   SET_BUN,
   SUBTRACT_BUN_AMOUNT,
 } from "../types";
 
-export const subtractBun = (bun: IIngredient): ISubtractBunAction => ({
+export const subtractBun = (bun: TIngredient): ISubtractBunAction => ({
   type: SUBTRACT_BUN_AMOUNT,
   bun: bun,
 });
 
-export const setBun = (ingredient: IIngredient): ISetBunAction => ({
+export const setBun = (ingredient: TIngredient): ISetBunAction => ({
   type: SET_BUN,
   ingredient: ingredient,
 });
@@ -22,12 +22,12 @@ export const setBunPrice = (price: number): ISetBunPriceAction => ({
 
 interface ISubtractBunAction {
   type: typeof SUBTRACT_BUN_AMOUNT;
-  bun: IIngredient;
+  bun: TIngredient;
 }
 
 interface ISetBunAction {
   type: typeof SET_BUN;
-  ingredient: IIngredient;
+  ingredient: TIngredient;
 }
 
 interface ISetBunPriceAction {

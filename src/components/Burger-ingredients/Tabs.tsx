@@ -1,14 +1,8 @@
-import React, {
-  FC,
-  HtmlHTMLAttributes,
-  MutableRefObject,
-  useEffect,
-} from "react";
+import React, { FC, useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import styles from "./burgerIngredients.module.css";
 
-type TTabs = {
+type TTabsProps = {
   tabRefs: {
     [key: string]: {
       current: any;
@@ -16,7 +10,7 @@ type TTabs = {
   };
 };
 
-const Tabs: FC<TTabs> = ({ tabRefs }) => {
+const Tabs: FC<TTabsProps> = ({ tabRefs }) => {
   const [current, setCurrent] = React.useState("one");
 
   useEffect(() => {

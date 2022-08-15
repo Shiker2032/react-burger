@@ -2,15 +2,15 @@ import { FC } from "react";
 import styles from "./feedStatus.module.css";
 
 import { v4 as uuidv4 } from "uuid";
-import { useSelector } from "react-redux";
-import { IOrder } from "../../services/types";
+import { TOrder } from "../../services/types";
+import { useSelectorHook } from "../../services/types/index";
 
 type TFeedStatusProps = {
-  orders: Array<IOrder>;
+  orders: Array<TOrder>;
 };
 
 const FeedStatus: FC<TFeedStatusProps> = ({ orders }) => {
-  const { total, totalToday } = useSelector((store: any) => store.wsReducer);
+  const { total, totalToday } = useSelectorHook((store) => store.wsReducer);
   const completedOrders =
     orders &&
     orders.filter((orderEl) => orderEl.status === "done").splice(0, 10);

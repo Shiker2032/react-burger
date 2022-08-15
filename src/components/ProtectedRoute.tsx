@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
-import { useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
+import { useSelectorHook } from "../services/types/index";
 
 export type TProtectedRoute = {
   children: ReactNode;
@@ -8,7 +8,7 @@ export type TProtectedRoute = {
 };
 
 export const ProtectedRoute: FC<TProtectedRoute> = ({ children, ...rest }) => {
-  const auth = useSelector((store: any) => store.authReducer);
+  const auth = useSelectorHook((store) => store.authReducer);
   return (
     <Route
       {...rest}

@@ -1,11 +1,11 @@
 import { TUser } from "../services/types";
-import { IIngredient } from "../services/types";
+import { TIngredient } from "../services/types";
 
-type TData = {
+export type TData = {
   success: boolean;
   accessToken?: string;
-  user: TUser;
-  refreshToken: string;
+  user?: TUser;
+  refreshToken?: string;
   message: string;
 };
 
@@ -22,11 +22,11 @@ export const parseResponse = (res: Response) => {
   }
 };
 
-interface IOrder {
-  ingredients: Array<IIngredient>;
-}
+type TOrder = {
+  ingredients: Array<TIngredient>;
+};
 
-export const getIngredient = (id: string, ingredientsArr: IOrder) => {
+export const getIngredient = (id: string, ingredientsArr: TOrder) => {
   if (ingredientsArr) {
     const { ingredients } = ingredientsArr;
     return ingredients.find((el) => el._id === id);

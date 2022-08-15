@@ -7,12 +7,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { logOutUser, patchUser } from "../services/actions/user";
 
 import { useHistory } from "react-router-dom";
 import { resetTab, setTab } from "../services/actions/tabs";
-import { useSelectorHook } from "../services/types/index";
+import { useDispatchHook, useSelectorHook } from "../services/types/index";
 import { TUser } from "../services/types";
 
 function Profile() {
@@ -28,7 +27,7 @@ function Profile() {
   const [profileIsActive, setProfileIsActive] = useState(false);
   const [applyVisible, setApplyVisible] = useState(false);
 
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatchHook();
   const history = useHistory();
 
   useEffect(() => {

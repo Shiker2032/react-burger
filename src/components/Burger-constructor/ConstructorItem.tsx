@@ -7,7 +7,7 @@ import {} from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
-import { IIngredient, REORDER_ITEMS } from "../../services/types";
+import { TIngredient, REORDER_ITEMS } from "../../services/types";
 import styles from "./burgerConstructor.module.css";
 import {
   removeIngredient,
@@ -15,9 +15,10 @@ import {
   subtracIngredient,
   subtractIngredientPrice,
 } from "../../services/actions/ingredient";
+import { useSelectorHook } from "../../services/types/index";
 
 type TConstructorItemProps = {
-  ingredient: IIngredient;
+  ingredient: TIngredient;
   id: string;
   index: number;
 };
@@ -27,7 +28,7 @@ const ConstructorItem: FC<TConstructorItemProps> = ({
   id,
   index,
 }) => {
-  const order = useSelector((store: any) => store.orderReducer.order);
+  const order = useSelectorHook((store) => store.orderReducer.order);
   const ref = useRef(null);
   const dispatch = useDispatch();
 
@@ -59,7 +60,7 @@ const ConstructorItem: FC<TConstructorItemProps> = ({
     },
   });
 
-  const handleClose = (ingredient: IIngredient) => {
+  const handleClose = (ingredient: TIngredient) => {
     if (ingredient.amount < 2) {
       dispatch(removeIngredient(ingredient));
       dispatch(subtractIngredientPrice(ingredient.price));

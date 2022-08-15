@@ -6,7 +6,7 @@ import Constructor from "../../pages/Constructor";
 import ForgotPassword from "../../pages/ForgotPassword";
 import Ingredient from "../../pages/IngredientDetails";
 import Login from "../../pages/Login";
-import Profile from "../../pages/Profile.tsx";
+import Profile from "../../pages/Profile";
 import Register from "../../pages/Register";
 import ResetPassword from "../../pages/ResetPassword";
 import { checkUserAPI } from "../../services/actions/user";
@@ -18,14 +18,15 @@ import { getIngredients } from "../../services/actions/ingredient";
 import Feed from "../../pages/Feed";
 import FeedDetails from "../Feed-details/FeedDetails";
 import OrderHistory from "../../pages/OrderHistory";
+import { useSelectorHook, useDispatchHook } from "../../services/types/index";
 
-function App(props) {
-  const location = useLocation();
+function App() {
+  const location = useLocation<any>();
   const history = useHistory();
   const background = location.state?.background;
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
 
-  const user = useSelector((store) => store.authReducer.user);
+  const user = useSelectorHook((store) => store.authReducer.user);
 
   useEffect(() => {
     reloadUser();
@@ -51,7 +52,7 @@ function App(props) {
         <Route path="/register" exact={true}>
           <Register />
         </Route>
-        <ProtectedRoute path="/profile" exact={true}>
+        <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
         <Route path="/profile/orders" exact={true}>
@@ -94,7 +95,6 @@ function App(props) {
 
         <ProtectedRoute
           path="/profile/orders/:id"
-          exact={true}
           children={
             <>
               <FeedDetails />

@@ -3,7 +3,7 @@ import { parseResponse } from "../../utils/utils";
 import { AppDispatch } from "../types/index";
 import { AppThunk } from "../types/index";
 import {
-  IIngredient,
+  TIngredient,
   RESET_INGREDIENT,
   RESET_ORDER,
   SET_ORDER,
@@ -13,7 +13,7 @@ import { resetIngredients } from "./ingredient";
 
 interface ISetOrderAction {
   type: typeof SET_ORDER;
-  ingredient: IIngredient;
+  ingredient: TIngredient;
   uid: string;
 }
 
@@ -68,7 +68,7 @@ export const postOrder: AppThunk =
 export const resetOrder = (): IResetOrderAction => ({ type: RESET_ORDER });
 
 export const setOrder = (
-  ingredient: IIngredient,
+  ingredient: TIngredient,
   uid: string
 ): ISetOrderAction => {
   return {

@@ -4,7 +4,7 @@ import { TOrderActions } from "../actions/order";
 import {
   ADD_BUN_PRICE,
   ADD_INGREDIENT_PRICE,
-  IIngredient,
+  TIngredient,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
   RESET_ORDER,
@@ -16,7 +16,7 @@ import {
 } from "../types";
 
 type TOrderState = {
-  order: Array<IIngredient>;
+  order: Array<TIngredient>;
 };
 
 const orderInitialState: TOrderState = {

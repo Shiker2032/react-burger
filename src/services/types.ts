@@ -39,7 +39,7 @@ export const RESET_USER: "RESET_USER" = "RESET_USER";
 export const SET_TAB_STATE: "SET_TAB_STATE" = "SET_TAB_STATE";
 export const RESET_TAB_STATE: "RESET_TAB_STATE" = "RESET_TAB_STATE";
 
-export interface IOrder {
+export type TOrder = {
   createdAt: Date;
   ingredients: string[];
   name: string;
@@ -47,9 +47,9 @@ export interface IOrder {
   status: string;
   updatedAt: Date;
   _id: string;
-}
+};
 
-export interface IIngredient {
+export type TIngredient = {
   calories: number;
   carbohydrates: number;
   fat: number;
@@ -63,11 +63,17 @@ export interface IIngredient {
   __v: number;
   _id: string;
   amount: number;
-  uid: any;
-}
+  uid: string;
+};
 
 export type TUser = {
   email?: string;
   name?: string;
   password?: string;
+};
+
+export const defaultUser = {
+  email: "",
+  name: "",
+  password: "",
 };

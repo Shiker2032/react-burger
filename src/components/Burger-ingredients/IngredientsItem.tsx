@@ -6,19 +6,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { IIngredient } from "../../services/types";
+import { TIngredient } from "../../services/types";
 
 type TIngredientsItemProps = {
-  ingredient: IIngredient;
-  onClick: (ingredient: IIngredient) => void;
+  ingredient: TIngredient;
+  onClick: (ingredient: TIngredient) => void;
 };
 
 const IngredientsItem: FC<TIngredientsItemProps> = ({
   ingredient,
   onClick,
 }) => {
-  const order = useSelector((store: any) => store.orderReducer.order);
   const constructorElement: HTMLElement | null =
     document.querySelector("#constructor");
 

@@ -13,7 +13,7 @@ import IngredientDetails from "./IngredientDetails";
 import { setCurrentIngredient } from "../services/actions/ingredient";
 import { resetTab, setTab } from "../services/actions/tabs";
 import { useDispatchHook, useSelectorHook } from "../services/types/index";
-import { IIngredient } from "../services/types";
+import { TIngredient } from "../services/types";
 
 function Constructor() {
   const { order, orderNumber, user } = useSelectorHook((store) => ({
@@ -36,7 +36,7 @@ function Constructor() {
     useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
 
-  const handleIngredientClick = (ingredient: IIngredient) => {
+  const handleIngredientClick = (ingredient: TIngredient) => {
     dispatch(setCurrentIngredient(ingredient));
     history.replace({
       pathname: `/ingredients/${ingredient._id}`,

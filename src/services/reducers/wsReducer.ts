@@ -5,16 +5,20 @@ import {
   WS_GET_MESSAGE,
   TWsActions,
 } from "../actions/wsActions";
-import { IOrder } from "../types";
+import { TOrder } from "../types";
 
 type TWsState = {
   wsConnected: boolean;
-  orders?: Array<IOrder>;
+  orders?: Array<TOrder>;
+  total: number;
+  totalToday: number;
 };
 
 const initialState: TWsState = {
   wsConnected: false,
   orders: [],
+  total: 0,
+  totalToday: 0,
 };
 
 export const wsReducer = (state = initialState, action: TWsActions) => {

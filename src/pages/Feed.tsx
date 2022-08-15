@@ -12,7 +12,7 @@ import styles from "./feed.module.css";
 import { calculateOrderTime } from "../utils/utils";
 import { resetTab, setTab } from "../services/actions/tabs";
 import { useSelectorHook } from "../services/types/index";
-import { IOrder } from "../services/types";
+import { TOrder } from "../services/types";
 
 function Feed() {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ function Feed() {
     };
   }, [dispatch]);
 
-  const handleFeedClick = (order: IOrder) => {
+  const handleFeedClick = (order: TOrder) => {
     history.replace({
       pathname: `/feed/${order._id}`,
       state: { background: location },

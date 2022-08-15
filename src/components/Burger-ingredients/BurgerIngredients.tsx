@@ -1,18 +1,17 @@
-import { FC, useRef } from "react";
-import { useSelector } from "react-redux";
-import Tabs from "./Tabs";
-import IngredientsItem from "./IngredientsItem";
 import styles from "./burgerIngredients.module.css";
-import PropTypes from "prop-types";
-import { IIngredient } from "../../services/types";
+import IngredientsItem from "./IngredientsItem";
+import Tabs from "./Tabs";
+import { FC, useRef } from "react";
+import { TIngredient } from "../../services/types";
+import { useSelectorHook } from "../../services/types/index";
 
 type TBurgerIngredientsProps = {
-  onClick: (ingredient: IIngredient) => void;
+  onClick: (ingredient: TIngredient) => void;
 };
 
 const BurgerIngredients: FC<TBurgerIngredientsProps> = ({ onClick }) => {
-  const ingredients = useSelector(
-    (store: any) => store.ingredientsReducer.ingredients
+  const ingredients = useSelectorHook(
+    (store) => store.ingredientsReducer.ingredients
   );
 
   const tabRefs = {
@@ -32,8 +31,8 @@ const BurgerIngredients: FC<TBurgerIngredientsProps> = ({ onClick }) => {
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
 
-            .filter((ingredient: IIngredient) => ingredient.type === "bun")
-            .map((ingredient: IIngredient, idx: number) => {
+            .filter((ingredient: TIngredient) => ingredient.type === "bun")
+            .map((ingredient: TIngredient, idx: number) => {
               return (
                 <IngredientsItem
                   ingredient={ingredient}
@@ -49,8 +48,8 @@ const BurgerIngredients: FC<TBurgerIngredientsProps> = ({ onClick }) => {
         </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
-            .filter((ingredient: IIngredient) => ingredient.type === "sauce")
-            .map((ingredient: IIngredient, idx: number) => {
+            .filter((ingredient: TIngredient) => ingredient.type === "sauce")
+            .map((ingredient: TIngredient, idx: number) => {
               return (
                 <IngredientsItem
                   key={idx}
@@ -66,8 +65,8 @@ const BurgerIngredients: FC<TBurgerIngredientsProps> = ({ onClick }) => {
         </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
-            .filter((ingredient: IIngredient) => ingredient.type === "main")
-            .map((ingredient: IIngredient, idx: number) => {
+            .filter((ingredient: TIngredient) => ingredient.type === "main")
+            .map((ingredient: TIngredient, idx: number) => {
               return (
                 <IngredientsItem
                   ingredient={ingredient}

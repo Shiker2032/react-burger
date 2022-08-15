@@ -8,18 +8,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { Link, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelectorHook } from "../../services/types/index";
 
 const AppHeader = () => {
   const history = useHistory();
 
-  const [constructorIsActive, orderFeedIsActive, profileIsActive] = useSelector(
-    (store: any) => [
+  const [constructorIsActive, orderFeedIsActive, profileIsActive] =
+    useSelectorHook((store) => [
       store.activeReducer.constructor,
       store.activeReducer.orderFeed,
       store.activeReducer.profile,
-    ]
-  );
+    ]);
 
   return (
     <header className={`${styles.header} pt-4 pb-4`}>

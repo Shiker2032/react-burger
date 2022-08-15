@@ -1,4 +1,4 @@
-import { RESET_USER, SET_USER, TUser } from "../types";
+import { defaultUser, RESET_USER, SET_USER, TUser } from "../types";
 import {
   apiConfig,
   deleteCookie,
@@ -46,12 +46,10 @@ const fetchWithRefresh = async (url: string, options: TOptions) => {
     return data;
   } catch (err) {
     if (err === "jwt expired") {
-      const refreshRes = await refreshUser(localStorage.refreshToken);
-
+      const refreshRes = await refreshUser(localStorage.refreshToken!);
       const refreshData = await checkResponse(refreshRes!);
-
-      setCookie("token", refreshData!.accessToken!);
-      localStorage.setItem("refreshToken", refreshData.refreshToken);
+      setCookie("token", refreshData.accessToken!);
+      localStorage.setItem("refreshToken", refreshData.refreshToken!);
       const res = await fetch(url, options);
       const data = checkResponse(res);
       return data;
@@ -69,13 +67,13 @@ export const logInUser = (user: TUser) => async (dispatch: AppDispatch) => {
       body: JSON.stringify(user),
     });
     if (data !== undefined) {
-      const authToken = data.accessToken?.split("Bearer")[1];
+      const authToken = data.accessToken!.split("Bearer")[1];
       const refreshToken = data.refreshToken;
 
-      dispatch(setUser(data.user, true));
+      dispatch(setUser(data.user!, true));
       if (authToken) {
         setCookie("token", authToken);
-        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("refreshToken", refreshToken!);
       }
     }
   } catch (err) {
@@ -95,7 +93,7 @@ export const patchUser =
         body: JSON.stringify(inputData),
       });
       if (res) {
-        dispatch(setUser(res.user, true));
+        dispatch(setUser(res.user!, true));
       }
     } catch (err) {
       console.log(err);
@@ -127,15 +125,15 @@ export const registerUser: AppThunk =
         },
         body: JSON.stringify(user),
       });
-      const data = await checkResponse(res);
       if (res.ok) {
-        dispatch(setUser(data.user, true));
+        const data = await checkResponse(res);
+        dispatch(setUser(data.user!, true));
         setCookie(data.accessToken!);
         if (data !== undefined) {
-          localStorage.setItem("refreshToken", data.refreshToken);
+          localStorage.setItem("refreshToken", data.refreshToken!);
         }
+        return data;
       }
-      return data;
     } catch (err) {
       console.log(err);
     }

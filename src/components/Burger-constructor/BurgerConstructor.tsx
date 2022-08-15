@@ -1,10 +1,9 @@
-import PropTypes from "prop-types";
 import {
   CurrencyIcon,
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IIngredient } from "../../services/types";
+import { TIngredient } from "../../services/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import ConstructorItem from "./ConstructorItem";
@@ -20,6 +19,7 @@ import {
   subtracIngredient,
 } from "../../services/actions/ingredient";
 import { setBun, setBunPrice, subtractBun } from "../../services/actions/bun";
+import { useSelectorHook } from "../../services/types/index";
 
 type TBurgerConstructorProps = {
   onClick: () => void;
@@ -27,17 +27,17 @@ type TBurgerConstructorProps = {
 
 const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
   const dispatch = useDispatch();
-  const { order, price } = useSelector((store: any) => ({
+  const { order, price } = useSelectorHook((store) => ({
     order: store.orderReducer.order,
     price: store.priceReducer,
   }));
 
-  const handleDrop = (ingredient: IIngredient) => {
+  const handleDrop = (ingredient: TIngredient) => {
     if (
-      order.find((el: IIngredient) => el.type === "bun") &&
+      order.find((el: TIngredient) => el.type === "bun") &&
       ingredient.type === "bun"
     ) {
-      const previousBun = order.filter((el: IIngredient) => el.type === "bun");
+      const previousBun = order.filter((el: TIngredient) => el.type === "bun");
       console.log(previousBun);
 
       dispatch(subtractBun(previousBun[0]));
@@ -60,12 +60,12 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop: (item: { ingredient: IIngredient }) => {
+    drop: (item: { ingredient: TIngredient }) => {
       handleDrop(item.ingredient);
     },
   });
 
-  const handleClose = (ingredient: IIngredient) => {
+  const handleClose = (ingredient: TIngredient) => {
     dispatch(subtracIngredient(ingredient));
     dispatch(removeIngredient(ingredient));
   };
@@ -77,8 +77,8 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
       className={`${styles.burgerConstructor} pl-4`}
     >
       {order
-        .filter((ingredient: IIngredient) => ingredient.type === "bun")
-        .map((ingredient: IIngredient) => {
+        .filter((ingredient: TIngredient) => ingredient.type === "bun")
+        .map((ingredient: TIngredient) => {
           return (
             <article
               key={ingredient._id}
@@ -99,7 +99,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
       <div className={styles.burgerConstructor__wrapper}>
         <ul className={`${styles.burgerConstructor__list} pr-4`}>
           {order.length > 1 &&
-            order.map((ingredient: IIngredient, idx: number) => {
+            order.map((ingredient: TIngredient, idx: number) => {
               if (ingredient.price !== 0 && ingredient.type !== "bun") {
                 return (
                   <li key={ingredient.uid}>
@@ -116,8 +116,8 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
       </div>
 
       {order
-        .filter((ingredient: IIngredient) => ingredient.type === "bun")
-        .map((ingredient: IIngredient) => {
+        .filter((ingredient: TIngredient) => ingredient.type === "bun")
+        .map((ingredient: TIngredient) => {
           return (
             <article
               key={ingredient._id}
@@ -135,7 +135,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
           );
         })}
 
-      {order.find((orderEl: IIngredient) => orderEl.type === "bun") && (
+      {order.find((orderEl: TIngredient) => orderEl.type === "bun") && (
         <div
           className={`${styles.burgerConstructor__totalPriceContainer} mr-4`}
         >

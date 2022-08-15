@@ -1,21 +1,21 @@
 import styles from "./feedOrder.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
-import { useSelector } from "react-redux";
 import { getIngredient, calculateOrderTime } from "../../utils/utils";
-import { IOrder } from "../../services/types";
+import { TOrder } from "../../services/types";
 import { FC } from "react";
+import { useSelectorHook } from "../../services/types/index";
 
 type TFeedOrderProps = {
-  order: IOrder;
-  handleFeedClick: (order: IOrder) => void;
+  order: TOrder;
+  handleFeedClick: (order: TOrder) => void;
 };
 
 const FeedOrder: FC<TFeedOrderProps> = ({ order, handleFeedClick }) => {
-  const ingredientsArr = useSelector((store: any) => store.ingredientsReducer);
+  const ingredientsArr = useSelectorHook((store) => store.ingredientsReducer);
   const orderIngredients = order.ingredients;
 
-  const calculateOrderPrice = (orderArr: IOrder) => {
+  const calculateOrderPrice = (orderArr: TOrder) => {
     let price = 0;
     orderArr.ingredients.map((el_id) => {
       const ingredient = getIngredient(el_id, ingredientsArr);

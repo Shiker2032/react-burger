@@ -3,7 +3,7 @@ import { AppDispatch } from "../types/index";
 import { AppThunk } from "../types/index";
 import {
   ADD_INGREDIENT_PRICE,
-  IIngredient,
+  TIngredient,
   INCREMENT_INGREDIENT,
   REMOVE_INGREDIENT,
   REORDER_ITEMS,
@@ -18,12 +18,12 @@ export type TCurrentIngredientActions = ISetCurrentIngredientAction;
 
 interface ISubtractIngredientAction {
   type: typeof SUBTRACT_INGREDIENT_AMOUNT;
-  ingredient: IIngredient;
+  ingredient: TIngredient;
 }
 
 interface IIncrementIngredientAction {
   type: typeof INCREMENT_INGREDIENT;
-  ingredient: IIngredient;
+  ingredient: TIngredient;
 }
 
 interface IAddIngredientPriceAction {
@@ -38,17 +38,17 @@ interface ISubtractIngredientPriceAction {
 
 interface IRemoveIngredientAction {
   type: typeof REMOVE_INGREDIENT;
-  ingredient: IIngredient;
+  ingredient: TIngredient;
 }
 
 interface IReorderItemsAction {
   type: typeof REORDER_ITEMS;
-  data: Array<IIngredient>;
+  data: Array<TIngredient>;
 }
 
 interface ISetCurrentIngredientAction {
   type: typeof SET_CURRENT_INGREDIENT;
-  currentIngredient: IIngredient;
+  currentIngredient: TIngredient;
 }
 
 interface IResetIngredientsAction {
@@ -57,10 +57,10 @@ interface IResetIngredientsAction {
 
 interface ISetIngredientsAction {
   type: typeof SET_INGREDIENTS;
-  data: Array<IIngredient>;
+  data: Array<TIngredient>;
 }
 
-const setIngredients = (data: Array<IIngredient>): ISetIngredientsAction => ({
+const setIngredients = (data: Array<TIngredient>): ISetIngredientsAction => ({
   type: SET_INGREDIENTS,
   data: data,
 });
@@ -73,7 +73,7 @@ export const getIngredients: AppThunk = () => async (dispatch: AppDispatch) => {
 };
 
 export const setCurrentIngredient = (
-  currentIngredient: IIngredient
+  currentIngredient: TIngredient
 ): ISetCurrentIngredientAction => {
   return {
     type: SET_CURRENT_INGREDIENT,
@@ -86,14 +86,14 @@ export const resetIngredients = (): IResetIngredientsAction => ({
 });
 
 export const subtracIngredient = (
-  ingredient: IIngredient
+  ingredient: TIngredient
 ): ISubtractIngredientAction => ({
   type: SUBTRACT_INGREDIENT_AMOUNT,
   ingredient: ingredient,
 });
 
 export const incrementIngredient = (
-  ingredient: IIngredient
+  ingredient: TIngredient
 ): IIncrementIngredientAction => ({
   type: INCREMENT_INGREDIENT,
   ingredient: ingredient,
@@ -113,14 +113,14 @@ export const subtractIngredientPrice = (
   price: price,
 });
 export const removeIngredient = (
-  ingredient: IIngredient
+  ingredient: TIngredient
 ): IRemoveIngredientAction => ({
   type: REMOVE_INGREDIENT,
   ingredient: ingredient,
 });
 
 export const reorderItems = (
-  newItems: Array<IIngredient>
+  newItems: Array<TIngredient>
 ): IReorderItemsAction => ({
   type: REORDER_ITEMS,
   data: newItems,

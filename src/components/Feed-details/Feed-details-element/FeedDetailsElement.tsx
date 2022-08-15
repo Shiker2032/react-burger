@@ -5,6 +5,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { useSelector } from "react-redux";
 import { getIngredient } from "../../../utils/utils";
 import { FC } from "react";
+import { useSelectorHook } from "../../../services/types/index";
 
 interface IIngredient {
   _id: string;
@@ -16,7 +17,7 @@ type TFeedDetailsElementProps = {
 };
 
 const FeedDetailsElement: FC<TFeedDetailsElementProps> = ({ ingredient }) => {
-  const ingredientsArr = useSelector((store: any) => store.ingredientsReducer);
+  const ingredientsArr = useSelectorHook((store) => store.ingredientsReducer);
   return (
     <div className={styles.feedDetailsElement}>
       <div className={styles.feedDetailsElement__images}>

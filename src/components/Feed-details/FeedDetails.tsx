@@ -11,19 +11,19 @@ import {
   wsConnectionStart,
 } from "../../services/actions/wsActions";
 import { getCookie } from "../API/api";
-import { IOrder } from "../../services/types";
+import { TOrder } from "../../services/types";
 
 const FeedDetails: FC = () => {
   const dispatch = useDispatch();
   const params: { id: string } = useParams();
 
   const { orders } = useSelector((store: any) => store.wsReducer);
-  const orderInfo = orders?.filter((el: IOrder) => el._id === params.id);
+  const orderInfo = orders?.filter((el: TOrder) => el._id === params.id);
   const ingredientsArr = useSelector((store: any) => store.ingredientsReducer);
 
   const { pathname } = useLocation();
 
-  let arrDonor: any[] = [];
+  let arrDonor: Array<any> = [];
 
   const modalConnection = () => {
     if (pathname.includes("/feed/")) {
@@ -44,7 +44,7 @@ const FeedDetails: FC = () => {
     };
   }, []);
 
-  const setArray = (orderInfo: Array<IOrder>) => {
+  const setArray = (orderInfo: Array<TOrder>) => {
     if (orderInfo) {
       orderInfo[0]?.ingredients.map((el) => {
         arrDonor.push({ id: el, amount: 1 });
@@ -76,7 +76,7 @@ const FeedDetails: FC = () => {
     setArray(orderInfo);
   }
 
-  const calculateOrderPrice = (orderArr: IOrder) => {
+  const calculateOrderPrice = (orderArr: TOrder) => {
     let price: number = 0;
 
     orderArr?.ingredients.map((el_id) => {

@@ -13,7 +13,7 @@ import {
 } from "../services/actions/wsActions";
 import { resetTab, setTab } from "../services/actions/tabs";
 import { useDispatchHook, useSelectorHook } from "../services/types/index";
-import { IOrder } from "../services/types";
+import { TOrder } from "../services/types";
 
 function OrderHistory() {
   const [profileIsActive, setProfileIsActive] = useState(false);
@@ -39,7 +39,7 @@ function OrderHistory() {
     history.replace({ pathname: "/login" });
   };
 
-  const handleFeedClick = (order: IOrder) => {
+  const handleFeedClick = (order: TOrder) => {
     history.replace({
       pathname: `/profile/orders/${order._id}`,
       state: { background: location },

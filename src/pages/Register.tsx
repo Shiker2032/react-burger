@@ -7,8 +7,8 @@ import {
 
 import { NavLink, useHistory } from "react-router-dom";
 import { useState } from "react";
-import { registerUser, TUserActions } from "../services/actions/user";
-import { useDispatch } from "react-redux";
+import { registerUser } from "../services/actions/user";
+
 import { TUser } from "../services/types";
 import { useDispatchHook } from "../services/types/index";
 
@@ -27,8 +27,8 @@ const Register = () => {
       password: passwordInput,
       name: nameInput,
     };
-    const message: any = dispatch(registerUser(user));
-    if (message && message.success) history.replace({ pathname: "/" });
+    dispatch(registerUser(user));
+    history.replace({ pathname: "/" });
   };
 
   return (

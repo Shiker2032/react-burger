@@ -1,16 +1,15 @@
-interface IAction {
-  onClose: string;
-  onError: string;
-  onMessage: string;
-  onOpen: string;
-  wsInit: string;
-}
+import { AnyAction, Middleware, MiddlewareAPI } from "redux";
+import { RootState } from "../types/index";
+import { AppDispatch } from "../types/index";
 
-export const socketMiddleware = (wsUrl: string, wsActions: IAction) => {
-  return (store: any) => {
+export const socketMiddleware = (
+  wsUrl: string,
+  wsActions: { [key: string]: any }
+): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
-    return (next: any) => (action: any) => {
+    return (next: (T: AnyAction) => void) => (action: AnyAction) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
