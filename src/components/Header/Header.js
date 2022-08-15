@@ -34,9 +34,17 @@ const AppHeader = () => {
             Констркутор
           </p>
         </Link>
-        <Link to="/" className={`${styles.header__menuItemLink} p-5`} href="#">
+        <Link
+          to="/feed"
+          className={`${styles.header__menuItemLink} p-5`}
+          href="#"
+        >
           <ListIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive ml-2">
+          <p
+            className={`text text_type_main-default ${
+              orderFeedIsActive ? "" : "text_color_inactive"
+            }  ml-2`}
+          >
             Лента заказов
           </p>
         </Link>

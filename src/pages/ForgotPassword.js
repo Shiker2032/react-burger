@@ -1,19 +1,15 @@
 import styles from "./forgotPassword.module.css";
 import {
   Input,
-  PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { parseResponse } from "../components/API/api";
-import { useDispatch } from "react-redux";
 import { forgotPassword } from "../services/actions/user";
 
 function ForgotPassword(props) {
   const history = useHistory();
-  const dispatch = useDispatch();
   const [emailInput, setEmailinput] = useState("");
   const location = useLocation();
 

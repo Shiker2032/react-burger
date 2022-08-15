@@ -1,6 +1,5 @@
 .ingredientDetails {
   display: grid;
-  grid-template-rows: min-content max-content;
   justify-items: center;
 }
 

@@ -1,4 +1,4 @@
-import { apiConfig } from "../../components/API/api";
+import { apiConfig, getCookie } from "../../components/API/api";
 import { parseResponse } from "../../utils/utils";
 import {
   RESET_INGREDIENT,
@@ -14,6 +14,7 @@ export const postOrder = (orderInfo, modalHendler) => (dispatch) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer" + getCookie("token"),
       },
       body: JSON.stringify({
         ingredients: orderInfo,

@@ -15,6 +15,9 @@ import { ProtectedRoute } from "../ProtectedRoute";
 
 import Header from "../Header/Header";
 import { getIngredients } from "../../services/actions/ingredient";
+import Feed from "../../pages/Feed";
+import FeedDetails from "../Feed-details/FeedDetails";
+import OrderHistory from "../../pages/OrderHistory";
 
 function App(props) {
   const location = useLocation();
@@ -51,24 +54,59 @@ function App(props) {
         <ProtectedRoute path="/profile" exact={true}>
           <Profile />
         </ProtectedRoute>
+        <Route path="/profile/orders" exact={true}>
+          <OrderHistory />
+        </Route>
         <Route path="/forgot-password" exact={true}>
           <ForgotPassword />
         </Route>
         <Route path="/reset-password" exact={true}>
           <ResetPassword />
         </Route>
+
+        <Route path="/feed" exact={true}>
+          <Feed />
+        </Route>
+
+        <Route path="/feed/:id" exact={true}>
+          <FeedDetails />
+        </Route>
+
         <Route
           path="/ingredients/:id"
+          exact={true}
           children={
             <>
               <Ingredient />
             </>
           }
         />
+
+        <Route
+          path="/ingredients/:id"
+          exact={true}
+          children={
+            <>
+              <Ingredient />
+            </>
+          }
+        />
+
+        <ProtectedRoute
+          path="/profile/orders/:id"
+          exact={true}
+          children={
+            <>
+              <FeedDetails />
+            </>
+          }
+        ></ProtectedRoute>
       </Switch>
+
       {background && (
         <Route
           path="/ingredients/:id"
+          exact={true}
           children={
             <Modal
               onCloseClick={() => {
@@ -78,6 +116,42 @@ function App(props) {
               }}
             >
               <Ingredient />
+            </Modal>
+          }
+        />
+      )}
+
+      {background && (
+        <Route
+          path="/feed/:id"
+          exact={true}
+          children={
+            <Modal
+              onCloseClick={() => {
+                history.replace({
+                  pathname: "/feed",
+                });
+              }}
+            >
+              <FeedDetails />
+            </Modal>
+          }
+        />
+      )}
+
+      {background && (
+        <Route
+          path="/profile/orders/:id"
+          exact={true}
+          children={
+            <Modal
+              onCloseClick={() => {
+                history.replace({
+                  pathname: "/profile/orders",
+                });
+              }}
+            >
+              <FeedDetails />
             </Modal>
           }
         />

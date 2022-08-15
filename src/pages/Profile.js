@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOutUser, patchUser } from "../services/actions/user";
 import { RESET_TAB_STATE, SET_TAB_STATE } from "../services/types";
 
+import { useHistory } from "react-router-dom";
+
 function Profile(props) {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setemailInput] = useState("");
@@ -21,6 +23,7 @@ function Profile(props) {
 
   const auth = useSelector((store) => store.authReducer);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     setDefaultInput();
@@ -38,6 +41,11 @@ function Profile(props) {
   const handleInput = (e, inputSetter) => {
     inputSetter(e.target.value);
     setApplyVisible(true);
+  };
+
+  const orderHistoryClick = () => {
+    setProfileIsActive(false);
+    history.push({ pathname: "/profile/orders" });
   };
 
   const logOutClick = () => {
@@ -65,7 +73,11 @@ function Profile(props) {
           >
             Профиль
           </p>
-          <p className="text text_type_main-medium text_color_inactive pb-6">
+          <p
+            style={{ cursor: "pointer" }}
+            onClick={orderHistoryClick}
+            className="text text_type_main-medium text_color_inactive pb-6"
+          >
             История заказов
           </p>
           <p
