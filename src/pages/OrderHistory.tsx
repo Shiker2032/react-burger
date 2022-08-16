@@ -28,7 +28,8 @@ function OrderHistory() {
     dispatch(resetTab());
     dispatch(setTab("profile"));
     setOrderHistoryIsActive(true);
-    dispatch(wsConnectionStart(`?token=${getCookie("token")?.slice(1)}`));
+
+    dispatch(wsConnectionStart(`?token=${getCookie("token")!.slice(1)}`));
     return () => {
       dispatch(wsConnectionClose());
     };

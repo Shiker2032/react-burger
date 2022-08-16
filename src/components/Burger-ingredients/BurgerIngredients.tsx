@@ -31,8 +31,8 @@ const BurgerIngredients: FC<TBurgerIngredientsProps> = ({ onClick }) => {
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
 
-            .filter((ingredient: TIngredient) => ingredient.type === "bun")
-            .map((ingredient: TIngredient, idx: number) => {
+            .filter((ingredient) => ingredient.type === "bun")
+            .map((ingredient, idx: number) => {
               return (
                 <IngredientsItem
                   ingredient={ingredient}
@@ -48,8 +48,8 @@ const BurgerIngredients: FC<TBurgerIngredientsProps> = ({ onClick }) => {
         </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
-            .filter((ingredient: TIngredient) => ingredient.type === "sauce")
-            .map((ingredient: TIngredient, idx: number) => {
+            .filter((ingredient) => ingredient.type === "sauce")
+            .map((ingredient, idx: number) => {
               return (
                 <IngredientsItem
                   key={idx}
@@ -65,8 +65,8 @@ const BurgerIngredients: FC<TBurgerIngredientsProps> = ({ onClick }) => {
         </h3>
         <ul className={styles.burgerIngredients__cardList}>
           {ingredients
-            .filter((ingredient: TIngredient) => ingredient.type === "main")
-            .map((ingredient: TIngredient, idx: number) => {
+            .filter((ingredient) => ingredient.type === "main")
+            .map((ingredient, idx: number) => {
               return (
                 <IngredientsItem
                   ingredient={ingredient}

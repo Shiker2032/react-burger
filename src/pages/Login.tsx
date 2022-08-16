@@ -1,7 +1,6 @@
 import {
   Input,
   PasswordInput,
-  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Redirect, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -9,6 +8,7 @@ import { logInUser } from "../services/actions/user";
 import styles from "./login.module.css";
 import { resetTab } from "../services/actions/tabs";
 import { useDispatchHook, useSelectorHook } from "../services/types/index";
+import { Button } from "../components/Button";
 
 function Login() {
   const [emailInput, setEmailinput] = useState("vladislav.begunov@mail.ru");

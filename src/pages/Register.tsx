@@ -1,9 +1,9 @@
 import styles from "./register.module.css";
 import {
   PasswordInput,
-  Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button } from "../components/Button";
 
 import { NavLink, useHistory } from "react-router-dom";
 import { useState } from "react";

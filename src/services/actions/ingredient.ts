@@ -65,7 +65,7 @@ const setIngredients = (data: Array<TIngredient>): ISetIngredientsAction => ({
   data: data,
 });
 
-export const getIngredients: AppThunk = () => async (dispatch: AppDispatch) => {
+export const getIngredients: AppThunk = () => async (dispatch) => {
   const res = await fetch(`${apiConfig.url}/ingredients`);
   const data = await res.json();
   const ingredientsArr = data.data;

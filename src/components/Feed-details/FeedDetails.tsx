@@ -29,7 +29,7 @@ function FeedDetails() {
       dispatch(wsConnectionStart("/all"));
     }
     if (pathname.includes("/profile/order")) {
-      dispatch(wsConnectionStart(`?token=${getCookie("token")?.slice(1)}`));
+      dispatch(wsConnectionStart("/all"));
     }
     return;
   };

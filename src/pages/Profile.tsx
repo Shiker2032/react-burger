@@ -3,8 +3,9 @@ import styles from "./profile.module.css";
 import {
   Input,
   PasswordInput,
-  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
+import { Button } from "../components/Button";
 
 import { useEffect, useState } from "react";
 import { logOutUser, patchUser } from "../services/actions/user";

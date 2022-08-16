@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-
 import { useParams } from "react-router-dom";
 import { TIngredient } from "../services/types";
 import { useSelectorHook } from "../services/types/index";

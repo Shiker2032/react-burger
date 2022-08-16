@@ -1,13 +1,10 @@
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
+import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "../ConstuctorElement";
+
 import {} from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
-import { TIngredient, REORDER_ITEMS } from "../../services/types";
+import { TIngredient } from "../../services/types";
 import styles from "./burgerConstructor.module.css";
 import {
   removeIngredient,
@@ -15,7 +12,7 @@ import {
   subtracIngredient,
   subtractIngredientPrice,
 } from "../../services/actions/ingredient";
-import { useSelectorHook } from "../../services/types/index";
+import { useDispatchHook, useSelectorHook } from "../../services/types/index";
 
 type TConstructorItemProps = {
   ingredient: TIngredient;
@@ -30,7 +27,7 @@ const ConstructorItem: FC<TConstructorItemProps> = ({
 }) => {
   const order = useSelectorHook((store) => store.orderReducer.order);
   const ref = useRef(null);
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
 
   const [{ isDragging }, drag] = useDrag({
     type: "element",
@@ -86,7 +83,6 @@ const ConstructorItem: FC<TConstructorItemProps> = ({
       </p>
       <ConstructorElement
         handleClose={() => handleClose(ingredient)}
-        type={""}
         isLocked={false}
         text={ingredient.name}
         price={ingredient.price}

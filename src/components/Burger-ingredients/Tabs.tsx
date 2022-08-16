@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab } from "../Tab";
 import styles from "./burgerIngredients.module.css";
 
 type TTabsProps = {

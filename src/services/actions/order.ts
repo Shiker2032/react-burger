@@ -40,7 +40,7 @@ export type TOrderActions =
 
 export const postOrder: AppThunk =
   (orderInfo, modalHendler: React.Dispatch<React.SetStateAction<boolean>>) =>
-  (dispatch: AppDispatch) => {
+  (dispatch) => {
     try {
       fetch(`${apiConfig.url}/orders`, {
         method: "POST",

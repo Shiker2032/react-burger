@@ -1,4 +1,4 @@
-import { defaultUser, RESET_USER, SET_USER, TUser } from "../types";
+import { RESET_USER, SET_USER, TUser } from "../types";
 import {
   apiConfig,
   deleteCookie,
@@ -88,7 +88,7 @@ export const patchUser =
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer" + getCookie("token"),
+          Authorization: "Bearer " + getCookie("token"),
         },
         body: JSON.stringify(inputData),
       });
@@ -115,36 +115,35 @@ export const refreshUser = async (refreshToken: string) => {
   }
 };
 
-export const registerUser: AppThunk =
-  (user: TUser) => async (dispatch: AppDispatch) => {
-    try {
-      const res = await fetch(`${apiConfig.url}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
-      if (res.ok) {
-        const data = await checkResponse(res);
-        dispatch(setUser(data.user!, true));
-        setCookie(data.accessToken!);
-        if (data !== undefined) {
-          localStorage.setItem("refreshToken", data.refreshToken!);
-        }
-        return data;
+export const registerUser: AppThunk = (user: TUser) => async (dispatch) => {
+  try {
+    const res = await fetch(`${apiConfig.url}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    if (res.ok) {
+      const data = await checkResponse(res);
+      dispatch(setUser(data.user!, true));
+      setCookie("token", data.accessToken!);
+      if (data !== undefined) {
+        localStorage.setItem("refreshToken", data.refreshToken!);
       }
-    } catch (err) {
-      console.log(err);
+      return data;
     }
-  };
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-export const checkUserAPI: AppThunk = () => async (dispatch: AppDispatch) => {
+export const checkUserAPI: AppThunk = () => async (dispatch) => {
   try {
     const resp = await fetchWithRefresh(`${apiConfig.url}/auth/user`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + getCookie("token"),
+        Authorization: "Bearer " + getCookie("token"),
       },
       method: "GET",
     });
@@ -154,7 +153,7 @@ export const checkUserAPI: AppThunk = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const logOutUser: AppThunk = () => async (dispatch: AppDispatch) => {
+export const logOutUser: AppThunk = () => async (dispatch) => {
   try {
     const message = await fetchWithRefresh(`${apiConfig.url}/auth/logout`, {
       method: "POST",

@@ -1,13 +1,13 @@
 import {
   CurrencyIcon,
-  Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredient } from "../../services/types";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import ConstructorItem from "./ConstructorItem";
 import styles from "./burgerConstructor.module.css";
+
+import { Button } from "../Button";
 
 import { v4 as uuidv4 } from "uuid";
 import { setOrder } from "../../services/actions/order";
@@ -19,14 +19,14 @@ import {
   subtracIngredient,
 } from "../../services/actions/ingredient";
 import { setBun, setBunPrice, subtractBun } from "../../services/actions/bun";
-import { useSelectorHook } from "../../services/types/index";
+import { useDispatchHook, useSelectorHook } from "../../services/types/index";
 
 type TBurgerConstructorProps = {
   onClick: () => void;
 };
 
 const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
   const { order, price } = useSelectorHook((store) => ({
     order: store.orderReducer.order,
     price: store.priceReducer,
@@ -76,8 +76,8 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
       className={`${styles.burgerConstructor} pl-4`}
     >
       {order
-        .filter((ingredient: TIngredient) => ingredient.type === "bun")
-        .map((ingredient: TIngredient) => {
+        .filter((ingredient) => ingredient.type === "bun")
+        .map((ingredient) => {
           return (
             <article
               key={ingredient._id}
@@ -98,7 +98,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
       <div className={styles.burgerConstructor__wrapper}>
         <ul className={`${styles.burgerConstructor__list} pr-4`}>
           {order.length > 1 &&
-            order.map((ingredient: TIngredient, idx: number) => {
+            order.map((ingredient, idx: number) => {
               if (ingredient.price !== 0 && ingredient.type !== "bun") {
                 return (
                   <li key={ingredient.uid}>
@@ -115,8 +115,8 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ onClick }) => {
       </div>
 
       {order
-        .filter((ingredient: TIngredient) => ingredient.type === "bun")
-        .map((ingredient: TIngredient) => {
+        .filter((ingredient) => ingredient.type === "bun")
+        .map((ingredient) => {
           return (
             <article
               key={ingredient._id}

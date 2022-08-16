@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import FeedStatus from "../components/Feed-status/FeedStatus";
 import {
@@ -11,11 +10,11 @@ import { useHistory, useLocation } from "react-router-dom";
 import styles from "./feed.module.css";
 import { calculateOrderTime } from "../utils/utils";
 import { resetTab, setTab } from "../services/actions/tabs";
-import { useSelectorHook } from "../services/types/index";
+import { useDispatchHook, useSelectorHook } from "../services/types/index";
 import { TOrder } from "../services/types";
 
 function Feed() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatchHook();
   const history = useHistory();
   const location = useLocation();
   const { orders } = useSelectorHook((store) => store.wsReducer);

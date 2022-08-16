@@ -2,7 +2,7 @@ const apiConfig = {
   url: "https://norma.nomoreparties.space/api",
 };
 
-export const setCookie = (name: string, value?: string | null, props?: any) => {
+export function setCookie(name: string, value: any, props?: any) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {
@@ -13,7 +13,7 @@ export const setCookie = (name: string, value?: string | null, props?: any) => {
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
-  value = encodeURIComponent(!value);
+  value = encodeURIComponent(value);
   let updatedCookie = name + "=" + value;
   for (const propName in props) {
     updatedCookie += "; " + propName;
@@ -23,7 +23,7 @@ export const setCookie = (name: string, value?: string | null, props?: any) => {
     }
   }
   document.cookie = updatedCookie;
-};
+}
 
 export function deleteCookie(name: string) {
   setCookie(name, null, { expires: -1 });

@@ -1,8 +1,6 @@
 import styles from "./forgotPassword.module.css";
-import {
-  Input,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button } from "../components/Button";
 
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import React, { useState } from "react";
